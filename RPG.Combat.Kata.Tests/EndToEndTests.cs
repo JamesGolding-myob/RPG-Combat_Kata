@@ -5,10 +5,7 @@ namespace RPG.Combat.Kata.Tests
 {
     public class EndToEndTests
     {
-        string inputAttack = "attack";
-        string inputHeal = "heal";
-
-
+       
         [Fact]
         public void FirstIterationBothPlayersAreAliveWhenCreated()
         {
@@ -21,13 +18,12 @@ namespace RPG.Combat.Kata.Tests
 
         [Fact]
         public void FirstIterationCharactersCanAttackAndHeal()
-        {
-            
+        {   
             Character playerOne = new Character();
             Character playerTwo = new Character();
 
-            playerOne.TakeAction(inputAttack, playerTwo);
-            playerTwo.TakeAction(inputHeal, playerTwo);
+            playerOne.TakeAction(Action.Attack, playerTwo);
+            playerTwo.TakeAction(Action.Heal, playerTwo);
 
             Assert.Equal(500, playerTwo.Health);
 
@@ -39,11 +35,20 @@ namespace RPG.Combat.Kata.Tests
             Character playerOne = new Character();
             Character playerTwo = new Character();
 
-            playerOne.TakeAction(inputAttack, playerTwo);
-            playerOne.TakeAction(inputAttack, playerTwo);
+            playerOne.TakeAction(Action.Attack, playerTwo);
+            playerOne.TakeAction(Action.Attack, playerTwo);
             
             Assert.Equal(0, playerTwo.Health);
             Assert.False(playerTwo.IsAlive);
+        }
+
+        [Fact]
+        public void HealingCannotMakeHealthGreaterThan1000()
+        {
+            Character playerOne = new Character();
+
+            playerOne.TakeAction(Action.Heal, playerOne);
+            Assert.Equal(1000, playerOne.Health);
         }
     }
 }

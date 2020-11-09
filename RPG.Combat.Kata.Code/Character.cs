@@ -2,9 +2,9 @@
 
 namespace RPG.Combat.Kata
 {
-    public class Character
+    public class Character : IHealthChanger
     {
-        public int Health{get; private set;}
+        public int Health{get; set;}
         private int _level = 1;
         public bool IsAlive => Health > 0;
         private int _healingThreshold = 900;
@@ -16,32 +16,40 @@ namespace RPG.Combat.Kata
             Health = 1000;        
         }
 
-        public void TakeAction(string action, Character target)
+        public void TakeAction(Action action, IHealthChanger target)
        {
-           if(action == "attack")
-           {
-               target.TakeDamage();
+           if(action == Action.Attack)
+           {   
+               target.ChangeHealth(_damageAmount, action);
            }
            else
            {
-               target.GainHealth();
+               target.ChangeHealth(_healAmount, action);
            }
        }
 
-       public void TakeDamage()
-       {
-           Health = Health - _damageAmount;
-           if(Health < 0)
-           {
-               Health = 0;
-           }
-       }
-
-       public void GainHealth()
-       {    if(Health <= 900)
+        public void ChangeHealth(int amountToChange, Action action)
+        {
+            if(action == Action.Attack && Health > 0)
             {
-                Health = Health + _healAmount;
+                Health = Health - amountToChange;
+                this.IsCharacterDead();
             }
-       }
+            else if(action == Action.Heal && Health <= _healingThreshold)
+            {
+                Health = Health + amountToChange;
+            }
+            
+        }
+
+        public void IsCharacterDead()
+        {
+            if(!IsAlive)
+            {
+                Health = 0;
+            }
+            
+        }
+
     }
 }
