@@ -4,7 +4,7 @@ namespace RPG.Combat.Kata
 {
     public class Character : IHealthChanger
     {
-        public int Health{get; set;}
+        public int Health{get; private set;}
         private int _level = 1;
         public bool IsAlive => Health > 0;
         private int _healingThreshold = 900;
