@@ -1,0 +1,4 @@
+/Users/James.Golding/Documents/GitHub/RPG-Combat_Kata/obj/Debug/netcoreapp3.1/RPG-Combat_Kata.csprojAssemblyReference.cache
+/Users/James.Golding/Documents/GitHub/RPG-Combat_Kata/obj/Debug/netcoreapp3.1/RPG-Combat_Kata.AssemblyInfoInputs.cache
+/Users/James.Golding/Documents/GitHub/RPG-Combat_Kata/obj/Debug/netcoreapp3.1/RPG-Combat_Kata.AssemblyInfo.cs
+/Users/James.Golding/Documents/GitHub/RPG-Combat_Kata/obj/Debug/netcoreapp3.1/RPG-Combat_Kata.csproj.CoreCompileInputs.cache

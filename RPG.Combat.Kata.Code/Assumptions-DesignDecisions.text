@@ -1,0 +1,16 @@
+    First Iteration
+Health, starting at 1000
+Level, starting at 1
+May be Alive or Dead, starting Alive (Alive may be a true/false)
+
+initial Session/game involves two characters fighting each other
+characters take in commands to perform an action on their turn
+
+Attacks do 800 damage - for simplicity in testing
+Heals do 100 damage - for simplicity in testing
+
+dead characters can't take an action and cannot be healed
+When a character dies their health is set to 0
+Health cannot be more thatn 1000
+
+Health can be private set but public get - could be some function to query health later
