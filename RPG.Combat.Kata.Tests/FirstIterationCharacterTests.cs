@@ -1,23 +1,20 @@
 using Xunit;
-using RPG.Combat.Kata;
 
 namespace RPG.Combat.Kata.Tests
 {
-    public class EndToEndTests
+    public class FirstIterationCharacterTests
     {
        
         [Fact]
-        public void FirstIterationBothPlayersAreAliveWhenCreated()
+        public void FirstIterationCharacterIsAliveWhenCreated()//think about implied information - like health starting at 1000
         {
-            Character playerOne = new Character();
-            Character playerTwo = new Character();
-
-            Assert.True(playerOne.IsAlive);
-            Assert.True(playerTwo.IsAlive);
+            Character character = new Character();
+            Assert.True(character.IsAlive);
+            
         }
 
         [Fact]
-        public void FirstIterationCharactersCanAttackAndHeal()
+        public void FirstIterationCharactersCanAttackAndHealCharacters()//break into two tests to avoid testing two things in one test
         {   
             Character playerOne = new Character();
             Character playerTwo = new Character();
@@ -30,7 +27,7 @@ namespace RPG.Combat.Kata.Tests
         }
 
         [Fact]
-        public void FirstIterationACharacterCanDie()
+        public void FirstIterationACharacterCanDieAndHealthIsZero()//break into two tests to avoid testing two things in one test
         {
             Character playerOne = new Character();
             Character playerTwo = new Character();

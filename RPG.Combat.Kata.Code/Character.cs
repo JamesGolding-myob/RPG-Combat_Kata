@@ -16,13 +16,13 @@ namespace RPG.Combat.Kata
             Health = 1000;        
         }
 
-        public void TakeAction(Action action, IHealthChanger target)
+        public void TakeAction(Action action, IHealthChanger target)//character is currently having too much influence
        {
-           if(action == Action.Attack)
+           if(action == Action.Attack && target != this)
            {   
                target.ChangeHealth(_damageAmount, action);
            }
-           else
+           else if(action == Action.Heal && target == this)
            {
                target.ChangeHealth(_healAmount, action);
            }
@@ -30,10 +30,9 @@ namespace RPG.Combat.Kata
 
         public void ChangeHealth(int amountToChange, Action action)
         {
-            if(action == Action.Attack && Health > 0)
-            {
-                Health = Health - amountToChange;
-                this.IsCharacterDead();
+            if(action == Action.Attack && IsAlive)
+            { 
+                this.HurtCharacter(amountToChange);    
             }
             else if(action == Action.Heal && Health <= _healingThreshold)
             {
@@ -42,14 +41,18 @@ namespace RPG.Combat.Kata
             
         }
 
-        public void IsCharacterDead()
+        private void HurtCharacter(int amountToChange)
         {
-            if(!IsAlive)
-            {
-                Health = 0;
-            }
-            
+              if(amountToChange > Health)
+                {
+                    Health = 0;
+                }
+                else
+                {
+                    Health = Health - amountToChange;
+                }
         }
+
 
     }
 }
