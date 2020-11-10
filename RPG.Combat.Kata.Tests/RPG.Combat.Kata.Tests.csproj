@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RPG.Combat.Kata.Code.csproj" />
     <ProjectReference Include="..\RPG.Combat.Kata.Code\RPG.Combat.Kata.Code.csproj" />
   </ItemGroup>
 

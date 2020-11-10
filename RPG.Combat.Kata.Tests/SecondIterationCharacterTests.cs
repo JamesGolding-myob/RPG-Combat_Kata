@@ -13,12 +13,11 @@ namespace RPG.Combat.Kata.Tests
 
             character.TakeAction(Action.Attack, character);
 
-            Assert.Equal(1000, character.Health);  
-            
+            Assert.Equal(1000, character.Health);       
         }
 
         [Fact]
-        public void CharacterCanOnlyHealThemselves()
+        public void CharacterCanOnlyHealThemselvesFor100()
         {
             var characterStaringWith500Health = new Character(health: 500);
             var characterTwo = new Character();
@@ -26,7 +25,7 @@ namespace RPG.Combat.Kata.Tests
             characterTwo.TakeAction(Action.Heal, characterStaringWith500Health);
             characterStaringWith500Health.TakeAction(Action.Heal, characterStaringWith500Health);
 
-            Assert.Equal(600, characterStaringWith500Health.Health);//it is only implied tht one heal == 100 Health from previous tests
+            Assert.Equal(600, characterStaringWith500Health.Health);
         }
 
         [Fact]
@@ -43,11 +42,11 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void AttackingACharacter5LevelsBelowDeals900InsteadOf600()
         {
-            var levelOneCharacter = new Character(health: 900);
+            var levelOneCharacter = new Character();
             var levelSixCharacter = new Character(level: 6);
 
             levelSixCharacter.TakeAction(Action.Attack, levelOneCharacter);
-            Assert.False(levelOneCharacter.IsAlive);
+            Assert.Equal(100, levelOneCharacter.Health);
         }
     }
 

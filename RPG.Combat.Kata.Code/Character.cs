@@ -7,9 +7,9 @@ namespace RPG.Combat.Kata
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > 0;
-        private int _healingThreshold = 900;
-        private int _damageAmount = 600;
-        private int _healAmount = 100;
+        private const int HealingThreshold = 900;
+        private const int DamageAmount = 600;
+        private const int HealAmount = 100;
 
         public Character(int health = 1000, int level = 1)
         {
@@ -21,46 +21,39 @@ namespace RPG.Combat.Kata
        {
            if(isValidAttack(action, target))
            {   
-               var damageToInflict = AdjustDamageBasedOnCharacterlevel(_damageAmount, this.Level, target.Level);
-               target.ChangeHealth(damageToInflict, action);
+               var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(DamageAmount, this.Level, target.Level);
+               if(Math.Abs(damageToInflict) >= target.Health)
+               {
+                   damageToInflict = - (target.Health);
+               }
+               target.ChangeHealth(damageToInflict);
            }
            else if(isValidHeal(action, target))
            {
-               target.ChangeHealth(_healAmount, action);
+               target.ChangeHealth(HealAmount);
            }
        }
 
-        public void ChangeHealth(int amountToChange, Action action)
-        {
-            if(action == Action.Attack)
-            { 
-                this.HurtCharacter(amountToChange);    
-            }
-            else if(action == Action.Heal && Health <= _healingThreshold)
+        public void ChangeHealth(int amountToChange)
+        {   
+            Health = Health + amountToChange;
+            if(Health <= 0)
             {
-                Health = Health + amountToChange;
-            }
-            
+                Health = 0;;
+            }      
         }
+ 
 
-        private void HurtCharacter(int amountToChange)
+        private int AdjustDamageBasedOnCharacterlevelDifference(int damage, int attackerLevel, int targetLevel)
         {
-              if(amountToChange > Health)
-                {
-                    Health = 0;
-                }
-                else
-                {
-                    Health = Health - amountToChange;
-                }
-        }
-
-        private int AdjustDamageBasedOnCharacterlevel(int damage, int attackerLevel, int targetLevel)
-        {
-            int finalDamage = damage;
+            int finalDamage = - (damage);
             if(targetLevel >= (attackerLevel + 5))
             {
                 finalDamage = finalDamage / 2;
+            }
+            else if(targetLevel <= (attackerLevel -5))
+            {
+                finalDamage = finalDamage - 300;
             }
 
             return finalDamage;
@@ -68,12 +61,14 @@ namespace RPG.Combat.Kata
 
         private bool isValidHeal(Action action, IHealthChanger target)
         {
-            return(action == Action.Heal && target == this && this.IsAlive);
+            return(action == Action.Heal && target == this && this.IsAlive && Health <= HealingThreshold);
+            
         }
 
         private bool isValidAttack(Action action, IHealthChanger target)
         {
             return action == Action.Attack && target != this;
+            
         }
 
 

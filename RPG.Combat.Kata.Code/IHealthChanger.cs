@@ -4,7 +4,7 @@ namespace RPG.Combat.Kata
     {
         int Health{get;}
         int Level{get;}
-        void ChangeHealth(int amount, Action action);
+        void ChangeHealth(int amount);
         
 
     }

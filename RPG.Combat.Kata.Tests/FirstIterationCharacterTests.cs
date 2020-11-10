@@ -12,43 +12,48 @@ namespace RPG.Combat.Kata.Tests
         }
        
         [Fact]
-        public void CharacterIsAliveWhenCreated()//think about implied information - like health starting at 1000
+        public void CharacterIsAliveWhenCreated()
         {
             Character character = new Character();
             Assert.True(character.IsAlive);    
         }
 
         [Fact]
-        public void CharactersCanAttackCharacters()
+        public void DefaultCharacterLevelIsOneWhenCreated()
+        {
+            Character defaultCharacter = new Character();
+            Assert.Equal(1, defaultCharacter.Level);
+        }
+
+        [Fact]
+        public void CharactersCanAttackCharactersFor600Damage()
         {   
             Character characterOne = new Character();
-            Character characterTwo = new Character();
+            Character targetCharacter = new Character();
 
-            var startingHealth = 1000;
-
-            characterOne.TakeAction(Action.Attack, characterTwo);
+            characterOne.TakeAction(Action.Attack, targetCharacter);
             
-            Assert.True(characterTwo.Health < startingHealth);
+            Assert.Equal(400, targetCharacter.Health);
         }
 
         [Fact]
-        public void CharactersCanHealCharacters()
+        public void CharactersCanHealHurtCharactersFor100()
         {
-            var character = new Character(health:100);
+            var character = new Character(health:200);
 
             character.TakeAction(Action.Heal, character);
-            Assert.Equal(200, character.Health);
+            Assert.Equal(300, character.Health);
         }
 
         [Fact]
-        public void ACharacterCanDie()
+        public void ACharacterCanDieWhenHealthReachesZeroOrBelow()
         {
             Character characterOne = new Character();
-            Character characterTwo = new Character();
+            Character targetCharacter = new Character(health: 600);
 
-           AttackCharacter(characterTwo, characterOne);
+           characterOne.TakeAction(Action.Attack, targetCharacter);
             
-            Assert.False(characterTwo.IsAlive);
+            Assert.False(targetCharacter.IsAlive);
         }
 
         [Fact]
@@ -63,28 +68,22 @@ namespace RPG.Combat.Kata.Tests
         public void CharacterHealthCanNotBecomeNegative()
         {
             var characterOne = new Character();
-            var characterTwo = new Character();
+            var targetCharacter = new Character(health: 1);
 
-            AttackCharacter(characterOne, characterTwo);
+            characterOne.TakeAction(Action.Attack, targetCharacter);
 
-            Assert.Equal(0, characterOne.Health);
+            Assert.Equal(0, targetCharacter.Health);
         }
 
         [Fact]
-        public void HealingCannotMakeHealthGreaterThan1000()
+        public void HealingCannotMakeCharacterHealthGreaterThan1000()
         {
             Character playerOne = new Character();
 
             playerOne.TakeAction(Action.Heal, playerOne);
+
             Assert.Equal(1000, playerOne.Health);
         }
 
-        public void AttackCharacter(Character targetCharacter, Character attackingCharacter)
-        {
-            while(targetCharacter.IsAlive)
-            {
-                attackingCharacter.TakeAction(Action.Attack, targetCharacter);
-            }
-        }
     }
 }
