@@ -5,24 +5,26 @@ namespace RPG.Combat.Kata
     public class Character : IHealthChanger
     {
         public int Health{get; private set;}
-        private int _level = 1;
+        public int Level{get; private set;}
         public bool IsAlive => Health > 0;
         private int _healingThreshold = 900;
         private int _damageAmount = 600;
         private int _healAmount = 100;
 
-        public Character(int health = 1000)
+        public Character(int health = 1000, int level = 1)
         {
-            Health = health;        
+            Health = health;
+            Level = level;        
         }
 
-        public void TakeAction(Action action, IHealthChanger target)//character is currently having too much influence
+        public void TakeAction(Action action, IHealthChanger target)//character is currently having too much influence on other Characters
        {
-           if(action == Action.Attack && target != this)
+           if(isValidAttack(action, target))
            {   
-               target.ChangeHealth(_damageAmount, action);
+               var damageToInflict = AdjustDamageBasedOnCharacterlevel(_damageAmount, this.Level, target.Level);
+               target.ChangeHealth(damageToInflict, action);
            }
-           else if(action == Action.Heal && target == this)
+           else if(isValidHeal(action, target))
            {
                target.ChangeHealth(_healAmount, action);
            }
@@ -30,7 +32,7 @@ namespace RPG.Combat.Kata
 
         public void ChangeHealth(int amountToChange, Action action)
         {
-            if(action == Action.Attack && IsAlive)
+            if(action == Action.Attack)
             { 
                 this.HurtCharacter(amountToChange);    
             }
@@ -51,6 +53,27 @@ namespace RPG.Combat.Kata
                 {
                     Health = Health - amountToChange;
                 }
+        }
+
+        private int AdjustDamageBasedOnCharacterlevel(int damage, int attackerLevel, int targetLevel)
+        {
+            int finalDamage = damage;
+            if(targetLevel >= (attackerLevel + 5))
+            {
+                finalDamage = finalDamage / 2;
+            }
+
+            return finalDamage;
+        }
+
+        private bool isValidHeal(Action action, IHealthChanger target)
+        {
+            return(action == Action.Heal && target == this && this.IsAlive);
+        }
+
+        private bool isValidAttack(Action action, IHealthChanger target)
+        {
+            return action == Action.Attack && target != this;
         }
 
 

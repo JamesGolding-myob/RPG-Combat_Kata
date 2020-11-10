@@ -6,11 +6,13 @@ May be Alive or Dead, starting Alive (Alive may be a true/false)
 initial Session/game involves two characters fighting each other
 characters take in commands to perform an action on their turn
 
-Attacks do 600 damage - for simplicity in testing
-Heals do 100 damage - for simplicity in testing
+Attacks do 600 damage - for simplicity in testing currently hard coded into character as a constant
+Heals do 100 damage - for simplicity in testing currently hard coded into character as a constant
 
 When a character dies their health is set to 0
 Health cannot be more that 1000
+
+Dead characters cannot be healed
 
 Health can be private set but public get - could be some function to query health later
 
@@ -18,6 +20,6 @@ Health can be private set but public get - could be some function to query healt
 Players can't attack themselves
 Players can only heal themselves
 
+Attacking a Character 5 levels above you only cause 50% damage
 
-
-dead characters can't take an action and cannot be healed
+assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves

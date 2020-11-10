@@ -52,6 +52,14 @@ namespace RPG.Combat.Kata.Tests
         }
 
         [Fact]
+        public void DeadCharactersCanNotBeHealed()
+        {
+            var characterOne = new Character(0);
+            characterOne.TakeAction(Action.Heal, characterOne);
+            Assert.False(characterOne.Health > 0);
+        }
+
+        [Fact]
         public void CharacterHealthCanNotBecomeNegative()
         {
             var characterOne = new Character();
