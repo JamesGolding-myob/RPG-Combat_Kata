@@ -4,39 +4,62 @@ namespace RPG.Combat.Kata.Tests
 {
     public class FirstIterationCharacterTests
     {
+        [Fact]
+        public void DefaultCharacterHealthIs1000()
+        {
+            var character = new Character();
+            Assert.Equal(1000, character.Health);
+        }
        
         [Fact]
-        public void FirstIterationCharacterIsAliveWhenCreated()//think about implied information - like health starting at 1000
+        public void CharacterIsAliveWhenCreated()//think about implied information - like health starting at 1000
         {
             Character character = new Character();
-            Assert.True(character.IsAlive);
-            
+            Assert.True(character.IsAlive);    
         }
 
         [Fact]
-        public void FirstIterationCharactersCanAttackAndHealCharacters()//break into two tests to avoid testing two things in one test
+        public void CharactersCanAttackCharacters()
         {   
-            Character playerOne = new Character();
-            Character playerTwo = new Character();
+            Character characterOne = new Character();
+            Character characterTwo = new Character();
 
-            playerOne.TakeAction(Action.Attack, playerTwo);
-            playerTwo.TakeAction(Action.Heal, playerTwo);
+            var startingHealth = 1000;
 
-            Assert.Equal(500, playerTwo.Health);
-
+            characterOne.TakeAction(Action.Attack, characterTwo);
+            
+            Assert.True(characterTwo.Health < startingHealth);
         }
 
         [Fact]
-        public void FirstIterationACharacterCanDieAndHealthIsZero()//break into two tests to avoid testing two things in one test
+        public void CharactersCanHealCharacters()
         {
-            Character playerOne = new Character();
-            Character playerTwo = new Character();
+            var character = new Character(health:100);
 
-            playerOne.TakeAction(Action.Attack, playerTwo);
-            playerOne.TakeAction(Action.Attack, playerTwo);
+            character.TakeAction(Action.Heal, character);
+            Assert.Equal(200, character.Health);
+        }
+
+        [Fact]
+        public void ACharacterCanDie()
+        {
+            Character characterOne = new Character();
+            Character characterTwo = new Character();
+
+           AttackCharacter(characterTwo, characterOne);
             
-            Assert.Equal(0, playerTwo.Health);
-            Assert.False(playerTwo.IsAlive);
+            Assert.False(characterTwo.IsAlive);
+        }
+
+        [Fact]
+        public void CharacterHealthCanNotBecomeNegative()
+        {
+            var characterOne = new Character();
+            var characterTwo = new Character();
+
+            AttackCharacter(characterOne, characterTwo);
+
+            Assert.Equal(0, characterOne.Health);
         }
 
         [Fact]
@@ -46,6 +69,14 @@ namespace RPG.Combat.Kata.Tests
 
             playerOne.TakeAction(Action.Heal, playerOne);
             Assert.Equal(1000, playerOne.Health);
+        }
+
+        public void AttackCharacter(Character targetCharacter, Character attackingCharacter)
+        {
+            while(targetCharacter.IsAlive)
+            {
+                attackingCharacter.TakeAction(Action.Attack, targetCharacter);
+            }
         }
     }
 }

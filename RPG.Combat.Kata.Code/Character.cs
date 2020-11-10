@@ -11,9 +11,9 @@ namespace RPG.Combat.Kata
         private int _damageAmount = 600;
         private int _healAmount = 100;
 
-        public Character()
+        public Character(int health = 1000)
         {
-            Health = 1000;        
+            Health = health;        
         }
 
         public void TakeAction(Action action, IHealthChanger target)//character is currently having too much influence
