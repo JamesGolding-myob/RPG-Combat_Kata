@@ -19,13 +19,13 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterCanOnlyHealThemselvesFor100()
         {
-            var characterStaringWith500Health = new Character(health: 500);
+            var characterStartingWith500Health = new Character(health: 500);
             var characterTwo = new Character();
 
-            characterTwo.TakeAction(Action.Heal, characterStaringWith500Health);
-            characterStaringWith500Health.TakeAction(Action.Heal, characterStaringWith500Health);
+            characterTwo.TakeAction(Action.Heal, characterStartingWith500Health);
+            characterStartingWith500Health.TakeAction(Action.Heal, characterStartingWith500Health);
 
-            Assert.Equal(600, characterStaringWith500Health.Health);
+            Assert.Equal(600, characterStartingWith500Health.Health);
         }
 
         [Fact]
@@ -46,6 +46,7 @@ namespace RPG.Combat.Kata.Tests
             var levelSixCharacter = new Character(level: 6);
 
             levelSixCharacter.TakeAction(Action.Attack, levelOneCharacter);
+
             Assert.Equal(100, levelOneCharacter.Health);
         }
     }

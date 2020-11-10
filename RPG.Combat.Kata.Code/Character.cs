@@ -61,16 +61,13 @@ namespace RPG.Combat.Kata
 
         private bool isValidHeal(Action action, IHealthChanger target)
         {
-            return(action == Action.Heal && target == this && this.IsAlive && Health <= HealingThreshold);
-            
+            return(action == Action.Heal && target == this && this.IsAlive && Health <= HealingThreshold);      
         }
 
         private bool isValidAttack(Action action, IHealthChanger target)
         {
-            return action == Action.Attack && target != this;
-            
+            return action == Action.Attack && target != this;        
         }
-
 
     }
 }

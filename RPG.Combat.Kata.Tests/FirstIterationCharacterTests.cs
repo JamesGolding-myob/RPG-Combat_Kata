@@ -8,6 +8,7 @@ namespace RPG.Combat.Kata.Tests
         public void DefaultCharacterHealthIs1000()
         {
             var character = new Character();
+            
             Assert.Equal(1000, character.Health);
         }
        
@@ -15,6 +16,7 @@ namespace RPG.Combat.Kata.Tests
         public void CharacterIsAliveWhenCreated()
         {
             Character character = new Character();
+
             Assert.True(character.IsAlive);    
         }
 
@@ -22,6 +24,7 @@ namespace RPG.Combat.Kata.Tests
         public void DefaultCharacterLevelIsOneWhenCreated()
         {
             Character defaultCharacter = new Character();
+
             Assert.Equal(1, defaultCharacter.Level);
         }
 
@@ -42,6 +45,7 @@ namespace RPG.Combat.Kata.Tests
             var character = new Character(health:200);
 
             character.TakeAction(Action.Heal, character);
+
             Assert.Equal(300, character.Health);
         }
 
@@ -60,7 +64,9 @@ namespace RPG.Combat.Kata.Tests
         public void DeadCharactersCanNotBeHealed()
         {
             var characterOne = new Character(0);
+
             characterOne.TakeAction(Action.Heal, characterOne);
+
             Assert.False(characterOne.Health > 0);
         }
 
