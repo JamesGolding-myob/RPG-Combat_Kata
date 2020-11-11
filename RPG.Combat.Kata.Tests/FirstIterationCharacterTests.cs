@@ -4,6 +4,8 @@ namespace RPG.Combat.Kata.Tests
 {
     public class FirstIterationCharacterTests
     {
+        ActionController actionController = new ActionController();
+
         [Fact]
         public void DefaultCharacterHealthIs1000()
         {
@@ -34,7 +36,7 @@ namespace RPG.Combat.Kata.Tests
             Character characterOne = new Character();
             Character targetCharacter = new Character();
 
-            characterOne.TakeAction(Action.Attack, targetCharacter);
+            characterOne.TakeAction(Action.Attack, targetCharacter, actionController);
             
             Assert.Equal(400, targetCharacter.Health);
         }
@@ -44,7 +46,7 @@ namespace RPG.Combat.Kata.Tests
         {
             var character = new Character(health:200);
 
-            character.TakeAction(Action.Heal, character);
+            character.TakeAction(Action.Heal, character, actionController);
 
             Assert.Equal(300, character.Health);
         }
@@ -55,7 +57,7 @@ namespace RPG.Combat.Kata.Tests
             Character characterOne = new Character();
             Character targetCharacter = new Character(health: 600);
 
-           characterOne.TakeAction(Action.Attack, targetCharacter);
+           characterOne.TakeAction(Action.Attack, targetCharacter, actionController);
             
             Assert.False(targetCharacter.IsAlive);
         }
@@ -65,7 +67,7 @@ namespace RPG.Combat.Kata.Tests
         {
             var characterOne = new Character(0);
 
-            characterOne.TakeAction(Action.Heal, characterOne);
+            characterOne.TakeAction(Action.Heal, characterOne, actionController);
 
             Assert.False(characterOne.Health > 0);
         }
@@ -76,7 +78,7 @@ namespace RPG.Combat.Kata.Tests
             var characterOne = new Character();
             var targetCharacter = new Character(health: 1);
 
-            characterOne.TakeAction(Action.Attack, targetCharacter);
+            characterOne.TakeAction(Action.Attack, targetCharacter, actionController);
 
             Assert.Equal(0, targetCharacter.Health);
         }
@@ -86,7 +88,7 @@ namespace RPG.Combat.Kata.Tests
         {
             Character playerOne = new Character();
 
-            playerOne.TakeAction(Action.Heal, playerOne);
+            playerOne.TakeAction(Action.Heal, playerOne, actionController);
 
             Assert.Equal(1000, playerOne.Health);
         }

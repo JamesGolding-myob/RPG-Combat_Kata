@@ -1,17 +1,17 @@
 using RPG.Combat.Kata;
 using Xunit;
 
-
 namespace RPG.Combat.Kata.Tests
 {
     public class SecondIterationCharacterTests
     {
+        ActionController actionController = new ActionController();
         [Fact]
         public void CharacterCanNotAttackThemSelves()
         {
             var character = new Character();
 
-            character.TakeAction(Action.Attack, character);
+            character.TakeAction(Action.Attack, character, actionController);
 
             Assert.Equal(1000, character.Health);       
         }
@@ -22,8 +22,8 @@ namespace RPG.Combat.Kata.Tests
             var characterStartingWith500Health = new Character(health: 500);
             var characterTwo = new Character();
 
-            characterTwo.TakeAction(Action.Heal, characterStartingWith500Health);
-            characterStartingWith500Health.TakeAction(Action.Heal, characterStartingWith500Health);
+            characterTwo.TakeAction(Action.Heal, characterStartingWith500Health, actionController);
+            characterStartingWith500Health.TakeAction(Action.Heal, characterStartingWith500Health, actionController);
 
             Assert.Equal(600, characterStartingWith500Health.Health);
         }
@@ -34,7 +34,7 @@ namespace RPG.Combat.Kata.Tests
             var levelOneCharacter = new Character();
             var levelSixCharacter = new Character(level: 6);
 
-            levelOneCharacter.TakeAction(Action.Attack, levelSixCharacter);
+            levelOneCharacter.TakeAction(Action.Attack, levelSixCharacter, actionController);
 
             Assert.Equal(700, levelSixCharacter.Health);
         }
@@ -45,7 +45,7 @@ namespace RPG.Combat.Kata.Tests
             var levelOneCharacter = new Character();
             var levelSixCharacter = new Character(level: 6);
 
-            levelSixCharacter.TakeAction(Action.Attack, levelOneCharacter);
+            levelSixCharacter.TakeAction(Action.Attack, levelOneCharacter, actionController);
 
             Assert.Equal(100, levelOneCharacter.Health);
         }
