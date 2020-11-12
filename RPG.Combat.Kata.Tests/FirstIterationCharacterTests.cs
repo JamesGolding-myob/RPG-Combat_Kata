@@ -1,5 +1,5 @@
 using Xunit;
-
+using RPG.Combat.Kata;
 namespace RPG.Combat.Kata.Tests
 {
     public class FirstIterationCharacterTests

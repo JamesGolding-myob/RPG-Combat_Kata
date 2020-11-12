@@ -9,6 +9,7 @@ namespace RPG.Combat.Kata
         public int Level{get; private set;}
         public bool IsAlive => Health > 0;
 
+        public double XPosition{get; private set;}
 
         public Character(int health = ImportantValues.MaxHealth, int level = 1)
         {
@@ -37,17 +38,17 @@ namespace RPG.Combat.Kata
  
         private int AdjustDamageBasedOnCharacterlevelDifference(int damage, int attackerLevel, int targetLevel)
         {
-            int finalDamage = - damage;
+            int finalDamage = damage;
             if(targetLevel >= (attackerLevel + ImportantValues.LevelDifference))
-            {
-                finalDamage = finalDamage / 2;
-            }
-            else if(targetLevel <= (attackerLevel - ImportantValues.LevelDifference))
             {
                 finalDamage = ImportantValues.LessenedDamage;
             }
+            else if(targetLevel <= (attackerLevel - ImportantValues.LevelDifference))
+            {
+                finalDamage = ImportantValues.ExtraDamageAmount;
+            }
 
-            return finalDamage;
+            return -finalDamage;
         }
 
         private bool IsValidHeal(Action action, IHealthChanger target)
@@ -60,6 +61,10 @@ namespace RPG.Combat.Kata
             return action == Action.Attack && target != this;        
         }
 
+        public void SetPosition(double newPos)
+        {
+            XPosition = newPos;
+        }
 
     }
 }
