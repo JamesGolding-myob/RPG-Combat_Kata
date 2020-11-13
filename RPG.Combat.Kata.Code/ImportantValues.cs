@@ -9,6 +9,8 @@ namespace RPG.Combat.Kata
         public const int MaxHealth = 1000;
         public const int MinHealth = 0;
         public const int ExtraDamageAmount = 900;
+
+        public const int defaultStartingLevel = 1;
    }
     
 }

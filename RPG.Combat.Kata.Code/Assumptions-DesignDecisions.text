@@ -27,11 +27,11 @@ Attacking a Character 5 levels below you causes 50% more damage
 Melee characters have an attack range of 2 metres - all other behaviour is the same as bas Character
 Ranged Characters have an attack range of 20 metres - all other behaviour is the same as the base Character
 
-if a character is outside of the attack range they cannot be hit by Attacks
-characrers can take an action to move 10 m towards or away from the target
+if a character is outside of the attack range they cannot be hit by Attacks - *possible miss message sent to the user
+**characrers can take an action to move 10 m towards or away from the target
 * might need to start thinking about a world soon
     world is rectangular field of points, starting bottom left corner 0,0, can be created at different sizes - characters will query the wrld, for thedistance between them for attacks 
-    world will be injected into the characters
+    characrers exist inside the world
 
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 

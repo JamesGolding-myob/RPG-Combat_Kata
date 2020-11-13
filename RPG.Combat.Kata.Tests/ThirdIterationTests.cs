@@ -4,18 +4,44 @@ using RPG.Combat.Kata;
 public class ThirdIterationTests
 {
     [Fact]
-    public void MeleeCharactersCanNotAttackACharacterMoreThan2mAway()
+    public void Characters3AwayAreOutOfRangeOfMeleeCharacters()
     {
-        //new up two melee characters
+        
         var instigator = new MeleeCharacter();
-        var target = new MeleeCharacter(health: 900);
+        var target = new MeleeCharacter();
         var world = new World(10, instigator, target);
 
         instigator.SetPosition(0);
         target.SetPosition(3);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
-        //could assert if an attack is valid or not by adding a log?
-        //assert chracter two helath doesn't change after attamepted attack
+        
     }
+
+    [Fact]
+    public void Characters2mAwayAreInRangeOfMeleeCharacters()
+    {
+        var instigator = new MeleeCharacter();
+        var target = new MeleeCharacter();
+        var world = new World(20, instigator, target);
+
+        instigator.SetPosition(5);
+        target.SetPosition(3);
+
+        Assert.True(world.CharacterIsInRange(instigator, target));
+    }
+
+    [Fact]
+    public void CharactersOver20mAwayAreOutOfRangeOfRangedCharacters()
+    {
+        var instigator = new RangedCharacter();
+        var target = new MeleeCharacter();
+        var world = new World(30, instigator, target);
+
+        instigator.SetPosition(9);
+        target.SetPosition(30);
+
+        Assert.False(world.CharacterIsInRange(instigator, target));
+    }
+        
 }
