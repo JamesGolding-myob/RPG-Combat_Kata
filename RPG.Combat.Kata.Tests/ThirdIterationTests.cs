@@ -43,5 +43,20 @@ public class ThirdIterationTests
 
         Assert.False(world.CharacterIsInRange(instigator, target));
     }
+
+    [Fact]
+    public void CharactersOutOfRangeOfACharacterCanNotBeHurtByAttacks()
+    {
+        var instigator = new RangedCharacter();
+        var target = new RangedCharacter(health: 1000);
+        var world = new World(30, instigator, target);
+
+        instigator.SetPosition(9);
+        target.SetPosition(30);
+
+        instigator.TakeAction(ActionType.Attack, target, world.CharacterIsInRange(instigator, target));
+
+        Assert.Equal(1000, target.Health);
+    }
         
 }

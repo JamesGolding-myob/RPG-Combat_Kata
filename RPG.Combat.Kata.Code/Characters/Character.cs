@@ -5,6 +5,7 @@ namespace RPG.Combat.Kata
 
     public class Character : IHealthChanger
     {
+        public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > 0;
@@ -14,12 +15,13 @@ namespace RPG.Combat.Kata
         public Character(int health = ImportantValues.MaxHealth, int level = 1)
         {
             Health = health;
-            Level = level;        
+            Level = level;
+            AttackRange = 1;        
         }
 
-        public void TakeAction(Action action, IHealthChanger target)//character is currently having too much influence on other Characters
+        public void TakeAction(ActionType action, IHealthChanger target, bool inRange)//character is currently having too much influence on other Characters
        {
-           if(IsValidAttack(action, target))
+           if(IsValidAttack(action, target) && inRange)
            {   
                var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(ImportantValues.DamageAmount, this.Level, target.Level);
 
@@ -51,14 +53,14 @@ namespace RPG.Combat.Kata
             return -finalDamage;
         }
 
-        private bool IsValidHeal(Action action, IHealthChanger target)
+        private bool IsValidHeal(ActionType action, IHealthChanger target)
         {
-            return(action == Action.Heal && target == this && this.IsAlive);      
+            return(action == ActionType.Heal && target == this && this.IsAlive);      
         }
 
-        private bool IsValidAttack(Action action, IHealthChanger target)
+        private bool IsValidAttack(ActionType action, IHealthChanger target)
         {
-            return action == Action.Attack && target != this;        
+            return action == ActionType.Attack && target != this;        
         }
 
         public void SetPosition(double newPos)

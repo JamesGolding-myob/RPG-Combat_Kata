@@ -11,7 +11,7 @@ namespace RPG.Combat.Kata.Tests
         {
             var character = new Character();
 
-            character.TakeAction(Action.Attack, character);
+            character.TakeAction(ActionType.Attack, character, true);
 
             Assert.Equal(1000, character.Health);       
         }
@@ -22,8 +22,8 @@ namespace RPG.Combat.Kata.Tests
             var characterStartingWith500Health = new Character(health: 500);
             var characterTwo = new Character();
 
-            characterTwo.TakeAction(Action.Heal, characterStartingWith500Health);
-            characterStartingWith500Health.TakeAction(Action.Heal, characterStartingWith500Health);
+            characterTwo.TakeAction(ActionType.Heal, characterStartingWith500Health, true);
+            characterStartingWith500Health.TakeAction(ActionType.Heal, characterStartingWith500Health, true);
 
             Assert.Equal(600, characterStartingWith500Health.Health);
         }
@@ -34,7 +34,7 @@ namespace RPG.Combat.Kata.Tests
             var levelOneCharacter = new Character();
             var levelSixCharacter = new Character(level: 6);
 
-            levelOneCharacter.TakeAction(Action.Attack, levelSixCharacter);
+            levelOneCharacter.TakeAction(ActionType.Attack, levelSixCharacter, true);
 
             Assert.Equal(700, levelSixCharacter.Health);
         }
@@ -45,7 +45,7 @@ namespace RPG.Combat.Kata.Tests
             var levelOneCharacter = new Character();
             var levelSixCharacter = new Character(level: 6);
 
-            levelSixCharacter.TakeAction(Action.Attack, levelOneCharacter);
+            levelSixCharacter.TakeAction(ActionType.Attack, levelOneCharacter, true);
 
             Assert.Equal(100, levelOneCharacter.Health);
         }

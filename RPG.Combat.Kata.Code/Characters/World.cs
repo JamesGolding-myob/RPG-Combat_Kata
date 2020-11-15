@@ -16,24 +16,10 @@ namespace RPG.Combat.Kata
 
         }
 
-        public bool CharacterIsInRange(MeleeCharacter instigator, MeleeCharacter target)
-        {
-            
+        public bool CharacterIsInRange(Character instigator, Character target)
+        {    
             return (instigator.AttackRange >= GetDistanceBetweenCharacters(instigator, target));
         }
-
-        public bool CharacterIsInRange(RangedCharacter instigator, MeleeCharacter target)
-        {
-            
-            return (instigator.AttackRange >= GetDistanceBetweenCharacters(instigator, target));
-        }
-        
-        public bool CharacterIsInRange(RangedCharacter instigator, RangedCharacter target)
-        {
-            
-            return (instigator.AttackRange >= GetDistanceBetweenCharacters(instigator, target));
-        }
-          
 
         private double GetDistanceBetweenCharacters(Character actioningCharacter, Character targetCharacter)
         {
