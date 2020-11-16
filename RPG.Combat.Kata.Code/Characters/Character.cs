@@ -5,6 +5,7 @@ namespace RPG.Combat.Kata
 
     public class Character : IHealthChanger
     {
+        public Factions Faction{get; private set;} 
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
@@ -12,11 +13,12 @@ namespace RPG.Combat.Kata
 
         public double XPosition{get; private set;}
 
-        public Character(int health = ImportantValues.MaxHealth, int level = 1)
+        public Character(int health = ImportantValues.MaxHealth, int level = 1, Factions faction = Factions.None)
         {
             Health = health;
             Level = level;
-            AttackRange = 1;        
+            AttackRange = 1;
+            Faction = Faction;        
         }
 
         public void TakeAction(ActionType action, IHealthChanger target, bool inRange)//character is currently having too much influence on other Characters
@@ -66,6 +68,11 @@ namespace RPG.Combat.Kata
         public void SetPosition(double newPos)
         {
             XPosition = newPos;
+        }
+
+        public void JoinFaction(Factions factionToJoin)
+        {
+            Faction = factionToJoin;
         }
 
     }

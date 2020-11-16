@@ -9,7 +9,7 @@ public class ThirdIterationTests
         
         var instigator = new MeleeCharacter();
         var target = new MeleeCharacter();
-        var world = new World(10, instigator, target);
+        var world = new World(10);
 
         instigator.SetPosition(0);
         target.SetPosition(3);
@@ -23,7 +23,7 @@ public class ThirdIterationTests
     {
         var instigator = new MeleeCharacter();
         var target = new MeleeCharacter();
-        var world = new World(20, instigator, target);
+        var world = new World(20);
 
         instigator.SetPosition(5);
         target.SetPosition(3);
@@ -36,7 +36,7 @@ public class ThirdIterationTests
     {
         var instigator = new RangedCharacter();
         var target = new MeleeCharacter();
-        var world = new World(30, instigator, target);
+        var world = new World(30);
 
         instigator.SetPosition(9);
         target.SetPosition(30);
@@ -49,7 +49,7 @@ public class ThirdIterationTests
     {
         var instigator = new RangedCharacter();
         var target = new RangedCharacter(health: 1000);
-        var world = new World(30, instigator, target);
+        var world = new World(30);
 
         instigator.SetPosition(9);
         target.SetPosition(30);

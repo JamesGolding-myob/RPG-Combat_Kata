@@ -33,6 +33,14 @@ if a character is outside of the attack range they cannot be hit by Attacks - *p
     world is rectangular field of points, starting bottom left corner 0,0, can be created at different sizes - characters will query the wrld, for thedistance between them for attacks 
     characrers exist inside the world
 
+
+    Fourth Iteration
+Factions
+    Characters Can Join and Leave Factions - they can belong to multiple Factions at the same time
+    When newly created characters don't belong to any Factions
+    Characters of the same faction cannot hurt each other
+    Characters of the same faction can heal each other
+    
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 
 * to be dealt with later

@@ -4,15 +4,13 @@ namespace RPG.Combat.Kata
     public class World
     {
         private int _width;
-        private Character _characterOne;
-        private Character _characterTwo;
+
         
         
-        public World(int width, Character character1, Character character2)
+        public World(int width)
         {
             _width = width;
-            _characterOne = character1;
-            _characterTwo = character2;
+            
 
         }
 
