@@ -1,6 +1,6 @@
 namespace RPG.Combat.Kata
 {
-    public enum Action
+    public enum ActionType
     {
         Attack,
         Heal
