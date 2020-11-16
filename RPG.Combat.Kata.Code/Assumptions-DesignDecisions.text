@@ -37,9 +37,9 @@ if a character is outside of the attack range they cannot be hit by Attacks - *p
     Fourth Iteration
 Factions
     Characters Can Join and Leave Factions - they can belong to multiple Factions at the same time
-    When newly created characters don't belong to any Factions
-    Characters of the same faction cannot hurt each other
-    Characters of the same faction can heal each other
+    When newly created characters don't belong to any Factions - Joining a Facxtion overrights the Unaligned faction
+    Characters of the same faction cannot hurt each other - unless unaligned
+    Characters of the same faction can heal each other - unless Unalinged
     
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 

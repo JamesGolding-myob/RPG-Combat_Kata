@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RPG.Combat.Kata
 {
 
     public class Character : IHealthChanger
     {
-        public Factions Faction{get; private set;} 
+        
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > 0;
 
         public double XPosition{get; private set;}
+        public List<Factions> Faction { get; set; } = new List<Factions>();
 
-        public Character(int health = ImportantValues.MaxHealth, int level = 1, Factions faction = Factions.None)
+        public Character(int health = ImportantValues.MaxHealth, int level = 1)
         {
             Health = health;
             Level = level;
             AttackRange = 1;
-            Faction = Faction;        
+            this.JoinFaction(Factions.Unaligned);      
         }
 
         public void TakeAction(ActionType action, IHealthChanger target, bool inRange)//character is currently having too much influence on other Characters
@@ -57,12 +60,37 @@ namespace RPG.Combat.Kata
 
         private bool IsValidHeal(ActionType action, IHealthChanger target)
         {
-            return(action == ActionType.Heal && target == this && this.IsAlive);      
+            var result = false;
+            
+            if(target != this)
+            {
+                result = IsSameFaction(target) && target.Health > 0;
+            }
+            else{
+               result = action == ActionType.Heal && target == this && this.IsAlive;
+            }
+
+            return result;      
         }
 
         private bool IsValidAttack(ActionType action, IHealthChanger target)
         {
-            return action == ActionType.Attack && target != this;        
+            return action == ActionType.Attack && target != this && !IsSameFaction(target);       
+        }
+
+        private bool IsSameFaction(IHealthChanger target)
+        {
+            var result = true;
+
+            if(this.Faction.Contains(Factions.Unaligned) && target.Faction.Contains(Factions.Unaligned))
+            {
+                result = false;
+            }
+            else{
+                result = Faction.Any(x => target.Faction.Contains(x));
+            }
+
+           return result;
         }
 
         public void SetPosition(double newPos)
@@ -72,7 +100,21 @@ namespace RPG.Combat.Kata
 
         public void JoinFaction(Factions factionToJoin)
         {
-            Faction = factionToJoin;
+            if(Faction.Contains(Factions.Unaligned))
+            {
+                Faction.Remove(Factions.Unaligned);     
+            }
+
+            Faction.Add(factionToJoin);
+        }
+
+        public void LeaveFaction(Factions factionToLeave)
+        {
+            Faction.Remove(factionToLeave);
+            if(Faction.Count == 0)
+            {
+                Faction.Add(Factions.Unaligned);
+            }
         }
 
     }

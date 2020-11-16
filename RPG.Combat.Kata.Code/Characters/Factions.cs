@@ -2,8 +2,8 @@ namespace RPG.Combat.Kata
 {
     public enum Factions
     {
-        None,
-        NiceGuys,
+        Unaligned,
+        Paladins,
         Eagles,
         Monsters
     }
