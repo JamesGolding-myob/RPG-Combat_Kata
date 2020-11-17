@@ -10,9 +10,11 @@ namespace RPG.Combat.Kata
         public int Level{get; set;}
         public bool IsAlive => Health > 0;
         public double XPosition{get; private set;}
+        public double Speed{get; set;}
 
-        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.defaultStartingLevel)
+        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.defaultStartingLevel, double speed = 5)
         {
+            Speed = speed;
             Health = health;
             Level = level;
         }
@@ -65,6 +67,11 @@ namespace RPG.Combat.Kata
         public void SetPosition(double newPos)
         {
             XPosition = newPos;
+        }
+
+        public void Move(World world)
+        {  
+            SetPosition(Math.Clamp(XPosition + Speed, 0, world.Width));
         }
 
     }

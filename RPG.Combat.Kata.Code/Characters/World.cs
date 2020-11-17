@@ -3,17 +3,12 @@ namespace RPG.Combat.Kata
 {
     public class World
     {
-        private int _width;
-        private Character _characterOne;
-        private Character _characterTwo;
-        
-        
-        public World(int width, Character character1, Character character2)
-        {
-            _width = width;
-            _characterOne = character1;
-            _characterTwo = character2;
+        public int Width{get; private set;}
 
+
+        public World(int width)
+        {
+            Width = width;
         }
 
         public bool CharacterIsInRange(Character instigator, Character target)
@@ -25,5 +20,7 @@ namespace RPG.Combat.Kata
         {
             return Math.Abs(actioningCharacter.XPosition - targetCharacter.XPosition);
         }
+
+
     }
 }
