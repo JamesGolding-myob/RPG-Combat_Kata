@@ -41,6 +41,10 @@ Factions
     Characters of the same faction cannot hurt each other - unless unaligned
     Characters of the same faction can heal each other - unless Unalinged
     
+
+Characters can take an action to move inside the world
+    Characters can't be in the same space together
+
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 
 * to be dealt with later

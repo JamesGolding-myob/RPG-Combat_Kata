@@ -7,7 +7,7 @@ namespace RPG.Combat.Kata.Tests
     public class SecondIterationCharacterTests
     {
         [Fact]
-        public void CharacterCanNotAttackThemSelves()
+        public void CharacterCanNotAttackThemselves()
         {
             var character = new Character();
 
@@ -32,7 +32,7 @@ namespace RPG.Combat.Kata.Tests
         public void AttackingACharacter5LevelsHigherDeals300DamageInsteadOf600()
         {
             var levelOneCharacter = new Character();
-            var levelSixCharacter = new Character(level: 6);
+            var levelSixCharacter = new Character(health: 1000, level: 6);
 
             levelOneCharacter.TakeAction(ActionType.Attack, levelSixCharacter, true);
 
@@ -42,7 +42,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void AttackingACharacter5LevelsBelowDeals900InsteadOf600()
         {
-            var levelOneCharacter = new Character();
+            var levelOneCharacter = new Character(health: 1000);
             var levelSixCharacter = new Character(level: 6);
 
             levelSixCharacter.TakeAction(ActionType.Attack, levelOneCharacter, true);

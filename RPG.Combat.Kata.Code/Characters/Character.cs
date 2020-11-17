@@ -11,48 +11,60 @@ namespace RPG.Combat.Kata
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
-        public bool IsAlive => Health > 0;
+        public bool IsAlive => Health > CharacterConstants.MinHealth;
 
         public double XPosition{get; private set;}
+        public double Speed {get; private set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
-        public Character(int health = ImportantValues.MaxHealth, int level = 1)
+        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = 5)
         {
             Health = health;
             Level = level;
             AttackRange = 1;
             this.JoinFaction(Factions.Unaligned);      
+            Speed = speed;
         }
 
         public void TakeAction(ActionType action, IHealthChanger target, bool inRange)//character is currently having too much influence on other Characters
        {
            if(IsValidAttack(action, target) && inRange)
            {   
-               var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(ImportantValues.DamageAmount, this.Level, target.Level);
+               var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
 
                target.ChangeHealth(damageToInflict);
            }
            else if(IsValidHeal(action, target))
            {
-               target.ChangeHealth(ImportantValues.HealAmount);
+               target.ChangeHealth(CharacterConstants.HealAmount);
+           }
+           else if(IsValidMove(action, target))
+           {
+               this.XPosition = XPosition + this.Speed;
            }
        }
 
+        private bool IsValidMove(ActionType action, IHealthChanger target)
+        {
+            return action == ActionType.Move && target == this;
+        }
+
         public void ChangeHealth(int amountToChange)
         {       
-            Health = Math.Clamp(Health + amountToChange, ImportantValues.MinHealth, ImportantValues.MaxHealth);        
+            Health = Math.Clamp(Health + amountToChange, CharacterConstants.MinHealth, CharacterConstants.MaxHealth);        
         }
  
         private int AdjustDamageBasedOnCharacterlevelDifference(int damage, int attackerLevel, int targetLevel)
         {
             int finalDamage = damage;
-            if(targetLevel >= (attackerLevel + ImportantValues.LevelDifference))
+
+            if(targetLevel >= (attackerLevel + CharacterConstants.LevelDifference))
             {
-                finalDamage = ImportantValues.LessenedDamage;
+                finalDamage = CharacterConstants.LessenedDamage;
             }
-            else if(targetLevel <= (attackerLevel - ImportantValues.LevelDifference))
+            else if(targetLevel <= (attackerLevel - CharacterConstants.LevelDifference))
             {
-                finalDamage = ImportantValues.ExtraDamageAmount;
+                finalDamage = CharacterConstants.ExtraDamageAmount;
             }
 
             return -finalDamage;
@@ -61,12 +73,13 @@ namespace RPG.Combat.Kata
         private bool IsValidHeal(ActionType action, IHealthChanger target)
         {
             var result = false;
-            
+
             if(target != this)
             {
-                result = IsSameFaction(target) && target.Health > 0;
+                result = IsSameFaction(target) && target.Health > CharacterConstants.MinHealth;
             }
-            else{
+            else
+            {
                result = action == ActionType.Heal && target == this && this.IsAlive;
             }
 
@@ -86,7 +99,8 @@ namespace RPG.Combat.Kata
             {
                 result = false;
             }
-            else{
+            else
+            {
                 result = Faction.Any(x => target.Faction.Contains(x));
             }
 
@@ -111,6 +125,7 @@ namespace RPG.Combat.Kata
         public void LeaveFaction(Factions factionToLeave)
         {
             Faction.Remove(factionToLeave);
+
             if(Faction.Count == 0)
             {
                 Faction.Add(Factions.Unaligned);

@@ -73,10 +73,10 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterHealthCanNotBecomeNegative()
         {
-            var characterOne = new Character();
+            var instigator = new Character();
             var targetCharacter = new Character(health: 1);
 
-            characterOne.TakeAction(ActionType.Attack, targetCharacter, true);
+            instigator.TakeAction(ActionType.Attack, targetCharacter, true);
 
             Assert.Equal(0, targetCharacter.Health);
         }
