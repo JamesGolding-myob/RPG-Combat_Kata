@@ -3,7 +3,7 @@ namespace RPG.Combat.Kata
     public class MeleeCharacter : Character
     {
         
-        public MeleeCharacter(int health = ImportantValues.MaxHealth, int level = ImportantValues.defaultStartingLevel) : base (health, level) 
+        public MeleeCharacter(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.defaultStartingLevel)
         {
             AttackRange = 2;   
         }

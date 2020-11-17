@@ -1,6 +1,6 @@
 namespace RPG.Combat.Kata
 {
-   public static class ImportantValues
+   public static class CharacterConstants
    {
         public const int LevelDifference = 5;
         public const int DamageAmount = 600;
