@@ -45,6 +45,12 @@ Factions
 Characters can take an action to move inside the world
     Characters can't be in the same space together
 
+    Fifth Iteration
+Anything that has Health may be a target
+These things cannot be Healed and they do not Deal Damage
+These things do not belong to Factions; they are neutral
+When reduced to 0 Health, things are Destroyed - Health cannot go below zero
+
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 
 * to be dealt with later
