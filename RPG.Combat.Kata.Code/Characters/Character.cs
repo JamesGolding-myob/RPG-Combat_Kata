@@ -6,18 +6,16 @@ namespace RPG.Combat.Kata
 {
 
     public class Character : IHealthChanger
-    {
-        
+    { 
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
-
         public double XPosition{get; private set;}
         public double Speed {get; private set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
-        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = 5)
+        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = CharacterConstants.defaultSpeed)
         {
             Health = health;
             Level = level;

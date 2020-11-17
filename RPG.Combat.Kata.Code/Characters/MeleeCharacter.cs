@@ -4,10 +4,8 @@ namespace RPG.Combat.Kata
     {
         
         public MeleeCharacter(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = 8) : base(health, level, speed)
-        {
-            
-            AttackRange = 2;   
-           
+        {   
+            AttackRange = 2;     
         }
    
 
