@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 namespace RPG.Combat.Kata
 {
-    public abstract class Object : IHealthChanger
+    public abstract class Object : IHaveHealth
     {
         public int Health{get; private set;} 
 

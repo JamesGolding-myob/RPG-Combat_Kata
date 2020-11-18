@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace RPG.Combat.Kata
 {
-    public interface IHealthChanger
+    public interface IHaveHealth
     {
         int Health{get;}
         

@@ -5,14 +5,15 @@ using System.Linq;
 namespace RPG.Combat.Kata
 {
 
-    public class Character : IHealthChanger
+    public class Character : IHaveHealth, IAttack
     { 
+        private DamageController _damageController;
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
         public double XPosition{get; private set;}
-        public double Speed {get; private set;}
+        public double Speed {get; set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
         public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = CharacterConstants.defaultSpeed)
@@ -22,15 +23,14 @@ namespace RPG.Combat.Kata
             AttackRange = 1;
             this.JoinFaction(Factions.Unaligned);      
             Speed = speed;
+            _damageController = new DamageController();
         }
 
-        public void TakeAction(ActionType action, IHealthChanger target, bool inRange)//character is currently having too much influence on other Characters
+        public void TakeAction(ActionType action, IHaveHealth target, bool inRange)//character is currently having too much influence on other Characters
        {
-           if(IsValidAttack(action, target) && inRange)
-           {   
-               var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
-
-               target.ChangeHealth(damageToInflict);
+           if(action == ActionType.Attack)
+           {
+               AttemptToAttack(target);
            }
            else if(IsValidHeal(action, target))
            {
@@ -42,7 +42,7 @@ namespace RPG.Combat.Kata
            }
        }
 
-        private bool IsValidMove(ActionType action, IHealthChanger target)
+        private bool IsValidMove(ActionType action, IHaveHealth target)
         {
             return action == ActionType.Move && target == this;
         }
@@ -68,7 +68,7 @@ namespace RPG.Combat.Kata
             return -finalDamage;
         }
 
-        private bool IsValidHeal(ActionType action, IHealthChanger target)
+        private bool IsValidHeal(ActionType action, IHaveHealth target)
         {
             var result = false;
 
@@ -84,12 +84,12 @@ namespace RPG.Combat.Kata
             return result;      
         }
 
-        private bool IsValidAttack(ActionType action, IHealthChanger target)
+        private bool IsValidAttack(IHaveHealth target)
         {
-            return action == ActionType.Attack && target != this && !IsSameFaction(target);       
+            return target != this && !IsSameFaction(target);       
         }
 
-        private bool IsSameFaction(IHealthChanger target)
+        private bool IsSameFaction(IHaveHealth target)
         {
             var result = true;
 
@@ -130,5 +130,14 @@ namespace RPG.Combat.Kata
             }
         }
 
+        public void AttemptToAttack(IHaveHealth target)
+        {
+            if(IsValidAttack(target))
+           {   
+               var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
+
+                _damageController.InflictDamage(target, damageToInflict);
+           }
+        }
     }
 }
