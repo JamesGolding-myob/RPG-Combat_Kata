@@ -11,6 +11,10 @@ namespace RPG.Combat.Kata
 
         public List<Factions> Faction { get; set;} = new List<Factions>{Factions.Unaligned};
 
+        public int XCoordinate {get; set;}
+
+        public int YCoordinate {get; set;}
+
         public Object(int health = 1000)
         {
             Health = health;

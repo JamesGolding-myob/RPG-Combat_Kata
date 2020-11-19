@@ -4,7 +4,7 @@ namespace RPG.Combat.Kata
     public class RangedCharacter: Character
     {
 
-        public RangedCharacter(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel) : base(health, level)
+        public RangedCharacter(World world, int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel) : base(world, health, level)
         {
             AttackRange = 20;
         }

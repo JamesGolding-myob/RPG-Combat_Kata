@@ -4,13 +4,15 @@ namespace RPG.Combat.Kata.Tests
 {
     public class IterationFiveObjectsTest
     {
+        World world = new World(25);
+
         [Fact]
         public void CharactersCanAttackInanimateObjectsLikeTrees()
         {
             var tree = new Tree(health:2000);
-            var woodCutter = new Character();
+            var woodCutter = new Character(world);
 
-            woodCutter.TakeAction(ActionType.Attack, tree, true);
+            woodCutter.TakeAction(ActionType.Attack, tree, world);
 
             Assert.Equal(1400, tree.Health);
         }
@@ -27,9 +29,9 @@ namespace RPG.Combat.Kata.Tests
         public void ObjectsCanNotBeHealedByCharacters()
         {
             var tree = new Tree(health:500);
-            var forester = new MeleeCharacter();
+            var forester = new MeleeCharacter(world);
 
-            forester.TakeAction(ActionType.Heal, tree, true);
+            forester.TakeAction(ActionType.Heal, tree, world);
 
             Assert.Equal(500, tree.Health);
         }

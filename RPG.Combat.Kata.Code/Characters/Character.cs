@@ -8,16 +8,18 @@ namespace RPG.Combat.Kata
     public class Character : IHaveHealth, IAttack
     { 
         private DamageController _damageController;
+        private World _world;
         public int AttackRange{get; set;}
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
-        public int XPosition{get; private set;}
-        public Dictionary<string, int> Coordinates{get; set;} = new Dictionary<string, int>();
+        public int XCoordinate{get; private set;}
+        public int YCoordinate{get; private set;}
+        
         public int Speed {get; set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
-        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, int speed = CharacterConstants.defaultSpeed)
+        public Character(World world, int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, int speed = CharacterConstants.defaultSpeed)
         {
             Health = health;
             Level = level;
@@ -25,6 +27,7 @@ namespace RPG.Combat.Kata
             this.JoinFaction(Factions.Unaligned);      
             Speed = speed;
             _damageController = new DamageController();
+            _world = world;
         }
 
         public void TakeAction(ActionType action, IHaveHealth target, World world)//character is currently having too much influence on other Characters
@@ -39,7 +42,7 @@ namespace RPG.Combat.Kata
            }
            else if(IsValidMove(action, target))
            {
-               this.XPosition = XPosition + this.Speed; //want to use the world to check if the potential new position is free or occupied
+               this.XCoordinate = XCoordinate + this.Speed; //want to use the world to check if the potential new position is free or occupied
            }
        }
 
@@ -106,13 +109,6 @@ namespace RPG.Combat.Kata
            return result;
         }
 
-               public void UpdateCellCorodinate(int newXPosition, int newYPosition)
-        {
-            Coordinates["XCoordinate"] = newXPosition;
-            Coordinates["YCoordinate"] = newYPosition;
-        }
-
-
         public void JoinFaction(Factions factionToJoin)
         {
             if(Faction.Contains(Factions.Unaligned))
@@ -133,14 +129,19 @@ namespace RPG.Combat.Kata
             }
         }
 
-        public void Attack(IHaveHealth target)
+        public void Attack(IHaveHealth target, World world)
         {
-            if(IsValidAttack(target))
+            if(IsValidAttack(target) && world.CharacterIsInRange(this, target))
            {   
                var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
 
                 _damageController.InflictDamage(target, damageToInflict);
            }
+        }
+
+        public void SetCharacterPosition(int newXPosition)
+        {
+            XCoordinate = newXPosition;
         }
     }
 }
