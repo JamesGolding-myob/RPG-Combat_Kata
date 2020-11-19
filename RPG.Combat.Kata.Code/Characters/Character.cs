@@ -12,11 +12,12 @@ namespace RPG.Combat.Kata
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
-        public double XPosition{get; private set;}
-        public double Speed {get; set;}
+        public int XPosition{get; private set;}
+        public Dictionary<string, int> Coordinates{get; set;} = new Dictionary<string, int>();
+        public int Speed {get; set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
-        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, double speed = CharacterConstants.defaultSpeed)
+        public Character(int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, int speed = CharacterConstants.defaultSpeed)
         {
             Health = health;
             Level = level;
@@ -26,11 +27,11 @@ namespace RPG.Combat.Kata
             _damageController = new DamageController();
         }
 
-        public void TakeAction(ActionType action, IHaveHealth target, bool inRange)//character is currently having too much influence on other Characters
-       {
+        public void TakeAction(ActionType action, IHaveHealth target, World world)//character is currently having too much influence on other Characters
+       {//just change bool for is range to be the world - want to use the world to check if the target is in range for a valid attack
            if(action == ActionType.Attack)
            {
-               AttemptToAttack(target);
+               Attack(target, world); //have scewed away from TDD as I'm not sure what I'm actually trying to achieve.. broke my tests to force me to think about it
            }
            else if(IsValidHeal(action, target))
            {
@@ -38,7 +39,7 @@ namespace RPG.Combat.Kata
            }
            else if(IsValidMove(action, target))
            {
-               this.XPosition = XPosition + this.Speed;
+               this.XPosition = XPosition + this.Speed; //want to use the world to check if the potential new position is free or occupied
            }
        }
 
@@ -105,10 +106,12 @@ namespace RPG.Combat.Kata
            return result;
         }
 
-        public void SetPosition(double newPos)
+               public void UpdateCellCorodinate(int newXPosition, int newYPosition)
         {
-            XPosition = newPos;
+            Coordinates["XCoordinate"] = newXPosition;
+            Coordinates["YCoordinate"] = newYPosition;
         }
+
 
         public void JoinFaction(Factions factionToJoin)
         {
@@ -130,7 +133,7 @@ namespace RPG.Combat.Kata
             }
         }
 
-        public void AttemptToAttack(IHaveHealth target)
+        public void Attack(IHaveHealth target)
         {
             if(IsValidAttack(target))
            {   

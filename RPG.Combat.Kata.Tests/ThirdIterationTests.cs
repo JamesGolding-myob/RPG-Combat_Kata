@@ -10,8 +10,8 @@ public class ThirdIterationTests
         var target = new MeleeCharacter();
         var world = new World(10);
 
-        instigator.SetPosition(0);
-        target.SetPosition(3);
+        instigator.UpdateCellCorodinate(0,0);
+        target.UpdateCellCorodinate(3, 0);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
         
@@ -24,8 +24,8 @@ public class ThirdIterationTests
         var target = new MeleeCharacter();
         var world = new World(20);
 
-        instigator.SetPosition(5);
-        target.SetPosition(3);
+        instigator.UpdateCellCorodinate(1, 0);
+        target.UpdateCellCorodinate(3, 0);
 
         Assert.True(world.CharacterIsInRange(instigator, target));
     }
@@ -37,8 +37,8 @@ public class ThirdIterationTests
         var target = new MeleeCharacter();
         var world = new World(30);
 
-        instigator.SetPosition(9);
-        target.SetPosition(30);
+        instigator.UpdateCellCorodinate(9, 0);
+        target.UpdateCellCorodinate(30, 0);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
     }
@@ -50,8 +50,8 @@ public class ThirdIterationTests
         var target = new RangedCharacter(health: 900);
         var world = new World(30);
 
-        instigator.SetPosition(9);
-        target.SetPosition(30);
+        instigator.UpdateCellCorodinate(0,0);
+        target.UpdateCellCorodinate(30, 0);
 
         instigator.TakeAction(ActionType.Attack, target, world.CharacterIsInRange(instigator, target));
 
@@ -64,6 +64,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter();
         var characterStartingWith600Health = new RangedCharacter(health: 600);
 
+        instigator.UpdateCellCorodinate(0,0);
+        characterStartingWith600Health.UpdateCellCorodinate(3, 0);
         instigator.TakeAction(ActionType.Heal, characterStartingWith600Health, false);
 
         Assert.Equal(600, characterStartingWith600Health.Health);
@@ -75,7 +77,7 @@ public class ThirdIterationTests
         var runner = new Character();
         var world = new World(10);
 
-        runner.SetPosition(0);
+        runner.UpdateCellCorodinate(runner.XPosition + runner.Speed, 0);
 
         runner.TakeAction(ActionType.Move, runner, world.IsCharacterNewPositionInWorld(runner));
 
