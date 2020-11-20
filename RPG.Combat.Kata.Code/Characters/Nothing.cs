@@ -1,0 +1,24 @@
+using System.Collections.Generic;
+
+namespace RPG.Combat.Kata
+{
+    public class Nothing : IHaveHealth
+    {
+        
+        public int Health => 0;
+
+        public int Level => 0;
+
+        public List<Factions> Faction{get; set;} = new List<Factions>();
+         
+
+        public int XCoordinate => 0;
+
+        public int YCoordinate => 0;
+
+        public void ChangeHealth(int amount)
+        {
+            
+        }
+    }
+}
