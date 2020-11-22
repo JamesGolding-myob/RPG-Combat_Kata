@@ -4,12 +4,14 @@ namespace RPG.Combat.Kata
     public class World
     {
         private int _width;
-        public Space[] layout;
-  
+        public Space[,] map; 
+        
         public World(int width)
         {
             _width = width;
-            layout = new Space[_width * _width]; //layout is 1d array to ease of iterating thorugh it but each cell has coordinates which I'm hopig to set when a world is instaniated - might also change world to be an interface later so we can do different levels/areas to explore
+           map = new Space[_width, _width];
+           InitialMapSetup();
+            
         }
 
         public bool CharacterIsInRange(Character instigator, IHaveHealth target)
@@ -19,12 +21,52 @@ namespace RPG.Combat.Kata
 
         private double GetDistanceBetweenCharacters(Character actioningCharacter, IHaveHealth targetCharacter)
         {
-            return Math.Abs(actioningCharacter.XCoordinate - targetCharacter.XCoordinate);
+            var actioningCharacterX = GetLocationOf(actioningCharacter).Item1;
+            var targetCharacterX = GetLocationOf(targetCharacter).Item1;
+            
+            return Math.Abs( actioningCharacterX - targetCharacterX );
         }
 
-        public bool IsCharacterNewPositionInWorld(Character character)
+        public IHaveHealth SpaceOccupiedBy(int v1, int v2)
         {
-            return character.XCoordinate + character.Speed <= _width;
+           return map[v1,v2].OccupiedBy;
         }
+
+        public void SetCharacterPosition(int v1, int v2, IHaveHealth thing)
+        {
+            map[v1,v2].OccupiedBy = thing;
+        }
+
+        public void InitialMapSetup()
+        {
+            for(int i = 0; i < _width; i++)
+            {
+                for(int j = 0; j < _width; j++)
+                {
+                    map[i,j] = new Space(new Nothing());
+                }
+            }
+        }
+
+        public Tuple<int, int> GetLocationOf(IHaveHealth worldObject)
+        {
+            Tuple<int, int> result = new Tuple<int, int>(0,0);
+
+            for(int i = 0; i < _width; i++)
+            {
+                for(int j = 0; j < _width; j++)
+                {
+                    if (map[i,j].OccupiedBy == worldObject)
+                    {
+                        result = new Tuple<int, int>(i, j);
+                         break;
+                    }
+                }
+            }
+
+            return result; 
+        }
+
+
     }
 }

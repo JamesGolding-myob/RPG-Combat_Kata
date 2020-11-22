@@ -11,8 +11,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var target = new MeleeCharacter(world);
         
-        instigator.SetCharacterPosition(0);
-        target.SetCharacterPosition(3);
+        world.SetCharacterPosition(0,0, instigator);
+        world.SetCharacterPosition(3, 0, target);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
         
@@ -24,8 +24,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var target = new MeleeCharacter(world);
 
-        instigator.SetCharacterPosition(1);
-        target.SetCharacterPosition(3);
+        world.SetCharacterPosition(1, 0, instigator);
+        world.SetCharacterPosition(3, 0, target);
 
         Assert.True(world.CharacterIsInRange(instigator, target));
     }
@@ -36,8 +36,8 @@ public class ThirdIterationTests
         var instigator = new RangedCharacter(world);
         var target = new MeleeCharacter(world);
         
-        instigator.SetCharacterPosition(9);
-        target.SetCharacterPosition(30);
+        world.SetCharacterPosition(9, 0, instigator);
+        world.SetCharacterPosition(30, 0, target);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
     }
@@ -48,10 +48,10 @@ public class ThirdIterationTests
         var instigator = new RangedCharacter(world);
         var target = new RangedCharacter(world, health: 900);
 
-        instigator.SetCharacterPosition(0);
-        target.SetCharacterPosition(30);
+        world.SetCharacterPosition(0, 0, instigator);
+        world.SetCharacterPosition(30, 0, target);
 
-        instigator.TakeAction(ActionType.Attack, target, world);
+        instigator.TakeAction(ActionType.Attack, target);
 
         Assert.Equal(900, target.Health);
     }
@@ -62,29 +62,28 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var characterStartingWith600Health = new RangedCharacter(world, health: 600);
 
-        instigator.SetCharacterPosition(0);
-        characterStartingWith600Health.SetCharacterPosition(3);
-        instigator.TakeAction(ActionType.Heal, characterStartingWith600Health, world);
+        world.SetCharacterPosition(0, 0, instigator);
+        world.SetCharacterPosition(3, 0, characterStartingWith600Health);
+        
+        instigator.TakeAction(ActionType.Heal, characterStartingWith600Health);
 
         Assert.Equal(600, characterStartingWith600Health.Health);
     }
 
+    
+
     [Fact]
-    public void CharactersCanTakeAnActionToMoveInsideTheWorldWithDefaultSpeedOf5()
+    public void CharacterCanOccupyASpaceFiveSpacesToTheRightOfWhereTheyStartByMoving()
     {
-        var runner = new Character(world);
-
-        runner.SetCharacterPosition(0);
-
-        runner.TakeAction(ActionType.Move, runner, world);
-
-        Assert.Equal(5, runner.XCoordinate);
-    }
-
-    // [Fact]
-    // public void CharactersCanNotMoveIntoSpaceOccupiedByTheAnotherCharacter()
-    // {
         
-    // }
+        var character = new RangedCharacter(world);
+        world.SetCharacterPosition(0, 0, character);
+        
+        character.TakeAction(ActionType.Move, character);
+
+        Assert.True(world.SpaceOccupiedBy(5,0) == character);
+        Assert.True(world.SpaceOccupiedBy(0,0) is Nothing);
+        
+    }
         
 }

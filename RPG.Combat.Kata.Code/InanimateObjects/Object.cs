@@ -9,11 +9,8 @@ namespace RPG.Combat.Kata
         public int Level{get;} = 1;
         public bool IsDestroyed => Health <= 0;
 
-        public List<Factions> Faction { get; set;} = new List<Factions>{Factions.Unaligned};
-
-        public int XCoordinate {get; set;}
-
-        public int YCoordinate {get; set;}
+        public bool canHaveFactions{get=> false;}
+        public List<Factions> Faction { get; } = new List<Factions>{Factions.Unaligned};
 
         public Object(int health = 1000)
         {
@@ -22,6 +19,21 @@ namespace RPG.Combat.Kata
         public void ChangeHealth(int damageTaken)
         {
             Health = Math.Clamp(Health + damageTaken, 0, Health);
+        }
+
+        public bool IsSameFaction(IHaveHealth target)
+        {
+            return false;
+        }
+
+        public void JoinFaction(Factions factionToJoin)
+        {
+            
+        }
+
+        public void LeaveFaction(Factions factionToLeave)
+        {
+            
         }
     }
 }

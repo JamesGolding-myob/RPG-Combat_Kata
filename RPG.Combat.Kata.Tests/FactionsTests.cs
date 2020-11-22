@@ -67,7 +67,7 @@ namespace RPG.Combat.Kata.Tests
             var eagleTargetCharacter = new MeleeCharacter(world, health: 1000);
 
             CharacterFactionInitiation(eagleCharacter, eagleTargetCharacter, Factions.Eagles);
-            eagleCharacter.TakeAction(ActionType.Attack, eagleTargetCharacter, world);
+            eagleCharacter.TakeAction(ActionType.Attack, eagleTargetCharacter);
             
             Assert.Equal(1000, eagleTargetCharacter.Health);
             
@@ -80,7 +80,7 @@ namespace RPG.Combat.Kata.Tests
             var hurtMonsterCharacter = new MeleeCharacter(world, health: 500);
 
             CharacterFactionInitiation(monsterCharacter, hurtMonsterCharacter, Factions.Monsters);
-            monsterCharacter.TakeAction(ActionType.Heal, hurtMonsterCharacter, world);
+            monsterCharacter.TakeAction(ActionType.Heal, hurtMonsterCharacter);
 
             Assert.Equal(600, hurtMonsterCharacter.Health);
         }
@@ -91,7 +91,7 @@ namespace RPG.Combat.Kata.Tests
             var instigator = new MeleeCharacter(world);
             var target = new RangedCharacter(world, health:1000);
 
-            instigator.TakeAction(ActionType.Attack, target, world);
+            instigator.TakeAction(ActionType.Attack, target);
             Assert.True(target.Health < 1000);
         }
 
@@ -103,7 +103,7 @@ namespace RPG.Combat.Kata.Tests
             var healthyIndividual = new RangedCharacter(world);
             var hurtIndividual = new MeleeCharacter(world, health: initialHealth);
 
-            healthyIndividual.TakeAction(ActionType.Heal, hurtIndividual, world);
+            healthyIndividual.TakeAction(ActionType.Heal, hurtIndividual);
             Assert.False(hurtIndividual.Health > initialHealth);
         }
 

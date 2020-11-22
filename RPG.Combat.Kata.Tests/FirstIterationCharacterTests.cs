@@ -36,7 +36,7 @@ namespace RPG.Combat.Kata.Tests
             Character characterOne = new Character(world);
             Character targetCharacter = new Character(world);
 
-            characterOne.TakeAction(ActionType.Attack, targetCharacter, world);
+            characterOne.TakeAction(ActionType.Attack, targetCharacter);
             
             Assert.Equal(400, targetCharacter.Health);
         }
@@ -46,7 +46,7 @@ namespace RPG.Combat.Kata.Tests
         {
             var character = new Character(world, health:200);
 
-            character.TakeAction(ActionType.Heal, character, world);
+            character.TakeAction(ActionType.Heal, character);
 
             Assert.Equal(300, character.Health);
         }
@@ -57,7 +57,7 @@ namespace RPG.Combat.Kata.Tests
             Character characterOne = new Character(world);
             Character targetCharacter = new Character(world, health: 600);
 
-           characterOne.TakeAction(ActionType.Attack, targetCharacter, world);
+           characterOne.TakeAction(ActionType.Attack, targetCharacter );
             
             Assert.False(targetCharacter.IsAlive);
         }
@@ -67,7 +67,7 @@ namespace RPG.Combat.Kata.Tests
         {
             var characterOne = new Character(world, health: 0);
 
-            characterOne.TakeAction(ActionType.Heal, characterOne, world);
+            characterOne.TakeAction(ActionType.Heal, characterOne);
 
             Assert.False(characterOne.Health > 0);
         }
@@ -78,7 +78,7 @@ namespace RPG.Combat.Kata.Tests
             var instigator = new Character(world);
             var targetCharacter = new Character(world, health: 1);
 
-            instigator.TakeAction(ActionType.Attack, targetCharacter, world);
+            instigator.TakeAction(ActionType.Attack, targetCharacter);
 
             Assert.Equal(0, targetCharacter.Health);
         }
@@ -88,7 +88,7 @@ namespace RPG.Combat.Kata.Tests
         {
             Character playerOne = new Character(world);
 
-            playerOne.TakeAction(ActionType.Heal, playerOne, world);
+            playerOne.TakeAction(ActionType.Heal, playerOne);
 
             Assert.Equal(1000, playerOne.Health);
         }

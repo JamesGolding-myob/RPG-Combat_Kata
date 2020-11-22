@@ -5,7 +5,7 @@ using System.Linq;
 namespace RPG.Combat.Kata
 {
 
-    public class Character : IHaveHealth, IAttack
+    public class Character : IHaveHealth, IAttack, IMove, IFaction
     { 
         private DamageController _damageController;
         private World _world;
@@ -13,9 +13,8 @@ namespace RPG.Combat.Kata
         public int Health{get; private set;}
         public int Level{get; private set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
-        public int XCoordinate{get; private set;}
-        public int YCoordinate{get; private set;}
-        
+
+        public bool canHaveFactions{get => true;}
         public int Speed {get; set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
@@ -30,11 +29,11 @@ namespace RPG.Combat.Kata
             _world = world;
         }
 
-        public void TakeAction(ActionType action, IHaveHealth target, World world)//character is currently having too much influence on other Characters
-       {//just change bool for is range to be the world - want to use the world to check if the target is in range for a valid attack
+        public void TakeAction(ActionType action, IHaveHealth target)
+       {
            if(action == ActionType.Attack)
            {
-               Attack(target, world); //have scewed away from TDD as I'm not sure what I'm actually trying to achieve.. broke my tests to force me to think about it
+               Attack(target); 
            }
            else if(IsValidHeal(action, target))
            {
@@ -42,7 +41,7 @@ namespace RPG.Combat.Kata
            }
            else if(IsValidMove(action, target))
            {
-               this.XCoordinate = XCoordinate + this.Speed; //want to use the world to check if the potential new position is free or occupied
+               Move();
            }
        }
 
@@ -93,19 +92,22 @@ namespace RPG.Combat.Kata
             return target != this && !IsSameFaction(target);       
         }
 
-        private bool IsSameFaction(IHaveHealth target)
+        public bool IsSameFaction(IHaveHealth target)
         {
-            var result = true;
+            var result = false;
 
-            if(this.Faction.Contains(Factions.Unaligned) && target.Faction.Contains(Factions.Unaligned))
+            if(target.canHaveFactions)
             {
-                result = false;
+                if(this.Faction.Contains(Factions.Unaligned) && (target as Character).Faction.Contains(Factions.Unaligned))
+                {
+                    result = false;
+                }
+                else
+                {
+                    result = Faction.Any(x => (target as Character).Faction.Contains(x));
+                }
             }
-            else
-            {
-                result = Faction.Any(x => target.Faction.Contains(x));
-            }
-
+            
            return result;
         }
 
@@ -129,9 +131,9 @@ namespace RPG.Combat.Kata
             }
         }
 
-        public void Attack(IHaveHealth target, World world)
+        public void Attack(IHaveHealth target)
         {
-            if(IsValidAttack(target) && world.CharacterIsInRange(this, target))
+            if(IsValidAttack(target) && _world.CharacterIsInRange(this, target))
            {   
                var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
 
@@ -139,9 +141,14 @@ namespace RPG.Combat.Kata
            }
         }
 
-        public void SetCharacterPosition(int newXPosition)
+        public void Move()
         {
-            XCoordinate = newXPosition;
+            Tuple<int, int> currentPosition = _world.GetLocationOf(this);
+            _world.SetCharacterPosition(currentPosition.Item1, currentPosition.Item2, new Nothing());
+
+            _world.SetCharacterPosition(currentPosition.Item1 + Speed, currentPosition.Item2, this);
         }
+
+
     }
 }
