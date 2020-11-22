@@ -32,9 +32,14 @@ namespace RPG.Combat.Kata
            return map[v1,v2].OccupiedBy;
         }
 
-        public void SetCharacterPosition(int v1, int v2, IHaveHealth thing)
+        public void SetCharacterPosition(int xCoordinate, int yCooordinate, IHaveHealth thing)
         {
-            map[v1,v2].OccupiedBy = thing;
+            map[xCoordinate, yCooordinate].OccupiedBy = thing;
+        }
+        
+        public void ResetWorldSpace(int xCoordinate, int yCooordinate)
+        {
+            map[xCoordinate, yCooordinate].OccupiedBy = new Nothing();
         }
 
         public void InitialMapSetup()
@@ -66,7 +71,6 @@ namespace RPG.Combat.Kata
 
             return result; 
         }
-
 
     }
 }

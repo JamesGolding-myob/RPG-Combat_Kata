@@ -31,13 +31,13 @@ namespace RPG.Combat.Kata
 
         public void TakeAction(ActionType action, IHaveHealth target)
        {
-           if(action == ActionType.Attack)
+           if(IsValidAttack(action, target))
            {
                Attack(target); 
            }
            else if(IsValidHeal(action, target))
            {
-               target.ChangeHealth(CharacterConstants.HealAmount);
+               Heal(target);
            }
            else if(IsValidMove(action, target))
            {
@@ -87,10 +87,7 @@ namespace RPG.Combat.Kata
             return result;      
         }
 
-        private bool IsValidAttack(IHaveHealth target)
-        {
-            return target != this && !IsSameFaction(target);       
-        }
+
 
         public bool IsSameFaction(IHaveHealth target)
         {
@@ -131,24 +128,34 @@ namespace RPG.Combat.Kata
             }
         }
 
+        private bool IsValidAttack(ActionType action, IHaveHealth target)
+        {
+            return action == ActionType.Attack && target != this && !IsSameFaction(target);       
+        }
+
         public void Attack(IHaveHealth target)
         {
-            if(IsValidAttack(target) && _world.CharacterIsInRange(this, target))
+            if(_world.CharacterIsInRange(this, target))
            {   
                var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
 
-                _damageController.InflictDamage(target, damageToInflict);
+                _damageController.ApplyDamage(target, damageToInflict);
            }
         }
 
         public void Move()
         {
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
-            _world.SetCharacterPosition(currentPosition.Item1, currentPosition.Item2, new Nothing());
+            
+            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
 
             _world.SetCharacterPosition(currentPosition.Item1 + Speed, currentPosition.Item2, this);
         }
 
+        public void Heal(IHaveHealth target)
+        {
+            _damageController.ApplyDamage(target, CharacterConstants.HealAmount);
+        }
 
     }
 }

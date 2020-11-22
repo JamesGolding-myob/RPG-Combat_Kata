@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+
 using System;
 namespace RPG.Combat.Kata
 {
@@ -10,7 +10,6 @@ namespace RPG.Combat.Kata
         public bool IsDestroyed => Health <= 0;
 
         public bool canHaveFactions{get=> false;}
-        public List<Factions> Faction { get; } = new List<Factions>{Factions.Unaligned};
 
         public Object(int health = 1000)
         {
@@ -21,19 +20,5 @@ namespace RPG.Combat.Kata
             Health = Math.Clamp(Health + damageTaken, 0, Health);
         }
 
-        public bool IsSameFaction(IHaveHealth target)
-        {
-            return false;
-        }
-
-        public void JoinFaction(Factions factionToJoin)
-        {
-            
-        }
-
-        public void LeaveFaction(Factions factionToLeave)
-        {
-            
-        }
     }
 }
