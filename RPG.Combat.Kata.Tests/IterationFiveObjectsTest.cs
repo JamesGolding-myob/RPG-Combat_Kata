@@ -12,7 +12,7 @@ namespace RPG.Combat.Kata.Tests
             var tree = new Tree(health:2000);
             var woodCutter = new Character(world);
 
-            woodCutter.TakeAction(ActionType.Attack, tree);
+            woodCutter.TakeAction(Actions.Attack, tree);
 
             Assert.Equal(1400, tree.Health);
         }
@@ -31,7 +31,7 @@ namespace RPG.Combat.Kata.Tests
             var tree = new Tree(health:500);
             var forester = new MeleeCharacter(world);
 
-            forester.TakeAction(ActionType.Heal, tree);
+            forester.TakeAction(Actions.Heal, tree);
 
             Assert.Equal(500, tree.Health);
         }

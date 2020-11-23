@@ -29,7 +29,7 @@ namespace RPG.Combat.Kata
             _world = world;
         }
 
-        public void TakeAction(ActionType action, IHaveHealth target)
+        public void TakeAction(Actions action, IHaveHealth target)
        {
            if(IsValidAttack(action, target))
            {
@@ -39,16 +39,11 @@ namespace RPG.Combat.Kata
            {
                Heal(target);
            }
-           else if(IsValidMove(action, target))
+           else if(MoveRequest(action, target))
            {
-               Move();
+               Move(action);
            }
        }
-
-        private bool IsValidMove(ActionType action, IHaveHealth target)
-        {
-            return action == ActionType.Move && target == this;
-        }
 
         public void ChangeHealth(int amountToChange)
         {       
@@ -71,7 +66,7 @@ namespace RPG.Combat.Kata
             return -finalDamage;
         }
 
-        private bool IsValidHeal(ActionType action, IHaveHealth target)
+        private bool IsValidHeal(Actions action, IHaveHealth target)
         {
             var result = false;
 
@@ -81,13 +76,11 @@ namespace RPG.Combat.Kata
             }
             else
             {
-               result = action == ActionType.Heal && target == this && this.IsAlive;
+               result = action == Actions.Heal && target == this && this.IsAlive;
             }
 
             return result;      
         }
-
-
 
         public bool IsSameFaction(IHaveHealth target)
         {
@@ -128,9 +121,9 @@ namespace RPG.Combat.Kata
             }
         }
 
-        private bool IsValidAttack(ActionType action, IHaveHealth target)
+        private bool IsValidAttack(Actions action, IHaveHealth target)
         {
-            return action == ActionType.Attack && target != this && !IsSameFaction(target);       
+            return action == Actions.Attack && target != this && !IsSameFaction(target);       
         }
 
         public void Attack(IHaveHealth target)
@@ -142,15 +135,86 @@ namespace RPG.Combat.Kata
                 _damageController.ApplyDamage(target, damageToInflict);
            }
         }
+        private bool MoveRequest(Actions action, IHaveHealth target)
+        {
+            return action == Actions.MoveRight || action == Actions.MoveLeft || action == Actions.MoveUp || action == Actions.MoveDown && target == this;
+        }
 
-        public void Move()
+        public void Move(Actions action)
         {
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
-            
-            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
+            int newYPosition;
+            int newXPosition;
 
-            _world.SetCharacterPosition(currentPosition.Item1 + Speed, currentPosition.Item2, this);
+            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
+            
+            switch (action)
+            {
+                case Actions.MoveRight:
+                {
+                    newXPosition = currentPosition.Item1 + Speed;
+
+                    if(_world.SpaceOccupiedBy(newXPosition, currentPosition.Item2) is EmptySpace)
+                    {
+                        _world.SetCharacterPosition(newXPosition, currentPosition.Item2, this);
+                    }
+                    else
+                    {
+                        _world.SetCharacterPosition(newXPosition - 1, currentPosition.Item2, this);
+                    }
+                    break;
+                }
+                case Actions.MoveLeft:
+                {
+                    newXPosition = currentPosition.Item1 - Speed;
+
+                    if(_world.SpaceOccupiedBy(newXPosition, currentPosition.Item2) is EmptySpace)
+                    {
+                        _world.SetCharacterPosition(newXPosition, currentPosition.Item2, this);
+                    }
+                    else
+                    {
+                        _world.SetCharacterPosition(newXPosition + 1, currentPosition.Item2, this);
+                    }
+                    break;
+                }
+                case Actions.MoveUp:
+                {
+                    newYPosition = currentPosition.Item2 + Speed;
+                    for(int i = currentPosition.Item2 + 1; i <= newYPosition; i++)
+                    {
+                        if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                        {
+                            _world.SetCharacterPosition(currentPosition.Item1, i, this);
+                            _world.ResetWorldSpace(currentPosition.Item1, i - 1);
+                        }
+                        else
+                        {
+                            _world.SetCharacterPosition(currentPosition.Item1, newYPosition - 1 , this);
+                            break;
+                        }
+
+                    }
+
+                    break;
+                }
+                case Actions.MoveDown:
+                {
+                    newYPosition = currentPosition.Item2 - Speed;
+                    if(_world.SpaceOccupiedBy(currentPosition.Item1, newYPosition) is EmptySpace)
+                    {
+                        _world.SetCharacterPosition(currentPosition.Item1, newYPosition, this);
+                    }
+                    else
+                    {
+                        _world.SetCharacterPosition(currentPosition.Item1, newYPosition + 1, this);
+                    }
+                    break;
+                }
+            }
+
         }
+
 
         public void Heal(IHaveHealth target)
         {

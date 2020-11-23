@@ -5,6 +5,6 @@ namespace RPG.Combat.Kata
  
         int Speed{get;}
 
-        void Move();
+        void Move(Actions action);
     }
 }

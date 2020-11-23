@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace RPG.Combat.Kata
 {
-    public class Nothing : IHaveHealth
+    public class EmptySpace : IHaveHealth
     {
         
         public int Health => 0;
@@ -20,19 +20,6 @@ namespace RPG.Combat.Kata
             
         }
 
-        public bool IsSameFaction(IHaveHealth target)
-        {
-            return false;
-        }
 
-        public void JoinFaction(Factions factionToJoin)
-        {
-            
-        }
-
-        public void LeaveFaction(Factions factionToLeave)
-        {
-            
-        }
     }
 }

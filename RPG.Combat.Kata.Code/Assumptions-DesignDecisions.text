@@ -28,7 +28,6 @@ Melee characters have an attack range of 2 metres - all other behaviour is the s
 Ranged Characters have an attack range of 20 metres - all other behaviour is the same as the base Character
 
 if a character is outside of the attack range they cannot be hit by Attacks - *possible miss message sent to the user
-**characrers can take an action to move 10 m towards or away from the target
 * might need to start thinking about a world soon
     world is rectangular field of points, starting bottom left corner 0,0, can be created at different sizes - characters will query the wrld, for thedistance between them for attacks 
     characrers exist inside the world
@@ -43,13 +42,27 @@ Factions
     
 
 Characters can take an action to move inside the world
-    Characters can't be in the same space together
 
     Fifth Iteration
 Anything that has Health may be a target
 These things cannot be Healed and they do not Deal Damage
 These things do not belong to Factions; they are neutral
 When reduced to 0 Health, things are Destroyed - Health cannot go below zero
+
+    Beyond Fifth
+Characters can move 
+Map/World cannot wrap (think inside a cave with hard walls)
+Position 0,0 will be displayed as the bottom left corner
+    Characters can't be in the same space together
+characrers can take an action to move their speed around the world
+
+Everything that 'exists' in the world has to have health
+Not everything can move or perform actions
+Not everything can have factions - they are optional 
+Moving right is increasing the x/horizontal component
+Moving Up is increasing the y/vertical component
+
+
 
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 

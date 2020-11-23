@@ -39,7 +39,7 @@ namespace RPG.Combat.Kata
         
         public void ResetWorldSpace(int xCoordinate, int yCooordinate)
         {
-            map[xCoordinate, yCooordinate].OccupiedBy = new Nothing();
+            map[xCoordinate, yCooordinate].OccupiedBy = new EmptySpace();
         }
 
         public void InitialMapSetup()
@@ -48,7 +48,7 @@ namespace RPG.Combat.Kata
             {
                 for(int j = 0; j < _width; j++)
                 {
-                    map[i,j] = new Space(new Nothing());
+                    map[i,j] = new Space(new EmptySpace());
                 }
             }
         }
