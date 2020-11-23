@@ -145,22 +145,25 @@ namespace RPG.Combat.Kata
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
             int newYPosition;
             int newXPosition;
-
-            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-            
+ 
             switch (action)
             {
                 case Actions.MoveRight:
                 {
                     newXPosition = currentPosition.Item1 + Speed;
 
-                    if(_world.SpaceOccupiedBy(newXPosition, currentPosition.Item2) is EmptySpace)
+                    for(int i = currentPosition.Item1 + 1; i <= newXPosition; i++)
                     {
-                        _world.SetCharacterPosition(newXPosition, currentPosition.Item2, this);
-                    }
-                    else
-                    {
-                        _world.SetCharacterPosition(newXPosition - 1, currentPosition.Item2, this);
+                        if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                        {
+                            _world.SetCharacterPosition(i, currentPosition.Item2, this);
+                            _world.ResetWorldSpace(i - 1, currentPosition.Item2);
+                        }
+                        else
+                        {
+                            _world.SetCharacterPosition(i - 1, currentPosition.Item2, this);
+                        }
+
                     }
                     break;
                 }
@@ -168,13 +171,17 @@ namespace RPG.Combat.Kata
                 {
                     newXPosition = currentPosition.Item1 - Speed;
 
-                    if(_world.SpaceOccupiedBy(newXPosition, currentPosition.Item2) is EmptySpace)
+                    for(int i = currentPosition.Item1 - 1; i >= newXPosition; i--)
                     {
-                        _world.SetCharacterPosition(newXPosition, currentPosition.Item2, this);
-                    }
-                    else
-                    {
-                        _world.SetCharacterPosition(newXPosition + 1, currentPosition.Item2, this);
+                        if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                        {
+                            _world.SetCharacterPosition(i, currentPosition.Item2, this);
+                        }
+                        else
+                        {
+                            _world.SetCharacterPosition(i + 1, currentPosition.Item2, this);
+                        }
+
                     }
                     break;
                 }
@@ -201,17 +208,25 @@ namespace RPG.Combat.Kata
                 case Actions.MoveDown:
                 {
                     newYPosition = currentPosition.Item2 - Speed;
-                    if(_world.SpaceOccupiedBy(currentPosition.Item1, newYPosition) is EmptySpace)
+
+                    for(int i = currentPosition.Item2 - 1; i >= newYPosition; i--)
                     {
-                        _world.SetCharacterPosition(currentPosition.Item1, newYPosition, this);
-                    }
-                    else
-                    {
-                        _world.SetCharacterPosition(currentPosition.Item1, newYPosition + 1, this);
+                        if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                        {
+                            _world.SetCharacterPosition(currentPosition.Item1, i, this);
+                            _world.ResetWorldSpace(currentPosition.Item1, i + 1);
+                        }
+                        else
+                        {
+                            _world.SetCharacterPosition(currentPosition.Item1, newYPosition + 1, this);
+                        }
+
                     }
                     break;
                 }
             }
+
+            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
 
         }
 
