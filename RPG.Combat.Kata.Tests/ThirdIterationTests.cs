@@ -11,8 +11,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var target = new MeleeCharacter(world);
         
-        world.SetCharacterPosition(0,0, instigator);
-        world.SetCharacterPosition(3, 0, target);
+        world.SetWorldObjectPosition(0,0, instigator);
+        world.SetWorldObjectPosition(3, 0, target);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
         
@@ -24,8 +24,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var target = new MeleeCharacter(world);
 
-        world.SetCharacterPosition(1, 0, instigator);
-        world.SetCharacterPosition(3, 0, target);
+        world.SetWorldObjectPosition(1, 0, instigator);
+        world.SetWorldObjectPosition(3, 0, target);
 
         Assert.True(world.CharacterIsInRange(instigator, target));
     }
@@ -36,8 +36,8 @@ public class ThirdIterationTests
         var instigator = new RangedCharacter(world);
         var target = new MeleeCharacter(world);
         
-        world.SetCharacterPosition(9, 0, instigator);
-        world.SetCharacterPosition(30, 0, target);
+        world.SetWorldObjectPosition(9, 0, instigator);
+        world.SetWorldObjectPosition(30, 0, target);
 
         Assert.False(world.CharacterIsInRange(instigator, target));
     }
@@ -48,8 +48,8 @@ public class ThirdIterationTests
         var instigator = new RangedCharacter(world);
         var target = new RangedCharacter(world, health: 900);
 
-        world.SetCharacterPosition(0, 0, instigator);
-        world.SetCharacterPosition(30, 0, target);
+        world.SetWorldObjectPosition(0, 0, instigator);
+        world.SetWorldObjectPosition(30, 0, target);
 
         instigator.TakeAction(Actions.Attack, target);
 
@@ -62,8 +62,8 @@ public class ThirdIterationTests
         var instigator = new MeleeCharacter(world);
         var characterStartingWith600Health = new RangedCharacter(world, health: 600);
 
-        world.SetCharacterPosition(0, 0, instigator);
-        world.SetCharacterPosition(3, 0, characterStartingWith600Health);
+        world.SetWorldObjectPosition(0, 0, instigator);
+        world.SetWorldObjectPosition(3, 0, characterStartingWith600Health);
         
         instigator.TakeAction(Actions.Heal, characterStartingWith600Health);
 
@@ -73,9 +73,8 @@ public class ThirdIterationTests
     [Fact]
     public void RangedCharacterCanOccupyASpaceFiveSpacesToTheRightOfWhereTheyStartByMovingRight()
     {
-        
         var character = new RangedCharacter(world);
-        world.SetCharacterPosition(0, 0, character);
+        world.SetWorldObjectPosition(0, 0, character);
         
         character.TakeAction(Actions.MoveRight, character);
 
@@ -88,7 +87,7 @@ public class ThirdIterationTests
     public void RangedCharacterCanOccupyASpaceFiveSpacesToTheLeftOfWhereTheyStartByMovingLeft()
     {
         var character = new RangedCharacter(world);
-        world.SetCharacterPosition(5, 0, character);
+        world.SetWorldObjectPosition(5, 0, character);
         
         character.TakeAction(Actions.MoveLeft, character);
 
@@ -100,7 +99,7 @@ public class ThirdIterationTests
     public void MeleeCharacterCanOccupyASpaceEightSpacesAboveStartingPositionByMovingUp()
     {
         var character = new MeleeCharacter(world);
-        world.SetCharacterPosition(0, 0, character);
+        world.SetWorldObjectPosition(0, 0, character);
 
         character.TakeAction(Actions.MoveUp, character);
 
@@ -112,7 +111,7 @@ public class ThirdIterationTests
     public void RangedCharacterCanOccupyASpaceFiveSpacesBelowStartingPositionByMovingDown()
     {
         var character = new RangedCharacter(world);
-        world.SetCharacterPosition(0, 10, character);
+        world.SetWorldObjectPosition(0, 10, character);
 
         character.TakeAction(Actions.MoveDown, character);
 
@@ -126,12 +125,13 @@ public class ThirdIterationTests
         var runner = new MeleeCharacter(world);
         var stander = new RangedCharacter(world);
 
-        world.SetCharacterPosition(0, 8, runner);
-        world.SetCharacterPosition(0, 0, stander);
+        world.SetWorldObjectPosition(0, 8, runner);
+        world.SetWorldObjectPosition(0, 0, stander);
 
         runner.TakeAction(Actions.MoveDown, runner);
         
         Assert.False(world.SpaceOccupiedBy(0,0) == runner);
+        Assert.True(world.SpaceOccupiedBy(0,0) == stander);
         
     }
 
@@ -141,8 +141,8 @@ public class ThirdIterationTests
         var runner = new RangedCharacter(world);
         var tree = new Tree();
 
-        world.SetCharacterPosition(5, 0, tree);
-        world.SetCharacterPosition(0, 0, runner);
+        world.SetWorldObjectPosition(5, 0, tree);
+        world.SetWorldObjectPosition(0, 0, runner);
 
         runner.TakeAction(Actions.MoveRight, runner);
 
@@ -153,12 +153,11 @@ public class ThirdIterationTests
     [Fact]
     public void CharactersMoveUpToTheSpaceBeforeAnObjectInThePathOfTheCharacter()
     {
-
         var runner = new MeleeCharacter(world);
         var tree = new Tree();
 
-        world.SetCharacterPosition(0, 4, tree);
-        world.SetCharacterPosition(0, 0, runner);
+        world.SetWorldObjectPosition(0, 4, tree);
+        world.SetWorldObjectPosition(0, 0, runner);
 
         runner.TakeAction(Actions.MoveUp, runner);
 
@@ -166,6 +165,7 @@ public class ThirdIterationTests
         Assert.True(world.SpaceOccupiedBy(0, 0) is EmptySpace);
     }
 
-    
+    //corner cases to Test
+        //Try to move in a direction, object in the way
         
 }

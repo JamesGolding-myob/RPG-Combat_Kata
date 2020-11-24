@@ -156,14 +156,13 @@ namespace RPG.Combat.Kata
                     {
                         if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
                         {
-                            _world.SetCharacterPosition(i, currentPosition.Item2, this);
-                            _world.ResetWorldSpace(i - 1, currentPosition.Item2);
+                            _world.MoveToNextFreeSpace(Direction.Right, i, currentPosition.Item2, this);   
                         }
-                        else
+                        else                        
                         {
-                            _world.SetCharacterPosition(i - 1, currentPosition.Item2, this);
+                            _world.SetWorldObjectPosition(i - 1, currentPosition.Item2, this);
+                            break;
                         }
-
                     }
                     break;
                 }
@@ -175,13 +174,13 @@ namespace RPG.Combat.Kata
                     {
                         if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
                         {
-                            _world.SetCharacterPosition(i, currentPosition.Item2, this);
+                            _world.MoveToNextFreeSpace(Direction.Left, i, currentPosition.Item2, this);
                         }
                         else
                         {
-                            _world.SetCharacterPosition(i + 1, currentPosition.Item2, this);
+                            _world.SetWorldObjectPosition(i + 1, currentPosition.Item2, this);
+                            break;
                         }
-
                     }
                     break;
                 }
@@ -192,17 +191,14 @@ namespace RPG.Combat.Kata
                     {
                         if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
                         {
-                            _world.SetCharacterPosition(currentPosition.Item1, i, this);
-                            _world.ResetWorldSpace(currentPosition.Item1, i - 1);
+                            _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);
                         }
                         else
                         {
-                            _world.SetCharacterPosition(currentPosition.Item1, newYPosition - 1 , this);
+                            _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition - 1 , this);
                             break;
                         }
-
                     }
-
                     break;
                 }
                 case Actions.MoveDown:
@@ -213,20 +209,17 @@ namespace RPG.Combat.Kata
                     {
                         if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
                         {
-                            _world.SetCharacterPosition(currentPosition.Item1, i, this);
-                            _world.ResetWorldSpace(currentPosition.Item1, i + 1);
+                            _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);
                         }
                         else
                         {
-                            _world.SetCharacterPosition(currentPosition.Item1, newYPosition + 1, this);
+                            _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition + 1, this);
+                            break;
                         }
-
                     }
                     break;
                 }
             }
-
-            _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
 
         }
 

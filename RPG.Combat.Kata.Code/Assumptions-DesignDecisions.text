@@ -36,7 +36,7 @@ if a character is outside of the attack range they cannot be hit by Attacks - *p
     Fourth Iteration
 Factions
     Characters Can Join and Leave Factions - they can belong to multiple Factions at the same time
-    When newly created characters don't belong to any Factions - Joining a Facxtion overrights the Unaligned faction
+    When newly created characters don't belong to any Factions - Joining a Faction overrights the Unaligned faction
     Characters of the same faction cannot hurt each other - unless unaligned
     Characters of the same faction can heal each other - unless Unalinged
     
@@ -52,7 +52,7 @@ When reduced to 0 Health, things are Destroyed - Health cannot go below zero
     Beyond Fifth
 Characters can move 
 Map/World cannot wrap (think inside a cave with hard walls)
-Position 0,0 will be displayed as the bottom left corner
+Position 0,0 will be displayed as the bottom left corner (when displaying to the console)
     Characters can't be in the same space together
 characrers can take an action to move their speed around the world
 
@@ -63,6 +63,20 @@ Moving right is increasing the x/horizontal component
 Moving Up is increasing the y/vertical component
 
 
+    Future Plans (Wish List)
+player can input how far they want to move - Speed becomes max movement amount
+maps become levels and the game can swap between levels - i.e a cave level (small 10 x 10) castle level (25 x 25), castle room (5 x 5)
+Objects can be interactable i.e Doors that can open to allow the character to move past them without destroying it - also keys, lock, loot (gold, weapons)
+Characters abilities are adjust based on what type they are (Ranged attack < Melee attack, Ranged heal < Melee heal)
+Additional character types -> i.e wizard, specialist healer
+Dialogue and player interaction with NPC (joining factions -> recruiting helpers)
+Randomness added to dealing damage or hitting target (like a dice roll -> could be influeenced by level difference)
+Display levels to the console
+Save Progress -> Load former game
+(Turn based combat logic)
+'Monsters' have behaviour to move and attack player's character
+Play with friends
+Out of combat behaviour - i.e exploring caves - interact with other objects - solve puzzles
 
 *assumed that dead characters can't take an action but this may have to be dealt with later in the game logic as a character can currently only heal itself and one test needs a dead character to try to heal themselves
 

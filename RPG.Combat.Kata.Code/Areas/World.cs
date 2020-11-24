@@ -32,12 +32,12 @@ namespace RPG.Combat.Kata
            return map[v1,v2].OccupiedBy;
         }
 
-        public void SetCharacterPosition(int xCoordinate, int yCooordinate, IHaveHealth thing)
+        public void SetWorldObjectPosition(int xCoordinate, int yCooordinate, IHaveHealth thing)
         {
             map[xCoordinate, yCooordinate].OccupiedBy = thing;
         }
         
-        public void ResetWorldSpace(int xCoordinate, int yCooordinate)
+        private void ResetWorldSpace(int xCoordinate, int yCooordinate)
         {
             map[xCoordinate, yCooordinate].OccupiedBy = new EmptySpace();
         }
@@ -72,5 +72,44 @@ namespace RPG.Combat.Kata
             return result; 
         }
 
+        internal void MoveToNextFreeSpace(Direction direction, int xToMoveTo, int yToMoveTo, IHaveHealth person)
+        {
+            int previousSpot;
+            switch (direction)
+            {
+                case Direction.Right:
+                {
+                    previousSpot = xToMoveTo - 1;
+                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
+                    ResetWorldSpace(previousSpot, yToMoveTo);
+                    break;
+                }
+                case Direction.Left:
+                {
+                    previousSpot = xToMoveTo + 1;
+                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
+                    ResetWorldSpace(previousSpot, yToMoveTo);
+                    break;
+                }
+                case Direction.Up:
+                {
+                    previousSpot = yToMoveTo - 1;
+                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
+                    ResetWorldSpace(xToMoveTo, previousSpot);
+                    break;
+                }
+                case Direction.Down:
+                {
+                    previousSpot = yToMoveTo + 1;
+                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
+                    ResetWorldSpace(xToMoveTo, previousSpot);
+                    break;
+                }
+                
+                
+                
+            }
+            
+        }
     }
 }
