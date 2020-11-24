@@ -33,10 +33,10 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanAttackCharactersFor600Damage()
         {   
-            Character characterOne = new Character(world);
+            Character instigator = new Character(world);
             Character targetCharacter = new Character(world);
 
-            characterOne.TakeAction(Actions.Attack, targetCharacter);
+            instigator.TakeAction(Actions.Attack, targetCharacter);
             
             Assert.Equal(400, targetCharacter.Health);
         }
@@ -44,20 +44,20 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanHealHurtCharactersFor100()
         {
-            var character = new Character(world, health:200);
+            var activeCharacter = new Character(world, health:200);
 
-            character.TakeAction(Actions.Heal, character);
+            activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 
-            Assert.Equal(300, character.Health);
+            Assert.Equal(300, activeCharacter.Health);
         }
 
         [Fact]
         public void ACharacterCanDieWhenHealthReachesZeroOrBelow()
         {
-            Character characterOne = new Character(world);
+            Character instigator = new Character(world);
             Character targetCharacter = new Character(world, health: 600);
 
-           characterOne.TakeAction(Actions.Attack, targetCharacter );
+           instigator.TakeAction(Actions.Attack, targetCharacter );
             
             Assert.False(targetCharacter.IsAlive);
         }
@@ -65,11 +65,11 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void DeadCharactersCanNotBeHealed()
         {
-            var characterOne = new Character(world, health: 0);
+            var activeCharacter = new Character(world, health: 0);
 
-            characterOne.TakeAction(Actions.Heal, characterOne);
+            activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 
-            Assert.False(characterOne.Health > 0);
+            Assert.False(activeCharacter.Health > 0);
         }
 
         [Fact]
@@ -86,11 +86,11 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void HealingCannotMakeCharacterHealthGreaterThan1000()
         {
-            Character playerOne = new Character(world);
+            Character activeCharacter = new Character(world);
 
-            playerOne.TakeAction(Actions.Heal, playerOne);
+            activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 
-            Assert.Equal(1000, playerOne.Health);
+            Assert.Equal(1000, activeCharacter.Health);
         }
 
     }

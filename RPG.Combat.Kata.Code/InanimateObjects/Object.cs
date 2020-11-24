@@ -8,7 +8,6 @@ namespace RPG.Combat.Kata
 
         public int Level{get;} = 1;
         public bool IsDestroyed => Health <= 0;
-
         public bool canHaveFactions{get=> false;}
 
         public Object(int health = 1000)

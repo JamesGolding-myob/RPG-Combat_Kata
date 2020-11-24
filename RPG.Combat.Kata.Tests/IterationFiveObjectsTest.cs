@@ -20,7 +20,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void ObjectsCanGetDestroyedWhenHealthReachesZero()
         {
-            var tree = new Tree(0);
+            var tree = new Tree(health:0);
 
             Assert.True(tree.IsDestroyed);
         }

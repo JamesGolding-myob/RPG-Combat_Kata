@@ -4,8 +4,7 @@ namespace RPG.Combat.Kata
     public class World
     {
         private int _width;
-        public Space[,] map; 
-        
+        public Space[,] map;  
         public World(int width)
         {
             _width = width;
@@ -32,9 +31,9 @@ namespace RPG.Combat.Kata
            return map[v1,v2].OccupiedBy;
         }
 
-        public void SetWorldObjectPosition(int xCoordinate, int yCooordinate, IHaveHealth thing)
+        public void SetWorldObjectPosition(int xCoordinate, int yCooordinate, IHaveHealth gameObject)
         {
-            map[xCoordinate, yCooordinate].OccupiedBy = thing;
+            map[xCoordinate, yCooordinate].OccupiedBy = gameObject;
         }
         
         private void ResetWorldSpace(int xCoordinate, int yCooordinate)
@@ -42,7 +41,7 @@ namespace RPG.Combat.Kata
             map[xCoordinate, yCooordinate].OccupiedBy = new EmptySpace();
         }
 
-        public void InitialMapSetup()
+        internal void InitialMapSetup()
         {
             for(int i = 0; i < _width; i++)
             {
@@ -68,7 +67,6 @@ namespace RPG.Combat.Kata
                     }
                 }
             }
-
             return result; 
         }
 
@@ -105,9 +103,7 @@ namespace RPG.Combat.Kata
                     ResetWorldSpace(xToMoveTo, previousSpot);
                     break;
                 }
-                
-                
-                
+    
             }
             
         }

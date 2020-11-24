@@ -49,38 +49,6 @@ namespace RPG.Combat.Kata
         {       
             Health = Math.Clamp(Health + amountToChange, CharacterConstants.MinHealth, CharacterConstants.MaxHealth);        
         }
- 
-        private int AdjustDamageBasedOnCharacterlevelDifference(int damage, int attackerLevel, int targetLevel)
-        {
-            int finalDamage = damage;
-
-            if(targetLevel >= (attackerLevel + CharacterConstants.LevelDifference))
-            {
-                finalDamage = CharacterConstants.LessenedDamage;
-            }
-            else if(targetLevel <= (attackerLevel - CharacterConstants.LevelDifference))
-            {
-                finalDamage = CharacterConstants.ExtraDamageAmount;
-            }
-
-            return -finalDamage;
-        }
-
-        private bool IsValidHeal(Actions action, IHaveHealth target)
-        {
-            var result = false;
-
-            if(target != this)
-            {
-                result = IsSameFaction(target) && target.Health > CharacterConstants.MinHealth;
-            }
-            else
-            {
-               result = action == Actions.Heal && target == this && this.IsAlive;
-            }
-
-            return result;      
-        }
 
         public bool IsSameFaction(IHaveHealth target)
         {
@@ -135,6 +103,23 @@ namespace RPG.Combat.Kata
                 _damageController.ApplyDamage(target, damageToInflict);
            }
         }
+
+        private int AdjustDamageBasedOnCharacterlevelDifference(int damage, int attackerLevel, int targetLevel)
+        {
+            int finalDamage = damage;
+
+            if(targetLevel >= (attackerLevel + CharacterConstants.LevelDifference))
+            {
+                finalDamage = CharacterConstants.LessenedDamage;
+            }
+            else if(targetLevel <= (attackerLevel - CharacterConstants.LevelDifference))
+            {
+                finalDamage = CharacterConstants.ExtraDamageAmount;
+            }
+
+            return -finalDamage;
+        }
+
         private bool MoveRequest(Actions action, IHaveHealth target)
         {
             return action == Actions.MoveRight || action == Actions.MoveLeft || action == Actions.MoveUp || action == Actions.MoveDown && target == this;
@@ -223,10 +208,24 @@ namespace RPG.Combat.Kata
 
         }
 
-
         public void Heal(IHaveHealth target)
         {
             _damageController.ApplyDamage(target, CharacterConstants.HealAmount);
+        }
+        private bool IsValidHeal(Actions action, IHaveHealth target)
+        {
+            var result = false;
+
+            if(target != this)
+            {
+                result = IsSameFaction(target) && target.Health > CharacterConstants.MinHealth;
+            }
+            else
+            {
+               result = action == Actions.Heal && target == this && this.IsAlive;
+            }
+
+            return result;      
         }
 
     }

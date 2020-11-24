@@ -8,11 +8,11 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterCanNotAttackThemselves()
         {
-            var character = new Character(world);
+            var activeCharacter = new Character(world);
 
-            character.TakeAction(Actions.Attack, character);
+            activeCharacter.TakeAction(Actions.Attack, activeCharacter);
 
-            Assert.Equal(1000, character.Health);       
+            Assert.Equal(1000, activeCharacter.Health);       
         }
 
         [Fact]
@@ -50,9 +50,6 @@ namespace RPG.Combat.Kata.Tests
         }
     }
 
-
-
-    
 
     
 }

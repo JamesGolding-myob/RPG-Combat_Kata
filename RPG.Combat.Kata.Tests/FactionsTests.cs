@@ -66,7 +66,7 @@ namespace RPG.Combat.Kata.Tests
             var eagleCharacter = new MeleeCharacter(world);
             var eagleTargetCharacter = new MeleeCharacter(world, health: 1000);
 
-            CharacterFactionInitiation(eagleCharacter, eagleTargetCharacter, Factions.Eagles);
+            CharacterJoinFactionHelper(eagleCharacter, eagleTargetCharacter, Factions.Eagles);
             eagleCharacter.TakeAction(Actions.Attack, eagleTargetCharacter);
             
             Assert.Equal(1000, eagleTargetCharacter.Health);
@@ -79,7 +79,7 @@ namespace RPG.Combat.Kata.Tests
             var monsterCharacter = new RangedCharacter(world);
             var hurtMonsterCharacter = new MeleeCharacter(world, health: 500);
 
-            CharacterFactionInitiation(monsterCharacter, hurtMonsterCharacter, Factions.Monsters);
+            CharacterJoinFactionHelper(monsterCharacter, hurtMonsterCharacter, Factions.Monsters);
             monsterCharacter.TakeAction(Actions.Heal, hurtMonsterCharacter);
 
             Assert.Equal(600, hurtMonsterCharacter.Health);
@@ -107,7 +107,7 @@ namespace RPG.Combat.Kata.Tests
             Assert.False(hurtIndividual.Health > initialHealth);
         }
 
-        public void CharacterFactionInitiation(Character char1, Character char2, Factions faction)
+        public void CharacterJoinFactionHelper(Character char1, Character char2, Factions faction)
         {
             char1.JoinFaction(faction);
             char2.JoinFaction(faction);

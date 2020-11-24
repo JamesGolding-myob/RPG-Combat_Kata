@@ -7,7 +7,7 @@ namespace RPG.Combat.Kata
         
         int Level{get;}
         void ChangeHealth(int amount);
-        public bool canHaveFactions{get;}
+       bool canHaveFactions{get;}
 
     }
 }
