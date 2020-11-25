@@ -139,15 +139,20 @@ namespace RPG.Combat.Kata
 
                     for(int i = currentPosition.Item1 + 1; i <= newXPosition; i++)
                     {
-                        if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                        if(i <= _world.EdgeMaximum)
                         {
-                            _world.MoveToNextFreeSpace(Direction.Right, i, currentPosition.Item2, this);   
+                            if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                            {
+                                _world.MoveToNextFreeSpace(Direction.Right, i, currentPosition.Item2, this);   
+                            }
+                            else                        
+                            {
+                                _world.SetWorldObjectPosition(i - 1, currentPosition.Item2, this);
+                                break;
+                            }
+
                         }
-                        else                        
-                        {
-                            _world.SetWorldObjectPosition(i - 1, currentPosition.Item2, this);
-                            break;
-                        }
+                        
                     }
                     break;
                 }
@@ -157,15 +162,19 @@ namespace RPG.Combat.Kata
 
                     for(int i = currentPosition.Item1 - 1; i >= newXPosition; i--)
                     {
-                        if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                        if(i >= 0)
                         {
-                            _world.MoveToNextFreeSpace(Direction.Left, i, currentPosition.Item2, this);
+                            if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                            {
+                                _world.MoveToNextFreeSpace(Direction.Left, i, currentPosition.Item2, this);
+                            }
+                            else
+                            {
+                                _world.SetWorldObjectPosition(i + 1, currentPosition.Item2, this);
+                                break;
+                            }
                         }
-                        else
-                        {
-                            _world.SetWorldObjectPosition(i + 1, currentPosition.Item2, this);
-                            break;
-                        }
+                       
                     }
                     break;
                 }
@@ -174,15 +183,19 @@ namespace RPG.Combat.Kata
                     newYPosition = currentPosition.Item2 + Speed;
                     for(int i = currentPosition.Item2 + 1; i <= newYPosition; i++)
                     {
-                        if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                        if(i <= _world.EdgeMaximum)
                         {
-                            _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);
+                            if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                            {
+                                _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);
+                            }
+                            else
+                            {
+                                _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition - 1 , this);
+                                break;
+                            }
                         }
-                        else
-                        {
-                            _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition - 1 , this);
-                            break;
-                        }
+                       
                     }
                     break;
                 }
@@ -192,15 +205,20 @@ namespace RPG.Combat.Kata
 
                     for(int i = currentPosition.Item2 - 1; i >= newYPosition; i--)
                     {
-                        if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                        if(i >= 0)
                         {
-                            _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);
+                            if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                            {
+                                _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);
+                            }
+                            else
+                            {
+                                _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition + 1, this);
+                                break;
+                            }
+
                         }
-                        else
-                        {
-                            _world.SetWorldObjectPosition(currentPosition.Item1, newYPosition + 1, this);
-                            break;
-                        }
+                       
                     }
                     break;
                 }

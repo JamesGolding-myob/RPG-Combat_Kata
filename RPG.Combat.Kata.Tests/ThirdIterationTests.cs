@@ -165,7 +165,22 @@ public class ThirdIterationTests
         Assert.True(world.SpaceOccupiedBy(0, 0) is EmptySpace);
     }
 
-    //corner cases to Test
-        //Try to move in a direction, object in the way
+    [Theory]
+    [InlineData(0, 0, Actions.MoveLeft, 0, 0)]
+    [InlineData(1, 0, Actions.MoveLeft, 0, 0)]
+    [InlineData(4, 0, Actions.MoveLeft, 0, 0)]
+    [InlineData(0, 3, Actions.MoveDown, 0, 0)]
+    [InlineData(0, 32, Actions.MoveUp, 0, 34)]
+    [InlineData(30, 5, Actions.MoveRight, 34, 5)]
+    public void CharacterTryingToMovePastTheEdgeOfTheWorldIsStoppedAtTheEdge(int startingX, int startingY, Actions moveAction, int finalX, int finalY)
+    {
+        var runner = new Character(world);
+
+        world.SetWorldObjectPosition(startingX, startingY, runner);
+        runner.TakeAction(moveAction, runner);
+
+        Assert.True(world.SpaceOccupiedBy(finalX, finalY) == runner);
+        
+    }
         
 }

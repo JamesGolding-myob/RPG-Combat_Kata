@@ -4,6 +4,7 @@ namespace RPG.Combat.Kata
     public class World
     {
         private int _width;
+        public int EdgeMaximum{get => _width -1;}
         public Space[,] map;  
         public World(int width)
         {
@@ -84,9 +85,12 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Left:
                 {
+                    
                     previousSpot = xToMoveTo + 1;
                     SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
                     ResetWorldSpace(previousSpot, yToMoveTo);
+                    
+                    
                     break;
                 }
                 case Direction.Up:
