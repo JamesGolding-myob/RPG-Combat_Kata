@@ -5,6 +5,7 @@ namespace RPG.Combat.Kata
     {
         private int _width;
         public int EdgeMaximum{get => _width -1;}
+        public int EdgeMinimum{get => 0;}
         public Space[,] map;  
         public World(int width)
         {
