@@ -1,0 +1,27 @@
+namespace RPG.Combat.Kata
+{
+    public class CharacterCreator
+    {
+        
+        public IHaveHealth CreateCharacter(IHaveHealthOptions option, World world)
+        {
+            switch (option)
+            {
+                case IHaveHealthOptions.Melee:
+                {
+                    return new MeleeCharacter(world);   
+                }
+                case IHaveHealthOptions.Ranged:
+                {
+                    return new RangedCharacter(world);
+                }
+                default:
+                {
+                    return new Character(world);
+                }
+                
+            }
+            
+        }
+    }
+}
