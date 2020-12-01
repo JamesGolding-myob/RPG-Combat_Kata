@@ -3,6 +3,6 @@ namespace RPG.Combat.Kata
     interface IMove
     {
         int Speed{get;}
-        void Move(Actions action);
+        void Move(Direction direction);//change parameters to direction and distance
     }
 }

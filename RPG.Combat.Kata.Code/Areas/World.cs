@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 namespace RPG.Combat.Kata
 {
     public class World
@@ -32,6 +33,7 @@ namespace RPG.Combat.Kata
         {
            return map[v1,v2].OccupiedBy;
         }
+
 
         public void SetWorldObjectPosition(int xCoordinate, int yCooordinate, IHaveHealth gameObject)
         {
@@ -72,7 +74,7 @@ namespace RPG.Combat.Kata
             return result; 
         }
 
-        internal void MoveToNextFreeSpace(Direction direction, int xToMoveTo, int yToMoveTo, IHaveHealth person)
+        public void MoveToNextFreeSpace(Direction direction, int xToMoveTo, int yToMoveTo, IHaveHealth person)
         {
             int previousSpot;
             switch (direction)
@@ -86,12 +88,11 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Left:
                 {
-                    
-                    previousSpot = xToMoveTo + 1;
+                    previousSpot = Math.Clamp(xToMoveTo + 1, EdgeMinimum, EdgeMaximum);
+                   
                     SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
                     ResetWorldSpace(previousSpot, yToMoveTo);
-                    
-                    
+                     
                     break;
                 }
                 case Direction.Up:
@@ -103,7 +104,8 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Down:
                 {
-                    previousSpot = yToMoveTo + 1;
+                    previousSpot = Math.Clamp(yToMoveTo + 1, EdgeMinimum, EdgeMaximum);
+                
                     SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
                     ResetWorldSpace(xToMoveTo, previousSpot);
                     break;
@@ -111,6 +113,40 @@ namespace RPG.Combat.Kata
     
             }
             
+        }
+
+        public List<IHaveHealth> GetPotentialTargetsForCharacter(Character character)
+        {
+            List<IHaveHealth> potentialTargets = new List<IHaveHealth>();
+            var currentCharacterPosition = GetLocationOf(character);
+            
+            if(currentCharacterPosition.Item1 > EdgeMinimum)
+            {
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - 1, currentCharacterPosition.Item2 ));
+            }
+            if(currentCharacterPosition.Item1 < EdgeMaximum)
+            {
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + 1, currentCharacterPosition.Item2 ));
+            }
+            if(currentCharacterPosition.Item2 < EdgeMaximum)
+            {
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + 1));
+            }
+            if(currentCharacterPosition.Item2 > EdgeMinimum)
+            { 
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - 1));
+            }
+
+            if(potentialTargets.Count < 4)
+            {
+                while(potentialTargets.Count < 4)
+                {
+                    potentialTargets.Add(new EmptySpace());
+                }
+            }
+
+            return potentialTargets;
+
         }
     }
 }

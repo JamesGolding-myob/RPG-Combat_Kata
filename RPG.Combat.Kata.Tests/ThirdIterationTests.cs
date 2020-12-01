@@ -76,7 +76,7 @@ public class ThirdIterationTests
         var character = new RangedCharacter(world);
         world.SetWorldObjectPosition(0, 0, character);
         
-        character.TakeAction(Actions.MoveRight, character);
+        character.TakeAction(Actions.MoveRight);
 
         Assert.True(world.SpaceOccupiedBy(5,0) == character);
         Assert.True(world.SpaceOccupiedBy(0,0) is EmptySpace);
@@ -89,7 +89,7 @@ public class ThirdIterationTests
         var character = new RangedCharacter(world);
         world.SetWorldObjectPosition(5, 0, character);
         
-        character.TakeAction(Actions.MoveLeft, character);
+        character.TakeAction(Actions.MoveLeft);
 
         Assert.True(world.SpaceOccupiedBy(0,0) == character);
         Assert.True(world.SpaceOccupiedBy(5,0) is EmptySpace);
@@ -101,7 +101,7 @@ public class ThirdIterationTests
         var character = new MeleeCharacter(world);
         world.SetWorldObjectPosition(0, 0, character);
 
-        character.TakeAction(Actions.MoveUp, character);
+        character.TakeAction(Actions.MoveUp);
 
         Assert.True(world.SpaceOccupiedBy(0,8) == character);
         Assert.True(world.SpaceOccupiedBy(0,0) is EmptySpace);
@@ -113,7 +113,7 @@ public class ThirdIterationTests
         var character = new RangedCharacter(world);
         world.SetWorldObjectPosition(0, 10, character);
 
-        character.TakeAction(Actions.MoveDown, character);
+        character.TakeAction(Actions.MoveDown);
 
         Assert.True(world.SpaceOccupiedBy(0,5) == character);
         Assert.True(world.SpaceOccupiedBy(0,10) is EmptySpace);
@@ -128,7 +128,7 @@ public class ThirdIterationTests
         world.SetWorldObjectPosition(0, 8, runner);
         world.SetWorldObjectPosition(0, 0, stander);
 
-        runner.TakeAction(Actions.MoveDown, runner);
+        runner.TakeAction(Actions.MoveDown);
         
         Assert.False(world.SpaceOccupiedBy(0,0) == runner);
         Assert.True(world.SpaceOccupiedBy(0,0) == stander);
@@ -144,7 +144,7 @@ public class ThirdIterationTests
         world.SetWorldObjectPosition(5, 0, tree);
         world.SetWorldObjectPosition(0, 0, runner);
 
-        runner.TakeAction(Actions.MoveRight, runner);
+        runner.TakeAction(Actions.MoveRight);
 
         Assert.True(world.SpaceOccupiedBy(4,0) == runner);
         Assert.True(world.SpaceOccupiedBy(0,0) is EmptySpace);
@@ -159,7 +159,7 @@ public class ThirdIterationTests
         world.SetWorldObjectPosition(0, 4, tree);
         world.SetWorldObjectPosition(0, 0, runner);
 
-        runner.TakeAction(Actions.MoveUp, runner);
+        runner.TakeAction(Actions.MoveUp);
 
         Assert.True(world.SpaceOccupiedBy(0, 3) == runner);
         Assert.True(world.SpaceOccupiedBy(0, 0) is EmptySpace);
@@ -177,7 +177,7 @@ public class ThirdIterationTests
         var runner = new Character(world);
 
         world.SetWorldObjectPosition(startingX, startingY, runner);
-        runner.TakeAction(moveAction, runner);
+        runner.TakeAction(moveAction);
 
         Assert.True(world.SpaceOccupiedBy(finalX, finalY) == runner);
         

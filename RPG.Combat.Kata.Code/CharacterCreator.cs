@@ -3,7 +3,7 @@ namespace RPG.Combat.Kata
     public class CharacterCreator
     {
         
-        public IHaveHealth CreateCharacter(IHaveHealthOptions option, World world)
+        public Character CreateCharacter(IHaveHealthOptions option, World world)
         {
             switch (option)
             {

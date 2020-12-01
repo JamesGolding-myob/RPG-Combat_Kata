@@ -1,12 +1,14 @@
 ﻿using System;
 
-namespace RPG_Combat_Kata
+namespace RPG.Combat.Kata
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            World world = new World(10);
+            Game game = new Game(new UIConsole(), world, new CharacterCreator(), new InputConverter(), new DisplayFormater());
+            game.Run();
 
         }
     }

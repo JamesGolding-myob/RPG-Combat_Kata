@@ -29,7 +29,7 @@ namespace RPG.Combat.Kata
             _world = world;
         }
 
-        public void TakeAction(Actions action, IHaveHealth target)
+        public void TakeAction(Actions action, IHaveHealth target) //move target from here
        {
            if(IsValidAttack(action, target))
            {
@@ -39,10 +39,43 @@ namespace RPG.Combat.Kata
            {
                Heal(target);
            }
-           else if(MoveRequest(action, target))
+
+       }
+
+       public void TakeAction(Actions action) //move target from here
+       {
+           
+        Move(GetDirection(action));
+           
+       }
+
+       private Direction GetDirection(Actions action)
+       {
+           Direction result;
+           switch (action)
            {
-               Move(action);
+               case Actions.MoveDown:
+               {
+                   result = Direction.Down;
+                   break;
+               }
+               case Actions.MoveRight:
+               {
+                   result = Direction.Right;
+                   break;
+               }
+               case Actions.MoveUp:
+               {
+                   result = Direction.Up;
+                   break;
+               }
+               default:
+               {
+                   result = Direction.Left;
+                   break;
+               }
            }
+           return result;
        }
 
         public void ChangeHealth(int amountToChange)
@@ -120,20 +153,15 @@ namespace RPG.Combat.Kata
             return -finalDamage;
         }
 
-        private bool MoveRequest(Actions action, IHaveHealth target)
-        {
-            return action == Actions.MoveRight || action == Actions.MoveLeft || action == Actions.MoveUp || action == Actions.MoveDown && target == this;
-        }
-
-        public void Move(Actions action)
+        public void Move(Direction direction)
         {
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
             int newYPosition;
             int newXPosition;
  
-            switch (action)
+            switch (direction)
             {
-                case Actions.MoveRight:
+                case Direction.Right:
                 {
                     newXPosition = currentPosition.Item1 + Speed;
 
@@ -149,7 +177,7 @@ namespace RPG.Combat.Kata
                     }
                     break;
                 }
-                case Actions.MoveLeft:
+                case Direction.Left:
                 {
                     newXPosition = currentPosition.Item1 - Speed;
 
@@ -165,7 +193,7 @@ namespace RPG.Combat.Kata
                     }
                     break;
                 }
-                case Actions.MoveUp:
+                case Direction.Up:
                 {
                     newYPosition = currentPosition.Item2 + Speed;
                     for(int i = currentPosition.Item2 + 1; i <= newYPosition; i++)
@@ -181,7 +209,7 @@ namespace RPG.Combat.Kata
                     }
                     break;
                 }
-                case Actions.MoveDown:
+                case Direction.Down:
                 {
                     newYPosition = currentPosition.Item2 - Speed;
 
