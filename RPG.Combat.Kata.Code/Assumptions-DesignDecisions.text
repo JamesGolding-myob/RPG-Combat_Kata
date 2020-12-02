@@ -54,13 +54,16 @@ Characters can move
 Map/World cannot wrap (think inside a cave with hard walls)
 Position 0,0 will be displayed as the bottom left corner (when displaying to the console)
     Characters can't be in the same space together
-characrers can take an action to move their speed around the world
+characters can take an action to move their speed around the world
 
 Everything that 'exists' in the world has to have health
 Not everything can move or perform actions
 Not everything can have factions - they are optional 
 Moving right is increasing the x/horizontal component
 Moving Up is increasing the y/vertical component
+
+you die you lose
+you kill the monster and you win
 
 
     Future Plans (Wish List)

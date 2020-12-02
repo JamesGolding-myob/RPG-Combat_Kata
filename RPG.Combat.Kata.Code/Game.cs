@@ -28,7 +28,7 @@ namespace RPG.Combat.Kata
                 
             Character character = characterCreator.CreateCharacter(_converter.ConvertCharacterChoice(input), _gameWorld);     
            
-            var monster = new Monster(_gameWorld);
+            Monster monster = new Monster(_gameWorld);
             _gameWorld.SetWorldObjectPosition(4, 4, monster);
                 
             _gameWorld.SetWorldObjectPosition(0, 0, character);
@@ -48,7 +48,7 @@ namespace RPG.Combat.Kata
 
                 if(chosenAction == Actions.Attack  || chosenAction == Actions.Heal)
                 {
-                    UI.DisplayToUser($"Choose a Target: 1:{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
+                    UI.DisplayToUser($"Choose a Target: 1:\n{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
                      
                     character.TakeAction(chosenAction, _converter.ConvertTarget(UI.GetResponseFromUser(), potentialTargets));
                 }
@@ -57,7 +57,9 @@ namespace RPG.Combat.Kata
                     character.TakeAction(chosenAction);
                 }
 
-                UI.DisplayToUser("you ed");
+                
+                UI.DisplayToUser(_displayFormater.ActionFeedback(chosenAction));
+                    
                 UI.DisplayToUser(_displayFormater.FormatMap(_gameWorld));
                 if(!monster.IsAlive)
                 {

@@ -5,7 +5,8 @@ namespace RPG.Combat.Kata
         Empty,
         Melee,
         Ranged,
-        Tree
+        Tree,
+        Monster
 
     }
 }

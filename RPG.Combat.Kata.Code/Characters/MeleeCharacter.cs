@@ -76,8 +76,11 @@ namespace RPG.Combat.Kata
 
         public override void TakeAction(Actions action, IHaveHealth target)
         {
-            base.TakeAction(action, target);
-            if(IsValidHeal(action, target))
+            if(IsValidAttack(action, target))
+            {
+                Attack(target);
+            }
+            else if(IsValidHeal(action, target))
             {
                 Heal(target);
             }

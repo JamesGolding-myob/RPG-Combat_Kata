@@ -17,8 +17,7 @@ namespace RPG.Combat.Kata
                 }
                 default:
                 {
-                    
-                    return new Monster(world);  
+                    return new Monster(world);//don't think this ever gets called, may cauuse an error
                 }
                 
             }

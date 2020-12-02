@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+
 namespace RPG.Combat.Kata
 {
     public class Monster : Character
@@ -21,42 +21,33 @@ namespace RPG.Combat.Kata
 
         private Direction FindDirectionCharacterIsIn()
         {
-            Tuple<int, int> currentPos = _worldMap.GetLocationOf(this);
-            (int, int)charCurrentPos = (0, 0);
-            Direction directionToCharacter;
+            Tuple<int, int> monsterCurrentPosition = _worldMap.GetLocationOf(this);
+            
+            (int, int)characterCurrentPosition = _worldMap.GetCharacterPosition();
+            Direction directionToMove; 
 
-            //get first? - filter with Linq??
-           
-            for(int row = 0; row <= _worldMap.EdgeMaximum; row++)
+            var spaceTotheRightOfCharacter = characterCurrentPosition.Item1 + 1;
+            var spaceTotheTopOfCharacter = characterCurrentPosition.Item2 + 1;
+            var spaceTotheBottomOfCharacter = characterCurrentPosition.Item2 - 1;
+
+            if(monsterCurrentPosition.Item1 >= (spaceTotheRightOfCharacter) && monsterCurrentPosition.Item2 >= characterCurrentPosition.Item2)
             {
-                for(int column = 0; column <= _worldMap.EdgeMaximum; column++)
-                {
-                    var thing = _worldMap.SpaceOccupiedBy(column, row);
-                    if(thing is Character && thing != this)
-                    {
-                        charCurrentPos = (column, row);
-                        break;
-                    }
-                }
+                directionToMove = Direction.Left;
             }
-            if(currentPos.Item1 >= (charCurrentPos.Item1 + 1) && currentPos.Item2 >= charCurrentPos.Item2)
+            else if(monsterCurrentPosition.Item2 >(spaceTotheTopOfCharacter) && monsterCurrentPosition.Item1 >= characterCurrentPosition.Item1)
             {
-                directionToCharacter = Direction.Left;
+                directionToMove = Direction.Down;
             }
-            else if(currentPos.Item2 >(charCurrentPos.Item2 + 1) && currentPos.Item1 >= charCurrentPos.Item1)
+            else if(monsterCurrentPosition.Item2 < (spaceTotheBottomOfCharacter))
             {
-                directionToCharacter = Direction.Down;
-            }
-            else if(currentPos.Item2 < (charCurrentPos.Item2 - 1))
-            {
-                directionToCharacter = Direction.Up;
+                directionToMove = Direction.Up;
             }
             else 
             {
-                directionToCharacter = Direction.Right;
+                directionToMove = Direction.Right;
             }
 
-            return directionToCharacter;
+            return directionToMove;
         }
 
         public override void Attack(IHaveHealth target)

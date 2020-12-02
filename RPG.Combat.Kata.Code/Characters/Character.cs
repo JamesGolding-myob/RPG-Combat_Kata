@@ -111,6 +111,10 @@ namespace RPG.Combat.Kata
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
             int newYPosition;
             int newXPosition;
+            int nextPositionToMoveRight = currentPosition.Item1 +1;
+            int nextPositionToMoveLeft = currentPosition.Item1 -1;
+            int nextpositionToMoveAbove = currentPosition.Item2 +1;
+            int nextPositionToMoveBelow = currentPosition.Item2 -1;
  
             switch (direction)
             {
@@ -118,7 +122,7 @@ namespace RPG.Combat.Kata
                 {
                     newXPosition = currentPosition.Item1 + Speed;
 
-                    for(int i = currentPosition.Item1 + 1; i <= newXPosition; i++)
+                    for(int i = nextPositionToMoveRight; i <= newXPosition; i++)
                     {
                         if(i <= _world.EdgeMaximum)
                         {
@@ -138,7 +142,7 @@ namespace RPG.Combat.Kata
                 {
                     newXPosition = currentPosition.Item1 - Speed;
 
-                    for(int i = currentPosition.Item1 - 1; i >= newXPosition; i--)
+                    for(int i = nextPositionToMoveLeft; i >= newXPosition; i--)
                     {
                         if(i >= _world.EdgeMinimum)
                         {
@@ -157,7 +161,7 @@ namespace RPG.Combat.Kata
                 case Direction.Up:
                 {
                     newYPosition = currentPosition.Item2 + Speed;
-                    for(int i = currentPosition.Item2 + 1; i <= newYPosition; i++)
+                    for(int i = nextpositionToMoveAbove; i <= newYPosition; i++)
                     {
                         if(i <= _world.EdgeMaximum)
                         {
@@ -177,7 +181,7 @@ namespace RPG.Combat.Kata
                 {
                     newYPosition = currentPosition.Item2 - Speed;
 
-                    for(int i = currentPosition.Item2 - 1; i >= newYPosition; i--)
+                    for(int i = nextPositionToMoveBelow ; i >= newYPosition; i--)
                     {
                         if(i >= _world.EdgeMinimum)
                         {

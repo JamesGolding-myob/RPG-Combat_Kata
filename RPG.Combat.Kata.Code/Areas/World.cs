@@ -150,5 +150,27 @@ namespace RPG.Combat.Kata
             return potentialTargets;
 
         }
+
+        public (int, int) GetCharacterPosition()
+        {
+           int xCoordinate = 0;
+           int yCooordinate = 0;
+
+            for(int row = 0; row <= EdgeMaximum; row++)
+            {
+                for(int column = 0; column <= EdgeMaximum; column++)
+                {
+                    var thing = SpaceOccupiedBy(column, row);
+                    if(thing is MeleeCharacter || thing is RangedCharacter )
+                    {
+                        xCoordinate = column;
+                        yCooordinate = row;
+                        break;
+                    }
+                }
+            }
+
+            return (xCoordinate, yCooordinate);
+        }
     }
 }

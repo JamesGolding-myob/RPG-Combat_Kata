@@ -24,6 +24,13 @@ namespace RPG.Combat.Kata
         }
 
         [Fact]
+        public void MonsterCanBeCreatedByCharacterCreator()
+        {
+            var monster = characterCreator.CreateCharacter(IHaveHealthOptions.Monster, world);
+            Assert.True(monster is Monster);
+        }
+
+        [Fact]
         public void EndToEnd()
         {
             var ui = new SimpleUI();
