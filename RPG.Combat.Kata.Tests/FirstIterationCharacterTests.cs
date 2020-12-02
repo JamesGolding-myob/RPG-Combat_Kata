@@ -9,7 +9,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void DefaultCharacterHealthIs1000()
         {
-            var character = new Character(world);
+            var character = new MeleeCharacter(world);
             
             Assert.Equal(1000, character.Health);
         }
@@ -17,7 +17,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterIsAliveWhenCreated()
         {
-            Character character = new Character(world);
+            Character character = new RangedCharacter(world);
 
             Assert.True(character.IsAlive);    
         }
@@ -25,7 +25,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void DefaultCharacterLevelIsOneWhenCreated()
         {
-            Character defaultCharacter = new Character(world);
+            Character defaultCharacter = new RangedCharacter(world);
 
             Assert.Equal(1, defaultCharacter.Level);
         }
@@ -33,8 +33,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanAttackCharactersFor600Damage()
         {   
-            Character instigator = new Character(world);
-            Character targetCharacter = new Character(world);
+            Character instigator = new MeleeCharacter(world);
+            Character targetCharacter = new RangedCharacter(world);
 
             instigator.TakeAction(Actions.Attack, targetCharacter);
             
@@ -44,7 +44,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanHealHurtCharactersFor100()
         {
-            var activeCharacter = new Character(world, health:200);
+            var activeCharacter = new RangedCharacter(world, health:200);
 
             activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 
@@ -54,8 +54,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void ACharacterCanDieWhenHealthReachesZeroOrBelow()
         {
-            Character instigator = new Character(world);
-            Character targetCharacter = new Character(world, health: 600);
+            Character instigator = new MeleeCharacter(world);
+            Character targetCharacter = new MeleeCharacter(world, health: 600);
 
            instigator.TakeAction(Actions.Attack, targetCharacter );
             
@@ -65,7 +65,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void DeadCharactersCanNotBeHealed()
         {
-            var activeCharacter = new Character(world, health: 0);
+            var activeCharacter = new MeleeCharacter(world, health: 0);
 
             activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 
@@ -75,8 +75,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterHealthCanNotBecomeNegative()
         {
-            var instigator = new Character(world);
-            var targetCharacter = new Character(world, health: 1);
+            var instigator = new RangedCharacter(world);
+            var targetCharacter = new MeleeCharacter(world, health: 1);
 
             instigator.TakeAction(Actions.Attack, targetCharacter);
 
@@ -86,7 +86,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void HealingCannotMakeCharacterHealthGreaterThan1000()
         {
-            Character activeCharacter = new Character(world);
+            Character activeCharacter = new RangedCharacter(world);
 
             activeCharacter.TakeAction(Actions.Heal, activeCharacter);
 

@@ -5,48 +5,40 @@ using System.Linq;
 namespace RPG.Combat.Kata
 {
 
-    public class Character : IHaveHealth, IAttack, IMove, IFaction
+    public abstract class Character : IHaveHealth, IAttack, IMove 
     { 
-        private DamageController _damageController;
+        public DamageController DamageController{get; private set;}
         private World _world;
         public int AttackRange{get; set;}
-        public int Health{get; private set;}
-        public int Level{get; private set;}
+        public int Health{get; protected set;}
+        public int Level{get; protected set;}
         public bool IsAlive => Health > CharacterConstants.MinHealth;
 
         public bool canHaveFactions{get => true;}
-        public int Speed {get; set;}
+        public int Speed {get; protected set;}
         public List<Factions> Faction { get; set; } = new List<Factions>();
 
         public Character(World world, int health = CharacterConstants.MaxHealth, int level = CharacterConstants.DefaultStartingLevel, int speed = CharacterConstants.defaultSpeed)
         {
             Health = health;
             Level = level;
-            AttackRange = 1;
-            this.JoinFaction(Factions.Unaligned);      
+            AttackRange = 1;   
             Speed = speed;
-            _damageController = new DamageController();
+            DamageController = new DamageController();
             _world = world;
         }
 
-        public void TakeAction(Actions action, IHaveHealth target) //move target from here
+        public virtual void TakeAction(Actions action, IHaveHealth target) //move target from here
        {
            if(IsValidAttack(action, target))
            {
                Attack(target); 
            }
-           else if(IsValidHeal(action, target))
-           {
-               Heal(target);
-           }
-
        }
 
-       public void TakeAction(Actions action) //move target from here
-       {
-           
-        Move(GetDirection(action));
-           
+       public void TakeAction(Actions action) 
+       {    
+        Move(GetDirection(action));    
        }
 
        private Direction GetDirection(Actions action)
@@ -78,62 +70,23 @@ namespace RPG.Combat.Kata
            return result;
        }
 
-        public void ChangeHealth(int amountToChange)
+        public virtual void ChangeHealth(int amountToChange)
         {       
             Health = Math.Clamp(Health + amountToChange, CharacterConstants.MinHealth, CharacterConstants.MaxHealth);        
         }
 
-        public bool IsSameFaction(IHaveHealth target)
+        public virtual bool IsValidAttack(Actions action, IHaveHealth target)
         {
-            var result = false;
-
-            if(target.canHaveFactions)
-            {
-                if(this.Faction.Contains(Factions.Unaligned) && (target as Character).Faction.Contains(Factions.Unaligned))
-                {
-                    result = false;
-                }
-                else
-                {
-                    result = Faction.Any(x => (target as Character).Faction.Contains(x));
-                }
-            }
-            
-           return result;
+            return action == Actions.Attack && target != this;       
         }
 
-        public void JoinFaction(Factions factionToJoin)
-        {
-            if(Faction.Contains(Factions.Unaligned))
-            {
-                Faction.Remove(Factions.Unaligned);     
-            }
-
-            Faction.Add(factionToJoin);
-        }
-
-        public void LeaveFaction(Factions factionToLeave)
-        {
-            Faction.Remove(factionToLeave);
-
-            if(Faction.Count == 0)
-            {
-                Faction.Add(Factions.Unaligned);
-            }
-        }
-
-        private bool IsValidAttack(Actions action, IHaveHealth target)
-        {
-            return action == Actions.Attack && target != this && !IsSameFaction(target);       
-        }
-
-        public void Attack(IHaveHealth target)
+        public virtual void Attack(IHaveHealth target)
         {
             if(_world.CharacterIsInRange(this, target))
            {   
                var damageToInflict = AdjustDamageBasedOnCharacterlevelDifference(CharacterConstants.DamageAmount, this.Level, target.Level);
 
-                _damageController.ApplyDamage(target, damageToInflict);
+                DamageController.ApplyDamage(target, damageToInflict);
            }
         }
 
@@ -172,6 +125,10 @@ namespace RPG.Combat.Kata
                             if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
                             {
                                 _world.MoveToNextFreeSpace(Direction.Right, i, currentPosition.Item2, this);   
+                            }
+                            else
+                            {
+                                break;
                             } 
                         }
                     }
@@ -188,7 +145,11 @@ namespace RPG.Combat.Kata
                             if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
                             {
                                 _world.MoveToNextFreeSpace(Direction.Left, i, currentPosition.Item2, this);
-                            }  
+                            }
+                             else
+                            {
+                                break;
+                            }   
                         }   
                     }
                     break;
@@ -204,7 +165,10 @@ namespace RPG.Combat.Kata
                             {
                                 _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);
                             }
-                           
+                             else
+                            {
+                                break;
+                            }   
                         }   
                     }
                     break;
@@ -220,7 +184,11 @@ namespace RPG.Combat.Kata
                             if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
                             {
                                 _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);
-                            }    
+                            }
+                             else
+                            {
+                                break;
+                            }     
                         }  
                     }
                     break;
@@ -229,25 +197,6 @@ namespace RPG.Combat.Kata
 
         }
 
-        public void Heal(IHaveHealth target)
-        {
-            _damageController.ApplyDamage(target, CharacterConstants.HealAmount);
-        }
-        private bool IsValidHeal(Actions action, IHaveHealth target)
-        {
-            var result = false;
-
-            if(target != this)
-            {
-                result = IsSameFaction(target) && target.Health > CharacterConstants.MinHealth;
-            }
-            else
-            {
-               result = action == Actions.Heal && target == this && this.IsAlive;
-            }
-
-            return result;      
-        }
 
     }
 }

@@ -8,7 +8,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterCanNotAttackThemselves()
         {
-            var activeCharacter = new Character(world);
+            var activeCharacter = new MeleeCharacter(world);
 
             activeCharacter.TakeAction(Actions.Attack, activeCharacter);
 
@@ -18,8 +18,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharacterCanOnlyHealThemselvesFor100()
         {
-            var characterStartingWith500Health = new Character(world, health: 500);
-            var characterTwo = new Character(world);
+            var characterStartingWith500Health = new RangedCharacter(world, health: 500);
+            var characterTwo = new RangedCharacter(world);
 
             characterTwo.TakeAction(Actions.Heal, characterStartingWith500Health);
             characterStartingWith500Health.TakeAction(Actions.Heal, characterStartingWith500Health);
@@ -30,8 +30,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void AttackingACharacter5LevelsHigherDeals300DamageInsteadOf600()
         {
-            var levelOneCharacter = new Character(world);
-            var levelSixCharacter = new Character(world, health: 1000, level: 6);
+            var levelOneCharacter = new MeleeCharacter(world);
+            var levelSixCharacter = new RangedCharacter(world, health: 1000, level: 6);
 
             levelOneCharacter.TakeAction(Actions.Attack, levelSixCharacter);
 
@@ -41,8 +41,8 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void AttackingACharacter5LevelsBelowDeals900InsteadOf600()
         {
-            var levelOneCharacter = new Character(world, health: 1000);
-            var levelSixCharacter = new Character(world, level: 6);
+            var levelOneCharacter = new RangedCharacter(world, health: 1000);
+            var levelSixCharacter = new MeleeCharacter(world, level: 6);
 
             levelSixCharacter.TakeAction(Actions.Attack, levelOneCharacter);
 

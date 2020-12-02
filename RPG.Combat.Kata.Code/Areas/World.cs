@@ -80,8 +80,9 @@ namespace RPG.Combat.Kata
             switch (direction)
             {
                 case Direction.Right:
-                {
-                    previousSpot = xToMoveTo - 1;
+                {      
+                    previousSpot = Math.Clamp(xToMoveTo -1, EdgeMinimum, EdgeMaximum);
+
                     SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
                     ResetWorldSpace(previousSpot, yToMoveTo);
                     break;
@@ -97,7 +98,8 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Up:
                 {
-                    previousSpot = yToMoveTo - 1;
+                    previousSpot = Math.Clamp(yToMoveTo - 1, EdgeMinimum, EdgeMaximum);
+
                     SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
                     ResetWorldSpace(xToMoveTo, previousSpot);
                     break;
@@ -119,7 +121,7 @@ namespace RPG.Combat.Kata
         {
             List<IHaveHealth> potentialTargets = new List<IHaveHealth>();
             var currentCharacterPosition = GetLocationOf(character);
-            
+
             if(currentCharacterPosition.Item1 > EdgeMinimum)
             {
                 potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - 1, currentCharacterPosition.Item2 ));

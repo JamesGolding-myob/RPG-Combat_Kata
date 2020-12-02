@@ -148,6 +148,8 @@ public class ThirdIterationTests
 
         Assert.True(world.SpaceOccupiedBy(4,0) == runner);
         Assert.True(world.SpaceOccupiedBy(0,0) is EmptySpace);
+        
+      
     }
 
     [Fact]
@@ -163,6 +165,7 @@ public class ThirdIterationTests
 
         Assert.True(world.SpaceOccupiedBy(0, 3) == runner);
         Assert.True(world.SpaceOccupiedBy(0, 0) is EmptySpace);
+        Assert.True(world.SpaceOccupiedBy(0, 8) is EmptySpace);
     }
 
     [Theory]
@@ -174,7 +177,7 @@ public class ThirdIterationTests
     [InlineData(30, 5, Actions.MoveRight, 34, 5)]
     public void CharacterTryingToMovePastTheEdgeOfTheWorldIsStoppedAtTheEdge(int startingX, int startingY, Actions moveAction, int finalX, int finalY)
     {
-        var runner = new Character(world);
+        var runner = new RangedCharacter(world);
 
         world.SetWorldObjectPosition(startingX, startingY, runner);
         runner.TakeAction(moveAction);

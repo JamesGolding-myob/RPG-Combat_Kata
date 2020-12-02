@@ -24,7 +24,7 @@ namespace RPG.Combat.Kata
         public void CharacterGetsFormatedOntoMapAtBottomLeftCorner()
         {
             World mapWithCharacter = new World(3);
-            var character = new Character(mapWithCharacter);
+            var character = new MeleeCharacter(mapWithCharacter);
             mapWithCharacter.SetWorldObjectPosition(0, 0, character);
 
             string expectedFormat = CharacterAtOriginMap();
@@ -36,7 +36,7 @@ namespace RPG.Combat.Kata
         public void CharacterGetsFormatedOntoMapAtThirdColumnSecondRowOn3x3Map()
         {
              World mapWithCharacter = new World(3);
-            var character = new Character(mapWithCharacter);
+            var character = new RangedCharacter(mapWithCharacter);
             mapWithCharacter.SetWorldObjectPosition(2, 1, character);
 
             string expectedFormat = CharacterAtThirdColuumnSecondRowMap();

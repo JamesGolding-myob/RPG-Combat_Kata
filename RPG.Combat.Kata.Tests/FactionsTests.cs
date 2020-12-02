@@ -8,15 +8,17 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersAreInitiallyUnaligned()
         {
-            var character = new Character(world);
+            var meleeCharacter = new MeleeCharacter(world);
+            var RangedCharacter = new RangedCharacter(world);
 
-            Assert.Equal(Factions.Unaligned, character.Faction[0]);
+            Assert.Equal(Factions.Unaligned, meleeCharacter.Faction[0]);
+            Assert.Equal(Factions.Unaligned, RangedCharacter.Faction[0]);
         }
 
         [Fact]
         public void CharactersCanJoinFactions()
         {
-            var character = new Character(world);
+            var character = new MeleeCharacter(world);
 
             character.JoinFaction(Factions.Eagles);
 
@@ -27,7 +29,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanJoinMultipleFactions()
         {
-            var character = new Character(world);
+            var character = new RangedCharacter(world);
 
             character.JoinFaction(Factions.Eagles);
             character.JoinFaction(Factions.Paladins);   
@@ -38,7 +40,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void CharactersCanLeaveFactionsTheyPreviouslyJoined()
         {
-            var character = new Character(world);
+            var character = new MeleeCharacter(world);
 
             character.JoinFaction(Factions.Eagles);
             character.JoinFaction(Factions.Paladins);   
@@ -51,7 +53,7 @@ namespace RPG.Combat.Kata.Tests
         [Fact]
         public void IfCharactersLeaveTheirLastFactionTheyBecomeUnaligned()
         {
-            var character = new Character(world);
+            var character = new RangedCharacter(world);
 
             character.JoinFaction(Factions.Monsters);
             character.LeaveFaction(Factions.Monsters);
@@ -107,7 +109,7 @@ namespace RPG.Combat.Kata.Tests
             Assert.False(hurtIndividual.Health > initialHealth);
         }
 
-        public void CharacterJoinFactionHelper(Character char1, Character char2, Factions faction)
+        public void CharacterJoinFactionHelper(IFaction char1, IFaction char2, Factions faction)
         {
             char1.JoinFaction(faction);
             char2.JoinFaction(faction);

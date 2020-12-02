@@ -31,6 +31,7 @@ namespace RPG.Combat.Kata
             monster.TakeTurn();
 
             Assert.True(biggerMap.SpaceOccupiedBy(1, 3) == monster);
+            Assert.False(biggerMap.SpaceOccupiedBy(1, 2) == monster);
             
         }
 
@@ -46,7 +47,7 @@ namespace RPG.Combat.Kata
             monster.TakeTurn();
 
             Assert.True(biggerMap.SpaceOccupiedBy(2, 3) == monster);
-            
+            Assert.False(biggerMap.SpaceOccupiedBy(2, 4) == monster);
         }
 
         [Fact]
@@ -61,7 +62,23 @@ namespace RPG.Combat.Kata
             monster.TakeTurn();
 
             Assert.True(biggerMap.SpaceOccupiedBy(3, 4) == monster);
+            Assert.False(biggerMap.SpaceOccupiedBy(1, 4) == monster);
             
+        }
+
+        [Fact]
+        public void MonsterWillStopMovingWhenItRunsIntoACharacterWhenMovingLeft()
+        {
+            var biggerMap = new World(6);
+            var character = new MeleeCharacter(biggerMap);
+            var monster = new Monster(biggerMap);
+            biggerMap.SetWorldObjectPosition(0, 2, character);
+            biggerMap.SetWorldObjectPosition(3, 2, monster);
+
+            monster.TakeTurn();
+
+            Assert.True(biggerMap.SpaceOccupiedBy(1, 2) == monster);
+            Assert.False(biggerMap.SpaceOccupiedBy(3, 2) == monster);
         }
 
         

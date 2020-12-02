@@ -9,7 +9,7 @@ namespace RPG.Combat.Kata
             {
                 case IHaveHealthOptions.Melee:
                 {
-                    return new MeleeCharacter(world);   
+                    return new MeleeCharacter(world); 
                 }
                 case IHaveHealthOptions.Ranged:
                 {
@@ -17,7 +17,8 @@ namespace RPG.Combat.Kata
                 }
                 default:
                 {
-                    return new Character(world);
+                    
+                    return new Monster(world);  
                 }
                 
             }

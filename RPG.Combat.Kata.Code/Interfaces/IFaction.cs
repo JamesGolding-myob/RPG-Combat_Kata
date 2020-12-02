@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 namespace RPG.Combat.Kata
 {
-    interface IFaction
+    public interface IFaction
     {
        List<Factions> Faction { get; set; } 
        

@@ -25,12 +25,12 @@ namespace RPG.Combat.Kata
             
                 // if(inputConverter.IsValidCharacterChoice(input))
                 // {
-                //create Character
+                
             Character character = characterCreator.CreateCharacter(_converter.ConvertCharacterChoice(input), _gameWorld);     
-            //create map - obstacles and monster
+           
             var monster = new Monster(_gameWorld);
             _gameWorld.SetWorldObjectPosition(4, 4, monster);
-                //place character
+                
             _gameWorld.SetWorldObjectPosition(0, 0, character);
             PerformCombat(character, monster);
         }
@@ -42,7 +42,7 @@ namespace RPG.Combat.Kata
             {
                 UI.DisplayToUser(_displayFormater.FormatMap(_gameWorld));
                 UI.DisplayToUser("Choose an Action 1: Attack, 2: Heal, 3: Move Up, 4: Move Right, 5: Move Down, 6: Move Left");
-                
+
                 var potentialTargets = _gameWorld.GetPotentialTargetsForCharacter(character);
                 var chosenAction = _converter.ActionsConverter(UI.GetResponseFromUser());
 

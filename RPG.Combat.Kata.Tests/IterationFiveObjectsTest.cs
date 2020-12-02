@@ -10,7 +10,7 @@ namespace RPG.Combat.Kata.Tests
         public void CharactersCanAttackInanimateObjectsLikeTrees()
         {
             var tree = new Tree(health:2000);
-            var woodCutter = new Character(world);
+            var woodCutter = new MeleeCharacter(world);
 
             woodCutter.TakeAction(Actions.Attack, tree);
 
