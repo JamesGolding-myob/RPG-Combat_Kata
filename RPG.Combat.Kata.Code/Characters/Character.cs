@@ -111,10 +111,10 @@ namespace RPG.Combat.Kata
             Tuple<int, int> currentPosition = _world.GetLocationOf(this);
             int newYPosition;
             int newXPosition;
-            int nextPositionToMoveRight = currentPosition.Item1 +1;
-            int nextPositionToMoveLeft = currentPosition.Item1 -1;
-            int nextpositionToMoveAbove = currentPosition.Item2 +1;
-            int nextPositionToMoveBelow = currentPosition.Item2 -1;
+            int nextPositionToMoveRight = currentPosition.Item1 + 1;
+            int nextPositionToMoveLeft = currentPosition.Item1 - 1;
+            int nextpositionToMoveAbove = currentPosition.Item2 + 1;
+            int nextPositionToMoveBelow = currentPosition.Item2 - 1;
  
             switch (direction)
             {
@@ -124,9 +124,7 @@ namespace RPG.Combat.Kata
 
                     for(int i = nextPositionToMoveRight; i <= newXPosition; i++)
                     {
-                        if(i <= _world.EdgeMaximum)
-                        {
-                            if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                            if(isAvailable(Direction.Right, i))
                             {
                                 _world.MoveToNextFreeSpace(Direction.Right, i, currentPosition.Item2, this);   
                             }
@@ -134,7 +132,7 @@ namespace RPG.Combat.Kata
                             {
                                 break;
                             } 
-                        }
+                        
                     }
                     break;
                 }
@@ -144,9 +142,8 @@ namespace RPG.Combat.Kata
 
                     for(int i = nextPositionToMoveLeft; i >= newXPosition; i--)
                     {
-                        if(i >= _world.EdgeMinimum)
-                        {
-                            if(_world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                        
+                            if(isAvailable(Direction.Left, i))
                             {
                                 _world.MoveToNextFreeSpace(Direction.Left, i, currentPosition.Item2, this);
                             }
@@ -154,7 +151,7 @@ namespace RPG.Combat.Kata
                             {
                                 break;
                             }   
-                        }   
+                           
                     }
                     break;
                 }
@@ -163,16 +160,13 @@ namespace RPG.Combat.Kata
                     newYPosition = currentPosition.Item2 + Speed;
                     for(int i = nextpositionToMoveAbove; i <= newYPosition; i++)
                     {
-                        if(i <= _world.EdgeMaximum)
+                        if(isAvailable(Direction.Up, i))
+                        { 
+                            _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);     
+                        }
+                        else
                         {
-                            if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
-                            {
-                                _world.MoveToNextFreeSpace(Direction.Up, currentPosition.Item1, i, this);
-                            }
-                             else
-                            {
-                                break;
-                            }   
+                            break;
                         }   
                     }
                     break;
@@ -180,27 +174,64 @@ namespace RPG.Combat.Kata
                 case Direction.Down:
                 {
                     newYPosition = currentPosition.Item2 - Speed;
+                    
 
                     for(int i = nextPositionToMoveBelow ; i >= newYPosition; i--)
                     {
-                        if(i >= _world.EdgeMinimum)
+
+                        if(isAvailable(Direction.Down, i))
                         {
-                            if(_world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
-                            {
-                                _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);
-                            }
-                             else
-                            {
-                                break;
-                            }     
+                            _world.MoveToNextFreeSpace(Direction.Down, currentPosition.Item1, i, this);    
+                        }
+                        else
+                        {
+                            break;
                         }  
                     }
                     break;
                 }
+            
             }
 
         }
+    private bool isAvailable(Direction direction, int i)
+            {
+                Tuple<int, int> currentPosition = _world.GetLocationOf(this);
+                var isfree = false;
 
+               if(direction == Direction.Down)
+               {
+                    if(i >= _world.EdgeMinimum && _world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                    {
+                        isfree = true;
+                    }
+
+               }
+               else if(direction == Direction.Up)
+               {
+                   if(i <= _world.EdgeMaximum && _world.SpaceOccupiedBy(currentPosition.Item1, i) is EmptySpace)
+                    {
+                        isfree = true;
+                    }
+               }
+               else if(direction == Direction.Left)
+               {
+                   if(i >= _world.EdgeMinimum && _world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                   {
+                       isfree = true;
+                   }
+               }
+               else
+               {
+                   if(i <= _world.EdgeMaximum && _world.SpaceOccupiedBy(i, currentPosition.Item2) is EmptySpace)
+                   {
+                       isfree = true;
+                   }
+               }  
+               
+
+                return isfree;
+            }
 
     }
 }
