@@ -31,16 +31,22 @@ namespace RPG.Combat.Kata
 
         public IHaveHealth SpaceOccupiedBy(int v1, int v2)
         {
-           return map[v1,v2].OccupiedBy;
+            var xPosition = Math.Clamp(v1, EdgeMinimum, EdgeMaximum);
+            var yPosition = Math.Clamp(v2, EdgeMinimum, EdgeMaximum);
+
+           return map[xPosition, yPosition].OccupiedBy;
         }
 
 
-        public void SetWorldObjectPosition(int xCoordinate, int yCooordinate, IHaveHealth gameObject)
+        public void SetWorldObjectPosition(int xCoordinate, int yCoordinate, IHaveHealth gameObject)
         {
-            map[xCoordinate, yCooordinate].OccupiedBy = gameObject;
+            xCoordinate = Math.Clamp(xCoordinate, EdgeMinimum, EdgeMaximum);
+            yCoordinate = Math.Clamp(yCoordinate, EdgeMinimum, EdgeMaximum);
+            
+            map[xCoordinate, yCoordinate].OccupiedBy = gameObject;
         }
         
-        private void ResetWorldSpace(int xCoordinate, int yCooordinate)
+        public void ResetWorldSpace(int xCoordinate, int yCooordinate)
         {
             map[xCoordinate, yCooordinate].OccupiedBy = new EmptySpace();
         }
@@ -74,48 +80,6 @@ namespace RPG.Combat.Kata
             return result; 
         }
 
-        public void MoveToNextFreeSpace(Direction direction, int xToMoveTo, int yToMoveTo, IHaveHealth person)
-        {
-            int previousSpot;
-            switch (direction)
-            {
-                case Direction.Right:
-                {      
-                    previousSpot = Math.Clamp(xToMoveTo -1, EdgeMinimum, EdgeMaximum);
-
-                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
-                    ResetWorldSpace(previousSpot, yToMoveTo);
-                    break;
-                }
-                case Direction.Left:
-                {
-                    previousSpot = Math.Clamp(xToMoveTo + 1, EdgeMinimum, EdgeMaximum);
-                   
-                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
-                    ResetWorldSpace(previousSpot, yToMoveTo);
-                     
-                    break;
-                }
-                case Direction.Up:
-                {
-                    previousSpot = Math.Clamp(yToMoveTo - 1, EdgeMinimum, EdgeMaximum);
-
-                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
-                    ResetWorldSpace(xToMoveTo, previousSpot);
-                    break;
-                }
-                case Direction.Down:
-                {
-                    previousSpot = Math.Clamp(yToMoveTo + 1, EdgeMinimum, EdgeMaximum);
-                
-                    SetWorldObjectPosition(xToMoveTo, yToMoveTo, person);
-                    ResetWorldSpace(xToMoveTo, previousSpot);
-                    break;
-                }
-    
-            }
-            
-        }
 
         public List<IHaveHealth> GetPotentialTargetsForCharacter(Character character)
         {
@@ -172,5 +136,42 @@ namespace RPG.Combat.Kata
 
             return (xCoordinate, yCooordinate);
         }
+
+        public bool IsValidMove(Direction direction, int counter, Tuple<int, int> position, int characterSpeed)
+            {
+                var currentPosition = position;
+                var canMoveToSpot = false;
+
+               if(direction == Direction.Down)
+               {
+                    if(currentPosition.Item2 - counter > EdgeMinimum && SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) is EmptySpace && counter < characterSpeed)
+                    {
+                        canMoveToSpot = true;
+                    }
+
+               }
+               else if(direction == Direction.Up)
+               {
+                   if(currentPosition.Item2 + counter < EdgeMaximum && SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) is EmptySpace && counter < characterSpeed)
+                    {
+                        canMoveToSpot = true;
+                    }
+               }
+               else if(direction == Direction.Left)
+               {
+                   if(currentPosition.Item1 - counter > EdgeMinimum && SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) is EmptySpace && counter < characterSpeed)
+                   {
+                       canMoveToSpot = true;
+                   }
+               }
+               else
+               {
+                   if(currentPosition.Item1 + counter < EdgeMaximum && SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace && counter < characterSpeed)
+                   {
+                       canMoveToSpot = true;
+                   }
+               }  
+                return canMoveToSpot;
+            }
     }
 }
