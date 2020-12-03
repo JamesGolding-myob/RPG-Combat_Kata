@@ -122,60 +122,48 @@ namespace RPG.Combat.Kata
                 {
                     if(_world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) == this)
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1 + counter, currentPosition.Item2, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, counter, 0);
                     }
                     else
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1 + counter -1, currentPosition.Item2, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, counter -1, 0);
                     }
-                    
                     break;
                 }
                 case Direction.Left:
                 {
                    if(_world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) == this)
                    {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1 - counter, currentPosition.Item2, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, -counter , 0);
                    }
                    else
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1 - counter +1, currentPosition.Item2, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, -counter +1 , 0);
                     }
-                    
                     break;
                 }
                 case Direction.Up:
                 {
                     if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) == this)
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1, currentPosition.Item2 + counter, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, counter);
                     }
                     else
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1, currentPosition.Item2 + counter -1, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, counter -1);
                     }
-                    
                     break;
                 }
                 case Direction.Down:
                 {
                     if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) == this)
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1, currentPosition.Item2 - counter, this);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, -counter);
                     }
                     else
                     {
-                        _world.ResetWorldSpace(currentPosition.Item1, currentPosition.Item2);
-                        _world.SetWorldObjectPosition(currentPosition.Item1, currentPosition.Item2 - counter +1, this);
-                    }
-                    
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, -counter +1);
+                    }  
                     break;
                 } 
             }    

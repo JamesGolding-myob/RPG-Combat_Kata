@@ -173,5 +173,13 @@ namespace RPG.Combat.Kata
                }  
                 return canMoveToSpot;
             }
+
+            public void UpdateCharacterPositionInWorld(IHaveHealth mover, int startingXCoordinate, int startingYCoordinate, int positionXAdjustment, int positionYAdjustment)
+            {
+     
+                ResetWorldSpace(startingXCoordinate, startingYCoordinate);
+                SetWorldObjectPosition(startingXCoordinate + positionXAdjustment, startingYCoordinate + positionYAdjustment, mover);
+                    
+            }
     }
 }
