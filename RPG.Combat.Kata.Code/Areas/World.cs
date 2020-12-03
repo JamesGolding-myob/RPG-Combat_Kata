@@ -37,7 +37,6 @@ namespace RPG.Combat.Kata
            return map[xPosition, yPosition].OccupiedBy;
         }
 
-
         public void SetWorldObjectPosition(int xCoordinate, int yCoordinate, IHaveHealth gameObject)
         {
             xCoordinate = Math.Clamp(xCoordinate, EdgeMinimum, EdgeMaximum);
@@ -110,7 +109,6 @@ namespace RPG.Combat.Kata
                     potentialTargets.Add(new EmptySpace());
                 }
             }
-
             return potentialTargets;
 
         }
@@ -133,7 +131,6 @@ namespace RPG.Combat.Kata
                     }
                 }
             }
-
             return (xCoordinate, yCooordinate);
         }
 
@@ -148,7 +145,6 @@ namespace RPG.Combat.Kata
                     {
                         canMoveToSpot = true;
                     }
-
                }
                else if(direction == Direction.Up)
                {
@@ -174,11 +170,10 @@ namespace RPG.Combat.Kata
                 return canMoveToSpot;
             }
 
-            public void UpdateCharacterPositionInWorld(IHaveHealth mover, int startingXCoordinate, int startingYCoordinate, int positionXAdjustment, int positionYAdjustment)
+            public void UpdateCharacterPositionInWorld(IHaveHealth mover, Tuple<int, int> startingPosition, int positionXAdjustment, int positionYAdjustment)
             {
-     
-                ResetWorldSpace(startingXCoordinate, startingYCoordinate);
-                SetWorldObjectPosition(startingXCoordinate + positionXAdjustment, startingYCoordinate + positionYAdjustment, mover);
+                ResetWorldSpace(startingPosition.Item1, startingPosition.Item2);
+                SetWorldObjectPosition(startingPosition.Item1 + positionXAdjustment, startingPosition.Item2 + positionYAdjustment, mover);
                     
             }
     }

@@ -8,8 +8,7 @@ namespace RPG.Combat.Kata
 
         public Space(IHaveHealth thing)
         {
-            OccupiedBy = thing;
-            
+            OccupiedBy = thing;    
         }
 
     }

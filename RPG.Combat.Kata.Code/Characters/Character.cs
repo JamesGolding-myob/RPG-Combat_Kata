@@ -120,13 +120,13 @@ namespace RPG.Combat.Kata
             {
                 case Direction.Right:
                 {
-                    if(_world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) == this)
+                    if(_world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) == this)//TODO:Make this ccheck small by creating methods
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, counter, 0);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, counter, 0);
                     }
                     else
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, counter -1, 0);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, counter -1, 0);
                     }
                     break;
                 }
@@ -134,11 +134,11 @@ namespace RPG.Combat.Kata
                 {
                    if(_world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) == this)
                    {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, -counter , 0);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, -counter , 0);
                    }
                    else
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, -counter +1 , 0);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, -counter +1 , 0);
                     }
                     break;
                 }
@@ -146,11 +146,11 @@ namespace RPG.Combat.Kata
                 {
                     if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) == this)
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, counter);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, counter);
                     }
                     else
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, counter -1);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, counter -1);
                     }
                     break;
                 }
@@ -158,11 +158,11 @@ namespace RPG.Combat.Kata
                 {
                     if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) == this)
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, -counter);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, -counter);
                     }
                     else
                     {
-                        _world.UpdateCharacterPositionInWorld(this, currentPosition.Item1, currentPosition.Item2, 0, -counter +1);
+                        _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, -counter +1);
                     }  
                     break;
                 } 
