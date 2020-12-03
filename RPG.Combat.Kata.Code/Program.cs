@@ -7,7 +7,7 @@ namespace RPG.Combat.Kata
         static void Main(string[] args)
         {
             World world = new World(5);
-            Game game = new Game(new UIConsole(), world, new CharacterCreator(), new InputConverter(), new DisplayFormater());
+            Game game = new Game(new UIConsole(), world, new CharacterCreator(), new InputConverter(), new DisplayFormater(), new InputValidator());
             game.Run();
 
         }

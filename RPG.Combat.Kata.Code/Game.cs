@@ -6,32 +6,32 @@ namespace RPG.Combat.Kata
         private World _gameWorld;
         public IUI UI{get; private set;}
         private CharacterCreator characterCreator;
-        private InputConverter _converter;
+        private InputConverter _inputConverter;
         private DisplayFormater _displayFormater;
-        public Game(IUI ui, World world, CharacterCreator creator, InputConverter inputConverter, DisplayFormater displayFormater)
+        private InputValidator _inputValidator;
+        public Game(IUI ui, World world, CharacterCreator creator, InputConverter inputConverter, DisplayFormater displayFormater, InputValidator inputValidator)
         {
             UI = ui;
             _gameWorld = world;
             characterCreator = creator;
-            _converter = inputConverter;
+            _inputConverter = inputConverter;
             _displayFormater = displayFormater;
+            _inputValidator = inputValidator;
         }
 
         public void Run()
         {
-            UI.DisplayToUser("Welcome To RPG Adventure: What kind of Character would you like to be?\n" + "1: Melee\n" + "2: Ranged");
-                    //pick character type
-            string input = UI.GetResponseFromUser();
+            UI.DisplayToUser(DisplayConstants.characterSelectionQuestion);
+            string input;
+            do
+            {
+                input = UI.GetResponseFromUser();
+            } while (!_inputValidator.IsValidCharacterChoice(input));        
+                
+            Character character = characterCreator.CreateCharacter(_inputConverter.ConvertCharacterChoice(input), _gameWorld);     
             
-                // if(inputConverter.IsValidCharacterChoice(input))
-                // {
-                
-            Character character = characterCreator.CreateCharacter(_converter.ConvertCharacterChoice(input), _gameWorld);     
-           
             Monster monster = new Monster(_gameWorld);
-            _gameWorld.SetWorldObjectPosition(4, 4, monster);
-                
-            _gameWorld.SetWorldObjectPosition(0, 0, character);
+            SetGameObjectsInWorld(character, monster);
             PerformCombat(character, monster);
         }
 
@@ -44,13 +44,13 @@ namespace RPG.Combat.Kata
                 UI.DisplayToUser("Choose an Action 1: Attack, 2: Heal, 3: Move Up, 4: Move Right, 5: Move Down, 6: Move Left");
 
                 var potentialTargets = _gameWorld.GetPotentialTargetsForCharacter(character);
-                var chosenAction = _converter.ActionsConverter(UI.GetResponseFromUser());
+                var chosenAction = _inputConverter.ActionsConverter(UI.GetResponseFromUser());
 
                 if(chosenAction == Actions.Attack  || chosenAction == Actions.Heal)
                 {
                     UI.DisplayToUser($"Choose a Target: 1:\n{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
                      
-                    character.TakeAction(chosenAction, _converter.ConvertTarget(UI.GetResponseFromUser(), potentialTargets));
+                    character.TakeAction(chosenAction, _inputConverter.ConvertTarget(UI.GetResponseFromUser(), potentialTargets));
                 }
                 else
                 {
@@ -71,6 +71,14 @@ namespace RPG.Combat.Kata
 
             }while(character.IsAlive || monster.IsAlive);
               
+        }
+
+        private void SetGameObjectsInWorld(Character chosenCharacter, Monster monster)
+        {
+            
+            _gameWorld.SetWorldObjectPosition(4, 4, monster);
+                
+            _gameWorld.SetWorldObjectPosition(0, 0, chosenCharacter);
         }
     }
 }

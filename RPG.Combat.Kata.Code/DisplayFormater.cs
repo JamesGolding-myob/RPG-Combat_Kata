@@ -6,6 +6,7 @@ namespace RPG.Combat.Kata
 {
     public class DisplayFormater
     {
+        
         public string FormatMap(World worldMap)
         {
             

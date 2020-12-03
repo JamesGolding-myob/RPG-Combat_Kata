@@ -24,15 +24,7 @@ namespace RPG.Combat.Kata
             return characterChoice;
         }
 
-        public bool IsValidCharacterChoice(string input)
-        {
-            bool result = false;
-            if(input == "1" || input == "2")
-            {
-                result = true;
-            }
-            return result;
-        }
+        
 
         public Actions ActionsConverter(string input)
         {

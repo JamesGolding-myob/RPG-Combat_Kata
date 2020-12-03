@@ -120,7 +120,7 @@ namespace RPG.Combat.Kata
             {
                 case Direction.Right:
                 {
-                    if(_world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) == this)//TODO:Make this ccheck small by creating methods
+                    if(_world.NextPositionIsAvailable(this, currentPosition.Item1 + counter, currentPosition.Item2))
                     {
                         _world.UpdateCharacterPositionInWorld(this, currentPosition, counter, 0);
                     }
@@ -132,7 +132,7 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Left:
                 {
-                   if(_world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) == this)
+                   if(_world.NextPositionIsAvailable(this, currentPosition.Item1 - counter, currentPosition.Item2))
                    {
                         _world.UpdateCharacterPositionInWorld(this, currentPosition, -counter , 0);
                    }
@@ -144,7 +144,7 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Up:
                 {
-                    if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) == this)
+                    if(_world.NextPositionIsAvailable(this, currentPosition.Item1, currentPosition.Item2 + counter))
                     {
                         _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, counter);
                     }
@@ -156,7 +156,7 @@ namespace RPG.Combat.Kata
                 }
                 case Direction.Down:
                 {
-                    if(_world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) is EmptySpace || _world.SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) == this)
+                    if(_world.NextPositionIsAvailable(this, currentPosition.Item1, currentPosition.Item2 - counter))
                     {
                         _world.UpdateCharacterPositionInWorld(this, currentPosition, 0, -counter);
                     }

@@ -35,7 +35,7 @@ namespace RPG.Combat.Kata
         {
             var ui = new SimpleUI();
             
-            Game game = new Game(ui, world, characterCreator, inputConverter, new DisplayFormater());
+            Game game = new Game(ui, world, characterCreator, inputConverter, new DisplayFormater(), new InputValidator());
             var expectedFinalMessage = "Congratulations you have killed the monster";
 
             game.Run();

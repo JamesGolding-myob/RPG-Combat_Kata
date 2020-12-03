@@ -29,18 +29,22 @@ namespace RPG.Combat.Kata
             return Math.Abs( actioningCharacterX - targetCharacterX );
         }
 
-        public IHaveHealth SpaceOccupiedBy(int v1, int v2)
+        public IHaveHealth SpaceOccupiedBy(int potentialXCoordinate, int potentialYCoordinate)
         {
-            var xPosition = Math.Clamp(v1, EdgeMinimum, EdgeMaximum);
-            var yPosition = Math.Clamp(v2, EdgeMinimum, EdgeMaximum);
+            var xPosition = MakeCoordinateInsideWorld(potentialXCoordinate);
+            var yPosition = MakeCoordinateInsideWorld(potentialYCoordinate);
 
            return map[xPosition, yPosition].OccupiedBy;
+        }
+        private int MakeCoordinateInsideWorld(int point)
+        {
+            return Math.Clamp(point, EdgeMinimum, EdgeMaximum);
         }
 
         public void SetWorldObjectPosition(int xCoordinate, int yCoordinate, IHaveHealth gameObject)
         {
-            xCoordinate = Math.Clamp(xCoordinate, EdgeMinimum, EdgeMaximum);
-            yCoordinate = Math.Clamp(yCoordinate, EdgeMinimum, EdgeMaximum);
+            xCoordinate = MakeCoordinateInsideWorld(xCoordinate);
+            yCoordinate = MakeCoordinateInsideWorld(yCoordinate);
             
             map[xCoordinate, yCoordinate].OccupiedBy = gameObject;
         }
@@ -78,7 +82,6 @@ namespace RPG.Combat.Kata
             }
             return result; 
         }
-
 
         public List<IHaveHealth> GetPotentialTargetsForCharacter(Character character)
         {
@@ -141,33 +144,43 @@ namespace RPG.Combat.Kata
 
                if(direction == Direction.Down)
                {
-                    if(currentPosition.Item2 - counter > EdgeMinimum && SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 - counter) is EmptySpace && counter < characterSpeed)
+                    if(currentPosition.Item2 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 - counter) && counter < characterSpeed)
                     {
                         canMoveToSpot = true;
                     }
                }
                else if(direction == Direction.Up)
                {
-                   if(currentPosition.Item2 + counter < EdgeMaximum && SpaceOccupiedBy(currentPosition.Item1, currentPosition.Item2 + counter) is EmptySpace && counter < characterSpeed)
+                   if(currentPosition.Item2 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 + counter)  && counter < characterSpeed)
                     {
                         canMoveToSpot = true;
                     }
                }
                else if(direction == Direction.Left)
                {
-                   if(currentPosition.Item1 - counter > EdgeMinimum && SpaceOccupiedBy(currentPosition.Item1 - counter, currentPosition.Item2) is EmptySpace && counter < characterSpeed)
+                   if(currentPosition.Item1 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1 - counter, currentPosition.Item2) && counter < characterSpeed)
                    {
                        canMoveToSpot = true;
                    }
                }
                else
                {
-                   if(currentPosition.Item1 + counter < EdgeMaximum && SpaceOccupiedBy(currentPosition.Item1 + counter, currentPosition.Item2) is EmptySpace && counter < characterSpeed)
+                   if(currentPosition.Item1 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1 + counter, currentPosition.Item2) && counter < characterSpeed)
                    {
                        canMoveToSpot = true;
                    }
                }  
                 return canMoveToSpot;
+            }
+
+            public bool NextPositionIsAvailable(IMove characterTryingToMove, int xPosition, int yPosition)
+            {
+                return SpaceIsEmptySpace(xPosition, yPosition)|| SpaceOccupiedBy(xPosition, yPosition) == characterTryingToMove; 
+            }
+
+            private bool SpaceIsEmptySpace(int xPosition, int yPosition)
+            {
+                return SpaceOccupiedBy(xPosition, yPosition) is EmptySpace;
             }
 
             public void UpdateCharacterPositionInWorld(IHaveHealth mover, Tuple<int, int> startingPosition, int positionXAdjustment, int positionYAdjustment)
