@@ -56,9 +56,14 @@ namespace RPG.Combat.Kata
                 if(chosenAction == Actions.Attack  || chosenAction == Actions.Heal)
                 {
                     var potentialTargets = _gameWorld.GetPotentialTargetsForCharacter(character);
-                     
-                    UI.DisplayToUser($"Choose a Target: 1:\n{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
-                    character.TakeAction(chosenAction, _inputConverter.ConvertTarget(actionChoice, potentialTargets));
+                    string chosenTarget;
+                    do
+                    {
+                        UI.DisplayToUser($"Choose a Target: 1:\n{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
+                        chosenTarget = UI.GetResponseFromUser();
+                    } while (_inputValidator.TargetChoiceIsInvalid(chosenTarget));
+
+                    character.TakeAction(chosenAction, _inputConverter.ConvertTarget(chosenTarget, potentialTargets));
                 }
                 else
                 {
@@ -68,6 +73,7 @@ namespace RPG.Combat.Kata
                 UI.DisplayToUser(_displayFormater.ActionFeedback(chosenAction));
                     
                 UI.DisplayToUser(_displayFormater.FormatMap(_gameWorld));
+                
                 if(!monster.IsAlive)
                 {
                     UI.DisplayToUser(DisplayConstants.killedMonster);
