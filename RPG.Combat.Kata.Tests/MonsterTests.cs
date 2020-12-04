@@ -81,6 +81,19 @@ namespace RPG.Combat.Kata
             Assert.False(biggerMap.SpaceOccupiedBy(3, 2) == monster);
         }
 
+        [Fact]
+        public void MonsterCanAttackACharacterFor100WhenItIsInRange()
+        {
+            var target = new MeleeCharacter(map, health: 1000);
+            var monster = new Monster(map);
+
+            map.SetWorldObjectPosition(0, 0, target);
+            map.SetWorldObjectPosition(1, 0, monster);
+            
+            monster.TakeTurn();
+            Assert.Equal(900, target.Health);
+        }
+
         
     }
 }

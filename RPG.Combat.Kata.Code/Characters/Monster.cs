@@ -15,8 +15,18 @@ namespace RPG.Combat.Kata
         
 
         public void TakeTurn()
-        {    
-            Move(FindDirectionCharacterIsIn());   
+        {   
+            (int, int) characterLocation = _worldMap.GetCharacterPosition();
+            var currentLocation = _worldMap.GetLocationOf(this); 
+
+            if(MonsterNextToCharacter(currentLocation, characterLocation))
+            {
+                Attack(_worldMap.SpaceOccupiedBy(characterLocation.Item1, characterLocation.Item2));
+            }
+            else
+            {
+                Move(FindDirectionCharacterIsIn());   
+            }
         }
 
         private Direction FindDirectionCharacterIsIn()
@@ -58,6 +68,11 @@ namespace RPG.Combat.Kata
         public override void ChangeHealth(int amount)
         {
             base.Health = Math.Clamp(Health + amount, CharacterConstants.MinHealth, 800);
+        }
+
+        private bool MonsterNextToCharacter(Tuple<int, int> currentLocation, (int,int) targetLocation)
+        {
+            return targetLocation.Item1 == currentLocation.Item1 + AttackRange || targetLocation.Item1 == currentLocation.Item1 - AttackRange || targetLocation.Item2 == currentLocation.Item2 + AttackRange || targetLocation.Item2 == currentLocation.Item2 - AttackRange;
         }
 
         
