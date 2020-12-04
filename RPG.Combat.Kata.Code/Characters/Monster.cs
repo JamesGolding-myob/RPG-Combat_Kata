@@ -16,24 +16,22 @@ namespace RPG.Combat.Kata
 
         public void TakeTurn()
         {   
-            (int, int) characterLocation = _worldMap.GetCharacterPosition();
-            var currentLocation = _worldMap.GetLocationOf(this); 
+            (int, int) characterPosition = _worldMap.GetCharacterPosition();
+            var currentPosition = _worldMap.GetLocationOf(this); 
 
-            if(MonsterNextToCharacter(currentLocation, characterLocation))
+            if(MonsterNextToCharacter(currentPosition, characterPosition))
             {
-                Attack(_worldMap.SpaceOccupiedBy(characterLocation.Item1, characterLocation.Item2));
+                Attack(_worldMap.SpaceOccupiedBy(characterPosition.Item1, characterPosition.Item2));
             }
             else
             {
-                Move(FindDirectionCharacterIsIn());   
+                Move(FindDirectionCharacterIsIn(currentPosition, characterPosition));   
             }
         }
 
-        private Direction FindDirectionCharacterIsIn()
+        private Direction FindDirectionCharacterIsIn(Tuple<int, int> monsterCurrentPosition, (int, int) characterCurrentPosition)
         {
-            Tuple<int, int> monsterCurrentPosition = _worldMap.GetLocationOf(this);
-            
-            (int, int)characterCurrentPosition = _worldMap.GetCharacterPosition();
+
             Direction directionToMove; 
 
             var spaceTotheRightOfCharacter = characterCurrentPosition.Item1 + 1;
@@ -72,7 +70,7 @@ namespace RPG.Combat.Kata
 
         private bool MonsterNextToCharacter(Tuple<int, int> currentLocation, (int,int) targetLocation)
         {
-            return targetLocation.Item1 == currentLocation.Item1 + AttackRange || targetLocation.Item1 == currentLocation.Item1 - AttackRange || targetLocation.Item2 == currentLocation.Item2 + AttackRange || targetLocation.Item2 == currentLocation.Item2 - AttackRange;
+            return (currentLocation.Item1 + AttackRange == targetLocation.Item1  && targetLocation.Item2 == currentLocation.Item2) || (currentLocation.Item1 - AttackRange == targetLocation.Item1 && targetLocation.Item2 == currentLocation.Item2) || (targetLocation.Item2 == currentLocation.Item2 + AttackRange && targetLocation.Item1 == currentLocation.Item1) || (targetLocation.Item2 == currentLocation.Item2 - AttackRange && targetLocation.Item1 == currentLocation.Item1);
         }
 
         

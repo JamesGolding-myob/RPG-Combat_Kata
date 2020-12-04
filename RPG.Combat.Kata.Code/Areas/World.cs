@@ -88,21 +88,24 @@ namespace RPG.Combat.Kata
             List<IHaveHealth> potentialTargets = new List<IHaveHealth>();
             var currentCharacterPosition = GetLocationOf(character);
 
-            if(currentCharacterPosition.Item1 > EdgeMinimum)
-            {
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - 1, currentCharacterPosition.Item2 ));
-            }
-            if(currentCharacterPosition.Item1 < EdgeMaximum)
-            {
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + 1, currentCharacterPosition.Item2 ));
-            }
             if(currentCharacterPosition.Item2 < EdgeMaximum)
             {
                 potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + 1));
             }
+
+            if(currentCharacterPosition.Item1 < EdgeMaximum)
+            {
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + 1, currentCharacterPosition.Item2 ));
+            }     
+            
             if(currentCharacterPosition.Item2 > EdgeMinimum)
             { 
                 potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - 1));
+            }
+            
+            if(currentCharacterPosition.Item1 > EdgeMinimum)
+            {
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - 1, currentCharacterPosition.Item2 ));
             }
 
             if(potentialTargets.Count < 4)

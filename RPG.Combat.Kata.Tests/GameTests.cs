@@ -31,9 +31,9 @@ namespace RPG.Combat.Kata
         }
 
         [Fact]
-        public void EndToEnd()
+        public void EndToEndCharacterKillsMonster()
         {
-            var ui = new SimpleUI();
+            var ui = new WinningUI();
             
             Game game = new Game(ui, world, characterCreator, inputConverter, new DisplayFormater(), new InputValidator());
             var expectedFinalMessage = "Congratulations you have killed the monster";
@@ -43,10 +43,23 @@ namespace RPG.Combat.Kata
             Assert.Equal(expectedFinalMessage, ui.FinalMessage);
         }
 
-        public class SimpleUI : IUI
+        [Fact]
+        public void EndToEndMonsterKillsCharacter()
+        {
+            var ui = new LosingUI();
+            
+            Game game = new Game(ui, world, characterCreator, inputConverter, new DisplayFormater(), new InputValidator());
+            var expectedFinalMessage = "The Monster Has Killed You";
+
+            game.Run();
+               
+            Assert.Equal(expectedFinalMessage, ui.FinalMessage);
+        }
+
+        public class WinningUI : IUI
         {
             Queue<string> queue = new Queue<string>();
-            public SimpleUI()
+          public WinningUI()
             {
                 queue.Enqueue("1");
                 queue.Enqueue("3");
@@ -56,6 +69,38 @@ namespace RPG.Combat.Kata
                 queue.Enqueue("1");
                 queue.Enqueue("1");
                 queue.Enqueue("1");
+            }
+            public string FinalMessage{get; set;}
+            public void DisplayToUser(string output)
+            {
+                FinalMessage = output;
+            }
+
+            public string GetResponseFromUser()
+            {
+                return queue.Dequeue();
+            }
+        }  
+
+        public class LosingUI : IUI
+        {
+            Queue<string> queue = new Queue<string>();
+          public LosingUI()
+            {
+                queue.Enqueue("1");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
+                queue.Enqueue("3");
             }
             public string FinalMessage{get; set;}
             public void DisplayToUser(string output)

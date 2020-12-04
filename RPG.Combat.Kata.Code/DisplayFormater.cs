@@ -23,7 +23,14 @@ namespace RPG.Combat.Kata
 
                     }else if(worldMap.map[column, row].OccupiedBy is Monster)
                     {
-                        tempString.Append("👾");
+                        if(worldMap.SpaceOccupiedBy(column, row).Health > 0)
+                        {
+                            tempString.Append("👾");
+                        }
+                        else
+                        {
+                            tempString.Append("💀");
+                        }
                     } 
                     else
                     {

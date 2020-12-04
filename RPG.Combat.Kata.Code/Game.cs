@@ -73,16 +73,26 @@ namespace RPG.Combat.Kata
                 UI.DisplayToUser(_displayFormater.ActionFeedback(chosenAction));
                     
                 UI.DisplayToUser(_displayFormater.FormatMap(_gameWorld));
-                
+
                 if(!monster.IsAlive)
                 {
-                    UI.DisplayToUser(DisplayConstants.killedMonster);
                     break;
                 }
+
                 monster.TakeTurn();
                 UI.DisplayToUser(DisplayConstants.monsterMoved);
 
-            }while(character.IsAlive || monster.IsAlive);
+
+            }while(character.IsAlive && monster.IsAlive);
+            
+            if(!character.IsAlive)
+            {
+                UI.DisplayToUser(DisplayConstants.characterDeath); 
+            }
+            else if(!monster.IsAlive)
+            {
+                UI.DisplayToUser(DisplayConstants.killedMonster);
+            }
               
         }
 

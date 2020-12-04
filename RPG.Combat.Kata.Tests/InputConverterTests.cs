@@ -17,6 +17,18 @@ namespace RPG.Combat.Kata
            Assert.Equal(IHaveHealthOptions.Ranged, inputConverter.ConvertCharacterChoice("2")); 
         }
 
+        [Theory]
+        [InlineData("1", Actions.Attack)]
+        [InlineData("2", Actions.Heal)]
+        [InlineData("3", Actions.MoveUp)]
+        [InlineData("4", Actions.MoveRight)]
+        [InlineData("5", Actions.MoveDown)]
+        [InlineData("6", Actions.MoveLeft)]
+        public void StringInputsGetConvertedToCorrectAction(string input, Actions expectedAction)
+        {
+            Assert.Equal(expectedAction, inputConverter.ActionsConverter(input));
+        }
+
         
     }
 }
