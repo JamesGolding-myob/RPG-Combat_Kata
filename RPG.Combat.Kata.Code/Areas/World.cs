@@ -87,36 +87,84 @@ namespace RPG.Combat.Kata
         {
             List<IHaveHealth> potentialTargets = new List<IHaveHealth>();
             var currentCharacterPosition = GetLocationOf(character);
+            int counter = 1;
 
-            if(currentCharacterPosition.Item2 < EdgeMaximum)
+            if(YPositionNotOnTheTopEdgeOfTheMap(currentCharacterPosition.Item2))
             {
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + 1));
+                while(IsValidMove(Direction.Up, counter,currentCharacterPosition, character.AttackRange))
+                {
+                    counter++;
+                }
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + counter));
+            }
+            else
+            {
+                potentialTargets.Add(new EmptySpace());
             }
 
-            if(currentCharacterPosition.Item1 < EdgeMaximum)
+            if(XPositionInsideRightEdgeOfTheMap(currentCharacterPosition.Item1))
             {
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + 1, currentCharacterPosition.Item2 ));
+                while(IsValidMove(Direction.Right, counter,currentCharacterPosition, character.AttackRange))
+                {
+                    counter++;
+                }
+
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + counter, currentCharacterPosition.Item2 ));
+            }
+            else
+            {
+                potentialTargets.Add(new EmptySpace());
             }     
             
-            if(currentCharacterPosition.Item2 > EdgeMinimum)
+            if(YPositionInsideBottomEdgeOfTheMap(currentCharacterPosition.Item2))
             { 
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - 1));
-            }
-            
-            if(currentCharacterPosition.Item1 > EdgeMinimum)
-            {
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - 1, currentCharacterPosition.Item2 ));
-            }
-
-            if(potentialTargets.Count < 4)
-            {
-                while(potentialTargets.Count < 4)
+                while(IsValidMove(Direction.Down, counter,currentCharacterPosition, character.AttackRange))
                 {
-                    potentialTargets.Add(new EmptySpace());
+                    counter++;
                 }
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - counter));
             }
+            else
+            {
+                potentialTargets.Add(new EmptySpace());
+            } 
+
+            if(XPositionInsideLeftEdgeOfTheMap(currentCharacterPosition.Item1))
+            {
+                while(IsValidMove(Direction.Down, counter,currentCharacterPosition, character.AttackRange))
+                {
+                    counter++;
+                }
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - counter, currentCharacterPosition.Item2 ));
+            }
+            else
+            {
+                potentialTargets.Add(new EmptySpace());
+            } 
+
+           
             return potentialTargets;
 
+        }
+
+        private bool YPositionNotOnTheTopEdgeOfTheMap(int currentYPos)
+        {
+            return currentYPos < EdgeMaximum;
+        }
+
+        private bool XPositionInsideRightEdgeOfTheMap(int currentXPos)
+        {
+            return currentXPos < EdgeMaximum;
+        }
+
+        private bool YPositionInsideBottomEdgeOfTheMap(int currentYPos)
+        {
+            return currentYPos > EdgeMinimum;
+        }
+
+        private bool XPositionInsideLeftEdgeOfTheMap(int currentXPos)
+        {
+            return currentXPos > EdgeMinimum;
         }
 
         public (int, int) GetCharacterPosition()
@@ -140,45 +188,45 @@ namespace RPG.Combat.Kata
             return (xCoordinate, yCooordinate);
         }
 
-        public bool IsValidMove(Direction direction, int counter, Tuple<int, int> position, int characterSpeed)
+        public bool IsValidMove(Direction direction, int counter, Tuple<int, int> currentPosition, int maxDistance)
             {
-                var currentPosition = position;
-                var canMoveToSpot = false;
+                
+                var isValid = false;
 
                if(direction == Direction.Down)
                {
-                    if(currentPosition.Item2 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 - counter) && counter < characterSpeed)
+                    if(currentPosition.Item2 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 - counter) && counter < maxDistance)
                     {
-                        canMoveToSpot = true;
+                        isValid = true;
                     }
                }
                else if(direction == Direction.Up)
                {
-                   if(currentPosition.Item2 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 + counter)  && counter < characterSpeed)
+                   if(currentPosition.Item2 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1, currentPosition.Item2 + counter)  && counter < maxDistance)
                     {
-                        canMoveToSpot = true;
+                        isValid = true;
                     }
                }
                else if(direction == Direction.Left)
                {
-                   if(currentPosition.Item1 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1 - counter, currentPosition.Item2) && counter < characterSpeed)
+                   if(currentPosition.Item1 - counter > EdgeMinimum && SpaceIsEmptySpace(currentPosition.Item1 - counter, currentPosition.Item2) && counter < maxDistance)
                    {
-                       canMoveToSpot = true;
+                       isValid = true;
                    }
                }
                else
                {
-                   if(currentPosition.Item1 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1 + counter, currentPosition.Item2) && counter < characterSpeed)
+                   if(currentPosition.Item1 + counter < EdgeMaximum && SpaceIsEmptySpace(currentPosition.Item1 + counter, currentPosition.Item2) && counter < maxDistance)
                    {
-                       canMoveToSpot = true;
+                       isValid = true;
                    }
                }  
-                return canMoveToSpot;
+                return isValid;
             }
 
             public bool NextPositionIsAvailable(IMove characterTryingToMove, int xPosition, int yPosition)
             {
-                return SpaceIsEmptySpace(xPosition, yPosition)|| SpaceOccupiedBy(xPosition, yPosition) == characterTryingToMove; 
+                return SpaceIsEmptySpace(xPosition, yPosition) || SpaceOccupiedBy(xPosition, yPosition) == characterTryingToMove; 
             }
 
             private bool SpaceIsEmptySpace(int xPosition, int yPosition)

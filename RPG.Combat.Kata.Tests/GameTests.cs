@@ -64,11 +64,11 @@ namespace RPG.Combat.Kata
                 queue.Enqueue("1");
                 queue.Enqueue("3");
                 queue.Enqueue("1");
+                queue.Enqueue("2");
                 queue.Enqueue("1");
+                queue.Enqueue("2");
                 queue.Enqueue("1");
-                queue.Enqueue("1");
-                queue.Enqueue("1");
-                queue.Enqueue("1");
+                queue.Enqueue("2");
             }
             public string FinalMessage{get; set;}
             public void DisplayToUser(string output)
