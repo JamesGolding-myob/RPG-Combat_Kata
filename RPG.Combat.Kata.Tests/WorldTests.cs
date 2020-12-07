@@ -98,12 +98,60 @@ namespace RPG.Combat.Kata.Tests
             }
 
             [Fact]
-            public void ClosestTargetisChosenAsPotentailTarget()
+            public void ClosestNonEmptyTargetToTheRightInRangeisChosenAsPotentailTarget()
             {
+                var character = new RangedCharacter(world);
+                var monster = new Monster(world);
+                var tree = new Tree();
 
+                world.SetWorldObjectPosition(4,4, character);
+                world.SetWorldObjectPosition(5, 4, tree);
+                world.SetWorldObjectPosition(6, 4, monster);
+               
+                Assert.Equal(tree, world.GetPotentialTargetsForCharacter(character)[1]);
             }
 
+            [Fact]
+            public void ClosestNonEmptyTargetToTheLefttInRangeisChosenAsPotentailTarget()
+            {
+                var character = new RangedCharacter(world);
+                var monster = new Monster(world);
+                var tree = new Tree();
 
+                world.SetWorldObjectPosition(4,4, character);
+                world.SetWorldObjectPosition(3, 4, tree);
+                world.SetWorldObjectPosition(2, 4, monster);
+               
+                Assert.Equal(tree, world.GetPotentialTargetsForCharacter(character)[3]);
+            }
+
+            [Fact]
+            public void ClosestNonEmptyTargetAboveInRangeisChosenAsPotentailTarget()
+            {
+                var character = new RangedCharacter(world);
+                var monster = new Monster(world);
+                var tree = new Tree();
+
+                world.SetWorldObjectPosition(4,4, character);
+                world.SetWorldObjectPosition(4, 6, tree);
+                world.SetWorldObjectPosition(4, 5, monster);
+               
+                Assert.Equal(monster, world.GetPotentialTargetsForCharacter(character)[0]);
+            }
+
+            [Fact]
+            public void ClosestNonEmptyTargetBelowInRangeisChosenAsPotentailTarget()
+            {
+                var character = new RangedCharacter(world);
+                var monster = new Monster(world);
+                var tree = new Tree();
+
+                world.SetWorldObjectPosition(4,4, character);
+                world.SetWorldObjectPosition(4, 2, tree);
+                world.SetWorldObjectPosition(4, 3, monster);
+               
+                Assert.Equal(monster, world.GetPotentialTargetsForCharacter(character)[2]);
+            }
 
             
     }

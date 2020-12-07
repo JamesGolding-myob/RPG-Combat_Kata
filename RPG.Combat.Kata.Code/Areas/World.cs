@@ -87,15 +87,15 @@ namespace RPG.Combat.Kata
         {
             List<IHaveHealth> potentialTargets = new List<IHaveHealth>();
             var currentCharacterPosition = GetLocationOf(character);
-            int counter = 1;
 
             if(YPositionNotOnTheTopEdgeOfTheMap(currentCharacterPosition.Item2))
             {
-                while(IsValidMove(Direction.Up, counter,currentCharacterPosition, character.AttackRange))
+                int topCounter = 1;
+                while(IsValidMove(Direction.Up, topCounter,currentCharacterPosition, character.AttackRange))
                 {
-                    counter++;
+                    topCounter++;
                 }
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + counter));
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 + topCounter));
             }
             else
             {
@@ -104,12 +104,13 @@ namespace RPG.Combat.Kata
 
             if(XPositionInsideRightEdgeOfTheMap(currentCharacterPosition.Item1))
             {
-                while(IsValidMove(Direction.Right, counter,currentCharacterPosition, character.AttackRange))
+                int rightCounter = 1;
+                while(IsValidMove(Direction.Right, rightCounter,currentCharacterPosition, character.AttackRange))
                 {
-                    counter++;
+                    rightCounter++;
                 }
 
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + counter, currentCharacterPosition.Item2 ));
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 + rightCounter, currentCharacterPosition.Item2 ));
             }
             else
             {
@@ -118,11 +119,12 @@ namespace RPG.Combat.Kata
             
             if(YPositionInsideBottomEdgeOfTheMap(currentCharacterPosition.Item2))
             { 
-                while(IsValidMove(Direction.Down, counter,currentCharacterPosition, character.AttackRange))
+                int bottomCounter = 1;
+                while(IsValidMove(Direction.Down, bottomCounter,currentCharacterPosition, character.AttackRange))
                 {
-                    counter++;
+                    bottomCounter++;
                 }
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - counter));
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 , currentCharacterPosition.Item2 - bottomCounter));
             }
             else
             {
@@ -131,18 +133,18 @@ namespace RPG.Combat.Kata
 
             if(XPositionInsideLeftEdgeOfTheMap(currentCharacterPosition.Item1))
             {
-                while(IsValidMove(Direction.Down, counter,currentCharacterPosition, character.AttackRange))
+                int leftCounter = 1;
+                while(IsValidMove(Direction.Left, leftCounter,currentCharacterPosition, character.AttackRange))
                 {
-                    counter++;
+                    leftCounter++;
                 }
-                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - counter, currentCharacterPosition.Item2 ));
+                potentialTargets.Add(SpaceOccupiedBy(currentCharacterPosition.Item1 - leftCounter, currentCharacterPosition.Item2 ));
             }
             else
             {
                 potentialTargets.Add(new EmptySpace());
             } 
-
-           
+ 
             return potentialTargets;
 
         }
