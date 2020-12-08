@@ -35,13 +35,35 @@ namespace RPG.Combat.Kata
         [Fact]
         public void CharacterGetsFormatedOntoMapAtThirdColumnSecondRowOn3x3Map()
         {
-             World mapWithCharacter = new World(3);
+            World mapWithCharacter = new World(3);
             var character = new RangedCharacter(mapWithCharacter);
             mapWithCharacter.SetWorldObjectPosition(2, 1, character);
 
             string expectedFormat = CharacterAtThirdColuumnSecondRowMap();
 
             Assert.Equal(expectedFormat, displayFormater.FormatMap(mapWithCharacter));
+        }
+
+        [Fact]
+        public void CharacterPotentialTargetsAreDisplayedToUserGoingClockWiseFromTheTop()
+        {
+            World world = new World(3);
+            var character = new MeleeCharacter(world);
+            var treeAbove = new Tree();
+            var treeRight = new Tree();
+            var treeBelow = new Tree();
+            var treeLeft = new Tree();
+
+            string expectedOutput = $"Choose a Target: 1:\n{treeAbove}\n 2:{treeRight}\n 3:{treeBelow}\n 4:{treeLeft}\n";
+
+            world.SetWorldObjectPosition(1, 1, character);
+            world.SetWorldObjectPosition(1, 2, treeAbove);
+            world.SetWorldObjectPosition(2, 1, treeRight);
+            world.SetWorldObjectPosition(1, 0, treeBelow);
+            world.SetWorldObjectPosition(0, 1, treeLeft);
+
+            Assert.Equal(expectedOutput, displayFormater.FormatTargets(world.GetPotentialTargetsForCharacter(character)));
+            
         }
 
 

@@ -65,6 +65,8 @@ Moving Up is increasing the y/vertical component
 you die you lose
 you kill the monster and you win
 
+Potential targets for the character go clockwise from top
+
 
     Future Plans (Wish List)
 player can input how far they want to move - Speed becomes max movement amount

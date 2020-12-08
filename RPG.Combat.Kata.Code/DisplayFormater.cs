@@ -47,9 +47,9 @@ namespace RPG.Combat.Kata
             return tempString.ToString();
         }
 
-        public string DisplayPossibleTargets(List<IHaveHealth> targets)
+        public string FormatTargets(List<IHaveHealth> targets)
         {
-            return $"Choose a Target: 1:{targets[0].ToString()}\n 2:{targets[1].ToString()}\n 3:{targets[2].ToString()}\n 4:{targets[3].ToString()}\n"; 
+            return $"Choose a Target: 1:\n{targets[0].ToString()}\n 2:{targets[1].ToString()}\n 3:{targets[2].ToString()}\n 4:{targets[3].ToString()}\n"; 
         }
 
         internal string ActionFeedback(Actions chosenAction)
@@ -91,5 +91,7 @@ namespace RPG.Combat.Kata
 
             return output;
         }
+
+  
     }
 }

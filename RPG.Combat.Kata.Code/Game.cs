@@ -59,7 +59,7 @@ namespace RPG.Combat.Kata
                     string chosenTarget;
                     do
                     {
-                        UI.DisplayToUser($"Choose a Target: 1:\n{potentialTargets[0]}\n 2:{potentialTargets[1]}\n 3:{potentialTargets[2]}\n 4:{potentialTargets[3]}\n" );
+                        UI.DisplayToUser(_displayFormater.FormatTargets(potentialTargets));
                         chosenTarget = UI.GetResponseFromUser();
                     } while (_inputValidator.TargetChoiceIsInvalid(chosenTarget));
 
